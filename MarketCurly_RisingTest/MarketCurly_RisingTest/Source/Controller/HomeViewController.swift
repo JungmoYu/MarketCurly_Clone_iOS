@@ -16,6 +16,12 @@ class HomeViewController: BaseViewController {
     private let viewControllers = [BaseViewController(), BaseViewController(), BaseViewController(), BaseViewController(), BaseViewController()]
     private let titleArray: [String] = ["컬리추천", "신상품", "베스트", "알뜰쇼핑", "특가/혜택"]
     
+    private let collectionView: UICollectionView = {
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        cv.backgroundColor = .black
+        return cv
+    }()
+    
     private let titleImage: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(named: "logo_white")
@@ -41,9 +47,14 @@ class HomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
+        configureUI()
     }
     
     // MARK: - Helpers
+    
+    func configureUI() {
+//        view.addSubview(collectionView)
+    }
     
     func configureNavigationBar() {
         let stack = UIStackView(arrangedSubviews: [locationBtn, cartBtn])
