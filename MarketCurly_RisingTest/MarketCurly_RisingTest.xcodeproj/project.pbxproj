@@ -26,6 +26,8 @@
 		C633E5D727E5B9A200B2FFD8 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C633E5D627E5B9A200B2FFD8 /* UIViewController.swift */; };
 		C633E5D927E5B9A700B2FFD8 /* UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C633E5D827E5B9A700B2FFD8 /* UINavigationBar.swift */; };
 		C633E5DB27E5B9AE00B2FFD8 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C633E5DA27E5B9AE00B2FFD8 /* UIView.swift */; };
+		C633E5E127E5BADD00B2FFD8 /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = C633E5E027E5BADD00B2FFD8 /* Tabman */; };
+		C633E5E427E5BAE600B2FFD8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C633E5E327E5BAE600B2FFD8 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C633E5E127E5BADD00B2FFD8 /* Tabman in Frameworks */,
+				C633E5E427E5BAE600B2FFD8 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +198,10 @@
 			dependencies = (
 			);
 			name = MarketCurly_RisingTest;
+			packageProductDependencies = (
+				C633E5E027E5BADD00B2FFD8 /* Tabman */,
+				C633E5E327E5BAE600B2FFD8 /* Alamofire */,
+			);
 			productName = MarketCurly_RisingTest;
 			productReference = C633E5A427E5B79C00B2FFD8 /* MarketCurly_RisingTest.app */;
 			productType = "com.apple.product-type.application";
@@ -222,6 +230,10 @@
 				Base,
 			);
 			mainGroup = C633E59B27E5B79C00B2FFD8;
+			packageReferences = (
+				C633E5DF27E5BADD00B2FFD8 /* XCRemoteSwiftPackageReference "Tabman" */,
+				C633E5E227E5BAE600B2FFD8 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = C633E5A527E5B79C00B2FFD8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -484,6 +496,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C633E5DF27E5BADD00B2FFD8 /* XCRemoteSwiftPackageReference "Tabman" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uias/Tabman";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		C633E5E227E5BAE600B2FFD8 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C633E5E027E5BADD00B2FFD8 /* Tabman */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C633E5DF27E5BADD00B2FFD8 /* XCRemoteSwiftPackageReference "Tabman" */;
+			productName = Tabman;
+		};
+		C633E5E327E5BAE600B2FFD8 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C633E5E227E5BAE600B2FFD8 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C633E59C27E5B79C00B2FFD8 /* Project object */;
 }
