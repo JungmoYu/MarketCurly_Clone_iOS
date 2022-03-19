@@ -14,6 +14,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //탭바 배경색 변경
+        if #available(iOS 15.0, *) {
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            
+            //바꾸고 싶은 색으로 backgroundColor를 설정
+            UITabBar.appearance().backgroundColor = .white
+            UITabBar.appearance().tintColor = .mainPurple
+            
+            //탭바 바 색상 UIColor와 일치시키지 않기
+            UITabBar.appearance().isTranslucent = false
+        }
+        
+        //네비게이션 바 배경색 변경
+        if #available(iOS 15.0, *) {
+            
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            appearance.backgroundColor = .mainPurple
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+            UINavigationBar.appearance().standardAppearance = appearance
+            
+            //네비게이션 바 색상 UIColor와 일치시키지 않기
+            UINavigationBar.appearance().isTranslucent = false
+        }
+        
         return true
     }
 

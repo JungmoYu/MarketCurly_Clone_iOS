@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import SwiftUI
 
 extension UINavigationBar {
+    
     // MARK: 네비게이션바를 투명하게 처리
     var isTransparent: Bool {
         get {

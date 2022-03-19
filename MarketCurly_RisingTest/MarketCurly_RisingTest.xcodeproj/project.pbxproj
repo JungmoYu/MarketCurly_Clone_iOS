@@ -28,6 +28,11 @@
 		C633E5DB27E5B9AE00B2FFD8 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C633E5DA27E5B9AE00B2FFD8 /* UIView.swift */; };
 		C633E5E127E5BADD00B2FFD8 /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = C633E5E027E5BADD00B2FFD8 /* Tabman */; };
 		C633E5E427E5BAE600B2FFD8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C633E5E327E5BAE600B2FFD8 /* Alamofire */; };
+		C633E5E627E5BC4C00B2FFD8 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C633E5E527E5BC4C00B2FFD8 /* MainTabController.swift */; };
+		C633E5E827E5BC5100B2FFD8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C633E5E727E5BC5100B2FFD8 /* HomeViewController.swift */; };
+		C633E5EA27E5BC5700B2FFD8 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C633E5E927E5BC5700B2FFD8 /* CategoryViewController.swift */; };
+		C633E5EC27E5BC5F00B2FFD8 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C633E5EB27E5BC5E00B2FFD8 /* SearchViewController.swift */; };
+		C633E5EE27E5BC6500B2FFD8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C633E5ED27E5BC6500B2FFD8 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +57,11 @@
 		C633E5D627E5B9A200B2FFD8 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		C633E5D827E5B9A700B2FFD8 /* UINavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationBar.swift; sourceTree = "<group>"; };
 		C633E5DA27E5B9AE00B2FFD8 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		C633E5E527E5BC4C00B2FFD8 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
+		C633E5E727E5BC5100B2FFD8 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		C633E5E927E5BC5700B2FFD8 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		C633E5EB27E5BC5E00B2FFD8 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		C633E5ED27E5BC6500B2FFD8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +174,11 @@
 		C633E5DC27E5B9F900B2FFD8 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C633E5E527E5BC4C00B2FFD8 /* MainTabController.swift */,
+				C633E5E727E5BC5100B2FFD8 /* HomeViewController.swift */,
+				C633E5E927E5BC5700B2FFD8 /* CategoryViewController.swift */,
+				C633E5EB27E5BC5E00B2FFD8 /* SearchViewController.swift */,
+				C633E5ED27E5BC6500B2FFD8 /* ProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -264,10 +279,14 @@
 				C633E5DB27E5B9AE00B2FFD8 /* UIView.swift in Sources */,
 				C633E5D727E5B9A200B2FFD8 /* UIViewController.swift in Sources */,
 				C633E5AC27E5B79C00B2FFD8 /* ViewController.swift in Sources */,
+				C633E5EA27E5BC5700B2FFD8 /* CategoryViewController.swift in Sources */,
 				C633E5D527E5B99C00B2FFD8 /* UIButton.swift in Sources */,
+				C633E5E627E5BC4C00B2FFD8 /* MainTabController.swift in Sources */,
+				C633E5E827E5BC5100B2FFD8 /* HomeViewController.swift in Sources */,
 				C633E5C427E5B90F00B2FFD8 /* Key.swift in Sources */,
 				C633E5CF27E5B99000B2FFD8 /* String.swift in Sources */,
 				C633E5A827E5B79C00B2FFD8 /* AppDelegate.swift in Sources */,
+				C633E5EC27E5BC5F00B2FFD8 /* SearchViewController.swift in Sources */,
 				C633E5C827E5B96400B2FFD8 /* IndicatorView.swift in Sources */,
 				C633E5AA27E5B79C00B2FFD8 /* SceneDelegate.swift in Sources */,
 				C633E5C227E5B90600B2FFD8 /* Constant.swift in Sources */,
@@ -275,6 +294,7 @@
 				C633E5D127E5B99400B2FFD8 /* UIColor.swift in Sources */,
 				C633E5D327E5B99800B2FFD8 /* UIFont.swift in Sources */,
 				C633E5C627E5B91B00B2FFD8 /* BaseViewController.swift in Sources */,
+				C633E5EE27E5BC6500B2FFD8 /* ProfileViewController.swift in Sources */,
 				C633E5CD27E5B98B00B2FFD8 /* Date.swift in Sources */,
 				C633E5CA27E5B96900B2FFD8 /* Device.swift in Sources */,
 			);

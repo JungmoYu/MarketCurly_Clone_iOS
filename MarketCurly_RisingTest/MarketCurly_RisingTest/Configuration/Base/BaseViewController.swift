@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import Tabman
+import Pageboy
 
-class BaseViewController: UIViewController {
+class BaseViewController: TabmanViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
