@@ -1,5 +1,5 @@
 //
-//  ItemListHeader.swift
+//  ItemCountHeader.swift
 //  MarketCurly_RisingTest
 //
 //  Created by Jungmo Yu on 2022/03/19.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class ItemListHeader: UICollectionReusableView {
+class ItemCountHeader: UICollectionReusableView {
     // MARK: - Properties
     
-    static let identifier: String = String(describing: ItemListHeader.self)
+    static let identifier: String = String(describing: ItemCountHeader.self)
     
     private let numOfItemLabel: UILabel = {
         let label = UILabel()
@@ -32,7 +32,7 @@ class ItemListHeader: UICollectionReusableView {
     // MARK: - Actions
     
     @objc func sortBtnDidTap() {
-        print("ItemListHeader - sortBtnDidTap() called")
+        print("ItemCountHeader - sortBtnDidTap() called")
     }
     
     // MARK: - Lifecycle
@@ -42,7 +42,8 @@ class ItemListHeader: UICollectionReusableView {
         backgroundColor = .white
         
         addSubview(sortBtn)
-        sortBtn.anchor(top: topAnchor, right: rightAnchor)
+        sortBtn.centerY(inView: self)
+        sortBtn.anchor(right: rightAnchor)
         
         addSubview(numOfItemLabel)
         numOfItemLabel.centerY(inView: sortBtn)

@@ -95,5 +95,31 @@ extension UIView {
         anchor(top: view.topAnchor, left: view.leftAnchor,
                bottom: view.bottomAnchor, right: view.rightAnchor)
     }
+    
+    func setHeightEqualToSuperViewMuliplyBy(_ multiplyBy: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        guard let view = superview else { return }
+        heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: multiplyBy).isActive = true
+    }
+    
+    func setWidthEqualToSuperViewMuliplyBy(_ multiplyBy: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        guard let view = superview else { return }
+        widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: multiplyBy).isActive = true
+    }
+    
+    func setWidthEqualToHeightMuliplyBy(_ multiplyBy: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        widthAnchor.constraint(equalTo: heightAnchor, multiplier: multiplyBy).isActive = true
+    }
+    
+    func setHeightEqualToWidthMuliplyBy(_ multiplyBy: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        heightAnchor.constraint(equalTo: widthAnchor, multiplier: multiplyBy).isActive = true
+    }
+    
+    func getWidth() {
+        
+    }
 }
 

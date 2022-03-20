@@ -8,6 +8,34 @@
 import UIKit
 
 extension UIViewController {
+    
+    // MARK: - CollectionView 사용 시 일정 옵셋 이상에서 버튼 띄우기
+    func setupMoveHomeButton(collectionView: UICollectionView) {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "arrow.up"), for: .normal)
+        button.imageView?.tintColor = .black
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(moveHomeBtnDidTap), for: .touchUpInside)
+        button.setDimensions(height: 30, width: 30)
+        button.anchor(bottom: self.view.bottomAnchor, right: self.view.rightAnchor,
+                      paddingBottom: 10, paddingRight: 10)
+        
+//        if collectionView is UIScrollViewDelegate {
+//
+//        }
+//        if collectionView.contentOffset.y > self.view.bounds.size.height {
+//            self.view.addSubview(button)
+//        }
+        
+    }
+    
+    @objc func moveHomeBtnDidTap() {
+        print("CollectionView - setupMoveHomeButton did tap")
+//        self.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+    }
+    
+    
+    
     // MARK: 빈 화면을 눌렀을 때 키보드가 내려가도록 처리
     func dismissKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer =
@@ -76,7 +104,8 @@ extension UIViewController {
         alertSuperview.translatesAutoresizingMaskIntoConstraints = false
     
         let alertLabel = UILabel()
-        alertLabel.font = .NotoSans(.regular, size: 15)
+//        alertLabel.font = .NotoSans(.regular, size: 15)
+        alertLabel.font = .systemFont(ofSize: 30)
         alertLabel.textColor = .white
         alertLabel.translatesAutoresizingMaskIntoConstraints = false
         
