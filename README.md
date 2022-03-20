@@ -24,20 +24,23 @@
 3. CollectionView에서 reloadData를 수행했을 때, 데이터만 업데이트 하는것 이외에도 레이아웃도 다시 그렸으면 좋겠는데, 그럴 방법이 없는지 더 찾아봐야 하는 상태
 
 
-<img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168921-f23af801-f060-4d5d-8521-c73c85eeee59.png">
-<img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168977-62246981-cf06-4d7a-9adf-d0f2264506e2.png">
-<img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168982-f07cdba5-763e-4990-aa82-c15a565a54fb.png">
-<img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168985-7edad6a2-5405-4967-8cb2-f57840efa633.png">
-<img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168994-02fca701-ea79-40a7-b71f-a95eaa430f9e.png">
-<img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168932-e2012189-ef8f-419b-90d4-c2a38b98ca64.png">
-<img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168946-a703a63a-fbdc-4d5b-b44c-83476c01b289.png">
-<img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168954-5130a5f5-3c20-45a7-b9ea-f96033c86158.png">
-<img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168962-a5c4c8a7-0d06-42db-9a9a-e8c883977110.png">
-<img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168970-a9563f5f-e0c0-47d0-a9d6-1a508c3e7be8.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159168921-f23af801-f060-4d5d-8521-c73c85eeee59.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159168977-62246981-cf06-4d7a-9adf-d0f2264506e2.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159168982-f07cdba5-763e-4990-aa82-c15a565a54fb.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159168985-7edad6a2-5405-4967-8cb2-f57840efa633.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159168994-02fca701-ea79-40a7-b71f-a95eaa430f9e.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159168932-e2012189-ef8f-419b-90d4-c2a38b98ca64.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159168946-a703a63a-fbdc-4d5b-b44c-83476c01b289.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159168954-5130a5f5-3c20-45a7-b9ea-f96033c86158.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159168962-a5c4c8a7-0d06-42db-9a9a-e8c883977110.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159168970-a9563f5f-e0c0-47d0-a9d6-1a508c3e7be8.png">
 
 
 ### 22'3/21 - 3일차 개발 일지
-1. 회원가입 UI구성
+1. 회원가입 UI구성 (남은 부분 있음)
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159175596-c707812a-6d6e-4ecc-aedb-aabdf507ec68.png">
+
 
 질문 사항
 1. NavigationBar의 색상을 상황에 따라 다르게 하고싶은데 appearance가 변경이 되지 않는 상황(회원가입 뷰)
+  - 사진을 보면 회원가입 UI의 navigationBar background color가 실제 UI(흰색)고 다름
