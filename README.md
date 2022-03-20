@@ -22,3 +22,15 @@
 1. HomeView내의 특정 CollectionView Cell에서 다시 viewController를 생성하여 'Tabman라이브러리 이용 -> 또다른 뷰 구성' 이 작업을 하고싶은데, 불가한 상태
 2. SearchController를 NavigationController와 연동하지 않고(NavigationBar 바깥에서 사용) 사용해야 하는데, SearchBar클릭(활성화)시 Layout이 심각하게 깨지는 현상
 3. CollectionView에서 reloadData를 수행했을 때, 데이터만 업데이트 하는것 이외에도 레이아웃도 다시 그렸으면 좋겠는데, 그럴 방법이 없는지 더 찾아봐야 하는 상태
+
+
+<img width="444" alt="image" src="https://user-images.githubusercontent.com/86354361/159168921-f23af801-f060-4d5d-8521-c73c85eeee59.png">
+<img width="449" alt="image" src="https://user-images.githubusercontent.com/86354361/159168977-62246981-cf06-4d7a-9adf-d0f2264506e2.png">
+<img width="459" alt="image" src="https://user-images.githubusercontent.com/86354361/159168982-f07cdba5-763e-4990-aa82-c15a565a54fb.png">
+<img width="446" alt="image" src="https://user-images.githubusercontent.com/86354361/159168985-7edad6a2-5405-4967-8cb2-f57840efa633.png">
+<img width="446" alt="image" src="https://user-images.githubusercontent.com/86354361/159168994-02fca701-ea79-40a7-b71f-a95eaa430f9e.png">
+<img width="445" alt="image" src="https://user-images.githubusercontent.com/86354361/159168932-e2012189-ef8f-419b-90d4-c2a38b98ca64.png">
+<img width="454" alt="image" src="https://user-images.githubusercontent.com/86354361/159168946-a703a63a-fbdc-4d5b-b44c-83476c01b289.png">
+<img width="453" alt="image" src="https://user-images.githubusercontent.com/86354361/159168954-5130a5f5-3c20-45a7-b9ea-f96033c86158.png">
+<img width="459" alt="image" src="https://user-images.githubusercontent.com/86354361/159168962-a5c4c8a7-0d06-42db-9a9a-e8c883977110.png">
+<img width="452" alt="image" src="https://user-images.githubusercontent.com/86354361/159168970-a9563f5f-e0c0-47d0-a9d6-1a508c3e7be8.png">
