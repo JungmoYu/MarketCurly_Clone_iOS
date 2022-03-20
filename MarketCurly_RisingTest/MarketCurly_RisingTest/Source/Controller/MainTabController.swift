@@ -23,8 +23,8 @@ class MainTabController: UITabBarController {
         
         let home = templateNavigationController(image: UIImage(systemName: "house")!,
                                                 withText: "홈", rootViewController: HomeViewController())
-        
-        
+    
+
         let category = templateNavigationController(image: UIImage(systemName: "list.bullet")!,
                                                     withText: "카테고리", rootViewController: CategoryViewController())
         
@@ -41,10 +41,10 @@ class MainTabController: UITabBarController {
         tabBar.clipsToBounds = true
     }
     
-    func templateNavigationController(image: UIImage, withText: String, rootViewController: UIViewController) -> UINavigationController {
+    func templateNavigationController(image: UIImage, withText title: String, rootViewController: UIViewController) -> UINavigationController {
         let nav = UINavigationController(rootViewController: rootViewController)
         nav.tabBarItem.image = image
-        nav.tabBarItem.title = withText
+        nav.tabBarItem.title = title
         nav.navigationBar.tintColor = .white
         
         return nav

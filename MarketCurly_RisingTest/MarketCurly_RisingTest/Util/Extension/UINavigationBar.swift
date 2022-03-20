@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SwiftUI
 
 extension UINavigationBar {
     
@@ -21,6 +20,7 @@ extension UINavigationBar {
             self.backgroundColor = newValue ? .clear : nil
         }
     }
+    
 }
 
 

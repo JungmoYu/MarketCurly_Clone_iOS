@@ -12,29 +12,8 @@ class CategoryViewController: BaseViewController {
     
     // MARK: - Properties
     
-    
-    
-    private var tableViewData: [CellData] = [ CellData(opend: false, title: "🥬 채소", sectionData: ["        친환경",
-                                                                                                "        고구마﹒감자﹒당근",
-                                                                                                "        시금치﹒쌈채소﹒나물",
-                                                                                                "        브로콜리﹒파프리카﹒양배추"]),
-                                              CellData(opend: false, title: "🍎 과일﹒견과﹒쌀", sectionData: ["        친환경",
-                                                                                              "        제철과일",
-                                                                                              "        국산과일",
-                                                                                              "        수입과일"]),
-                                              CellData(opend: false, title: "🐟 수산﹒해산﹒건어물", sectionData: ["        제철수산",
-                                                                                              "        생선류",
-                                                                                              "        굴비류﹒반건류",
-                                                                                              "        오징어﹒낙지﹒문어"]),
-                                              CellData(opend: false, title: "🍖 정육﹒계란", sectionData: ["        국내산 소고기",
-                                                                                              "        수입산 소고기",
-                                                                                              "        돼지고기",
-                                                                                              "        계란류"]),
-                                              CellData(opend: false, title: "🍚 국﹒반찬﹒메인요리", sectionData: ["        국﹒탕﹒찌개",
-                                                                                              "        밀키트﹒메인요리",
-                                                                                              "        밑반찬",
-                                                                                              "        김치﹒젓갈﹒장류"])]
-    
+    private var preSection: Int?
+
     private lazy var tableView: UITableView = {
         let tv = UITableView()
         tv.backgroundColor = .white
@@ -102,12 +81,12 @@ extension CategoryViewController: UITableViewDelegate {
 extension CategoryViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return tableViewData.count
+        return Constant.CATEGORY_DATA.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableViewData[section].opend {
-            return tableViewData[section].sectionData.count + 1
+        if Constant.CATEGORY_DATA[section].opend {
+            return Constant.CATEGORY_DATA[section].sectionData.count + 1
         } else {
             return 1
         }
@@ -119,13 +98,13 @@ extension CategoryViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier,
                                                      for: indexPath) as! CategoryTableViewCell
         
-            cell.titleLabel.text = tableViewData[indexPath.section].title
+            cell.titleLabel.text = Constant.CATEGORY_DATA[indexPath.section].title
             cell.backgroundColor = .white
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier,
                                                      for: indexPath) as! CategoryTableViewCell
-            cell.titleLabel.text = tableViewData[indexPath.section].sectionData[indexPath.row - 1]
+            cell.titleLabel.text = Constant.CATEGORY_DATA[indexPath.section].sectionData[indexPath.row - 1]
             cell.backgroundColor = .lightGray.withAlphaComponent(0.15)
             return cell
         }
@@ -138,19 +117,25 @@ extension CategoryViewController: UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.row == 0 {
-            tableViewData[indexPath.section].opend.toggle()
-            tableView.reloadSections([indexPath.section], with: .fade)
+            if let preSection = preSection{
+                Constant.CATEGORY_DATA[preSection].opend.toggle()
+                tableView.reloadSections([preSection], with: .automatic)
+                self.preSection = indexPath.section
+            }
+            Constant.CATEGORY_DATA[indexPath.section].opend.toggle()
+            tableView.reloadSections([indexPath.section], with: .automatic)
+            self.preSection = indexPath.section
         } else {
-            switch indexPath.section {
-            case 0:
+            switch Constant.CATEGORY_DATA[indexPath.section].title {
+            case Constant.CATEGORY_DATA[0].title:
                 controller = VegetableViewController()
-            case 1:
+            case Constant.CATEGORY_DATA[1].title:
                 controller = FruitViewController()
-            case 2:
+            case Constant.CATEGORY_DATA[2].title:
                 controller = SeaFoodViewController()
-            case 3:
+            case Constant.CATEGORY_DATA[3].title:
                 controller = MeatViewController()
-            case 4:
+            case Constant.CATEGORY_DATA[4].title:
                 controller = SoupViewController()
             default:
                 return

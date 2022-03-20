@@ -11,7 +11,7 @@ class ProfileViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private var isLogin: Bool = true
+    private var isLogin: Bool = false
     
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
@@ -201,9 +201,13 @@ extension ProfileViewController: UICollectionViewDataSource {
 extension ProfileViewController: ProfileViewHeaderDelegate {
     func popupLoginViewController() {
         let controller = LoginViewController()
-        controller.modalPresentationStyle = .fullScreen
+//        controller.modalPresentationStyle = .fullScreen
         controller.loginDelegate = self
-        self.present(controller, animated: true, completion: nil)
+        
+        let nav = UINavigationController(rootViewController: controller)
+        nav.navigationBar.isHidden = true
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
     }
 }
 
@@ -211,6 +215,5 @@ extension ProfileViewController: LoginViewControllerDelegate {
     func userLoggedIn() {
         isLogin.toggle()
         collectionView.reloadData()
-        presentBottomAlert(message: "gggggggalskdjflksadf", target: view.safeAreaLayoutGuide.bottomAnchor, offset: -20)
     }
 }

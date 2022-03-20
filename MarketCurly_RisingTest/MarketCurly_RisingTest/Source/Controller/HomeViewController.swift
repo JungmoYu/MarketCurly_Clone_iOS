@@ -49,6 +49,7 @@ class HomeViewController: BaseViewController {
         configureCustomTab()
     }
     
+    
     // MARK: - Helpers
     
     func configureNavigationBar() {

@@ -30,11 +30,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //네비게이션 바 배경색 변경
         if #available(iOS 15.0, *) {
-            
+                        
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
             appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
             appearance.backgroundColor = .mainPurple
+            
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
             UINavigationBar.appearance().standardAppearance = appearance
             

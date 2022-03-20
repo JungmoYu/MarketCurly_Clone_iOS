@@ -34,3 +34,10 @@
 <img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168954-5130a5f5-3c20-45a7-b9ea-f96033c86158.png">
 <img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168962-a5c4c8a7-0d06-42db-9a9a-e8c883977110.png">
 <img width="200" alt="image" src="https://user-images.githubusercontent.com/86354361/159168970-a9563f5f-e0c0-47d0-a9d6-1a508c3e7be8.png">
+
+
+### 22'3/21 - 3일차 개발 일지
+1. 회원가입 UI구성
+
+질문 사항
+1. NavigationBar의 색상을 상황에 따라 다르게 하고싶은데 appearance가 변경이 되지 않는 상황(회원가입 뷰)
