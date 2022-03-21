@@ -38,6 +38,12 @@ class ItemListHeader: UICollectionReusableView {
         return av
     }()
     
+    private let restTimeLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 18)
+        return label
+    }()
+    
     private lazy var viewAllBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setTitle("전체보기 ›", for: .normal)
@@ -67,8 +73,6 @@ class ItemListHeader: UICollectionReusableView {
         headerTitleLabel.centerY(inView: self)
         headerTitleLabel.anchor(left: leftAnchor, paddingLeft: 16)
         
-        
-        
     }
     
     required init?(coder: NSCoder) {
@@ -82,13 +86,17 @@ class ItemListHeader: UICollectionReusableView {
             viewAllBtn.setTitle("", for: .normal)
             headerTitleLabel.text = "일일특가"
             
-            self.addSubview(dailyPriceLabel)
+            addSubview(dailyPriceLabel)
             dailyPriceLabel.anchor(top: headerTitleLabel.bottomAnchor, left: leftAnchor,
                                    paddingTop: 5 , paddingLeft: 16)
             
-            self.addSubview(animationClock)
+            addSubview(animationClock)
             animationClock.setDimensions(height: 30, width: 30)
             animationClock.anchor(top: dailyPriceLabel.bottomAnchor, left: leftAnchor, paddingLeft: 16)
+            
+            addSubview(restTimeLabel)
+            restTimeLabel.centerY(inView: animationClock)
+            restTimeLabel.anchor(left: animationClock.rightAnchor, paddingLeft: 5)
             
             makeAndFireTimer()
         }
@@ -99,10 +107,14 @@ class ItemListHeader: UICollectionReusableView {
         DispatchQueue.global().async {
             let runLoop = RunLoop.current
             self.clockTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { Timer in
+                let formatter = DateFormatter()
+                let date = Date()
+                formatter.dateFormat = "H:mm:ss"
                 DispatchQueue.main.async {
                     self.clockAnimated = true
                     if self.clockAnimated {
                         self.animationClock.play(completion: nil)
+                        self.restTimeLabel.text = formatter.string(from: date)
                     }
                     self.clockAnimated = false
                 }
