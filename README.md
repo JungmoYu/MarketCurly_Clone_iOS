@@ -55,3 +55,10 @@
 질문 사항
 1. 버튼 클릭 시 tintColor만을 조절했는데도 불구하고, selected상태에서만 배경색이 생기는 현상(사진 첨부)
 2. 내일 특정시간(예시 : 내일 아침 10시)을 데이터로 저장하는 방법..? (현재 시점 기준은 가능한데, 내일 특정시점을 잡을 수 있는지 ...?)
+
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159310803-c55e9afd-9722-4b75-9a29-4995be8afb40.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159310867-17f54ed7-8d06-473a-b533-f6aad7c8eb91.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159310983-572f48c0-9851-4262-b4f6-3828893cdbab.png">
+
+
+
