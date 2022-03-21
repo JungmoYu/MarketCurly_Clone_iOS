@@ -130,20 +130,15 @@ class JoinViewFooter: UICollectionReusableView {
             sender.tintColor = .lightGray.withAlphaComponent(0.5)
         }
         
-//        if sender.isSelected {
-//            print("selected")
-//            sender.tintColor = .mainPurple
-//            sender.isSelected.toggle()
-//        } else {
-//            print("selected no")
-//            sender.tintColor = .lightGray.withAlphaComponent(0.5)
-//            sender.backgroundColor = .clear
-//            sender.isSelected.toggle()
-//        }
-        
-        // 여기서 체크되었는지에 따라 정보 저장해야함.
         if sender.tag == Constant.TOTAL_AGREE_BTN_TAG {
-            
+            btnArray.forEach {
+                $0.isSelected = !$0.isSelected
+                if $0.isSelected {
+                    $0.tintColor = .mainPurple
+                } else {
+                    $0.tintColor = .lightGray.withAlphaComponent(0.5)
+                }
+            }
         }
             
     }
