@@ -59,6 +59,8 @@ class JoinViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(JoinViewCell.self, forCellWithReuseIdentifier: JoinViewCell.identifier)
+        collectionView.register(JoinViewFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                withReuseIdentifier: JoinViewFooter.identifier)
     }
     
     func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
@@ -70,12 +72,18 @@ class JoinViewController: BaseViewController {
                                                                 heightDimension: .fractionalHeight(1)))
             
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                             heightDimension:.fractionalHeight(0.9)),
+                                                                             heightDimension:.absolute(750)),
                                                            subitem: item,
                                                            count: 1)
     
             let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets.top = 12
+            section.contentInsets.bottom = 12
+            section.boundarySupplementaryItems = [
+                .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                        heightDimension: .absolute(600)),
+                      elementKind: UICollectionView.elementKindSectionFooter,
+                      alignment: .bottom)
+            ]
             
             return section
 
@@ -99,6 +107,23 @@ extension JoinViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: JoinViewCell.identifier, for: indexPath) as! JoinViewCell
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: JoinViewFooter.identifier,
+                                                                     for: indexPath) as! JoinViewFooter
+        footer.delegate = self
+        return footer
+    }
+    
+}
+
+
+extension JoinViewController: JoinViewFooterDelegate {
+    func requestJoin() {
+        // 여기서 버튼 정보들 가져와야함(뭐를 동의했고 뭐를 동의하지 않았는지?)
+        // 네트워크로 회원가입 요청 구현 예정
+        navigationController?.popViewController(animated: true)
     }
     
     

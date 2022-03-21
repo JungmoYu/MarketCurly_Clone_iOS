@@ -44,3 +44,14 @@
 질문 사항
 1. NavigationBar의 색상을 상황에 따라 다르게 하고싶은데 appearance가 변경이 되지 않는 상황(회원가입 뷰)
   - 사진을 보면 회원가입 UI의 navigationBar background color가 실제 UI(흰색)고 다름
+
+
+
+### 22'3/22 - 4일차 개발 일지
+1. 회원가입 UI 남은 부분 구성
+2. Category view 오류 수정 (같은 섹션의 셀을 선택할 시 접히는 코드가 잘못 구현되어있었음)
+
+
+질문 사항
+1. 버튼 클릭 시 tintColor만을 조절했는데도 불구하고, selected상태에서만 배경색이 생기는 현상(사진 첨부)
+

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Lottie
 
 class CategoryViewController: BaseViewController {
     
@@ -112,37 +111,54 @@ extension CategoryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        var controller = UIViewController()
-        
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.row == 0 {
-            if let preSection = preSection{
+            controlCategoris(indexPath: indexPath)
+        } else {
+            presentCategorySubController(indexPath: indexPath)
+        }
+    }
+    
+    func controlCategoris(indexPath: IndexPath) {
+        if let preSection = preSection {
+            if indexPath.section == preSection {
                 Constant.CATEGORY_DATA[preSection].opend.toggle()
                 tableView.reloadSections([preSection], with: .automatic)
+                self.preSection = nil
+                return
+            } else {
+                Constant.CATEGORY_DATA[preSection].opend.toggle()
+                tableView.reloadSections([preSection], with: .automatic)
+                Constant.CATEGORY_DATA[indexPath.section].opend.toggle()
+                tableView.reloadSections([indexPath.section], with: .automatic)
                 self.preSection = indexPath.section
-            }
-            Constant.CATEGORY_DATA[indexPath.section].opend.toggle()
-            tableView.reloadSections([indexPath.section], with: .automatic)
-            self.preSection = indexPath.section
-        } else {
-            switch Constant.CATEGORY_DATA[indexPath.section].title {
-            case Constant.CATEGORY_DATA[0].title:
-                controller = VegetableViewController()
-            case Constant.CATEGORY_DATA[1].title:
-                controller = FruitViewController()
-            case Constant.CATEGORY_DATA[2].title:
-                controller = SeaFoodViewController()
-            case Constant.CATEGORY_DATA[3].title:
-                controller = MeatViewController()
-            case Constant.CATEGORY_DATA[4].title:
-                controller = SoupViewController()
-            default:
                 return
             }
-            navigationController?.pushViewController(controller, animated: true)
-            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         }
+        Constant.CATEGORY_DATA[indexPath.section].opend.toggle()
+        tableView.reloadSections([indexPath.section], with: .automatic)
+        preSection = indexPath.section
+    }
+    
+    func presentCategorySubController(indexPath: IndexPath) {
+        var controller = UIViewController()
+        switch Constant.CATEGORY_DATA[indexPath.section].title {
+        case Constant.CATEGORY_DATA[0].title:
+            controller = VegetableViewController()
+        case Constant.CATEGORY_DATA[1].title:
+            controller = FruitViewController()
+        case Constant.CATEGORY_DATA[2].title:
+            controller = SeaFoodViewController()
+        case Constant.CATEGORY_DATA[3].title:
+            controller = MeatViewController()
+        case Constant.CATEGORY_DATA[4].title:
+            controller = SoupViewController()
+        default:
+            return
+        }
+        navigationController?.pushViewController(controller, animated: true)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
     
     

@@ -21,6 +21,7 @@ struct Constant {
 //    static let JOIN_FORM_DATA_LIST = ["아이디", "비밀번호", "비밀번호 확인", "이름", "이메일", "휴대폰", "주소"]
 //    static let JOIN_FORM_PLACEHOLDER_LIST = ["예: marketKurly12", "비밀번호를 입력해주세요", ""]
     
+    static let TOTAL_AGREE_BTN_TAG = 99999
     
     static let PROFILE_HEADER_LOGGED_IN = CGFloat(200) // 160
     static let PROFILE_HEADER_LOGGED_OUT = CGFloat(220)
