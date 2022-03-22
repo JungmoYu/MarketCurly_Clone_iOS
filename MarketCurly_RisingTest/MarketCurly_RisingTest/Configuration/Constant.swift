@@ -26,6 +26,8 @@ struct Constant {
     static let PROFILE_HEADER_LOGGED_IN = CGFloat(200) // 160
     static let PROFILE_HEADER_LOGGED_OUT = CGFloat(220)
     
+    static let RECOMMENDED_ITEM = ["불고기", "갈비탕", "돈까스", "밀키트", "마스크", "닭갈비", "떡", "갤럭시 사전예약"]
+    
     static let CELL_DATA_LOGGED_IN = [CellData(opend: false, title: "1", sectionData: ["적립금",
                                                                                           "쿠폰",
                                                                                           "친구초대"]),

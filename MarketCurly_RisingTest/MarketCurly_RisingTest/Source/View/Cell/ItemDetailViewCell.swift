@@ -88,30 +88,33 @@ class ItemDetailViewCell: UICollectionViewCell {
         addSubview(itemInfoTextLabel)
         itemInfoTextLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 20, paddingLeft: 16)
         
-        let unitStack = UIStackView(arrangedSubviews: [unitTextLabel, unitLabel])
-        unitStack.spacing = 30
+        addSubview(unitTextLabel)
+        unitTextLabel.anchor(top: itemInfoTextLabel.bottomAnchor, left: leftAnchor, paddingTop: 16, paddingLeft: 16)
         
-        let volumeStack = UIStackView(arrangedSubviews: [volumeTextLabel, volumeLabel])
-        volumeStack.spacing = 30
+        addSubview(volumeTextLabel)
+        volumeTextLabel.anchor(top: unitTextLabel.bottomAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 16)
         
-        let shiptypeStack = UIStackView(arrangedSubviews: [shiptypeTextLabel, shiptypeLabel])
-        shiptypeStack.spacing = 30
+        addSubview(shiptypeTextLabel)
+        shiptypeTextLabel.anchor(top: volumeTextLabel.bottomAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 16)
         
-        let originStack = UIStackView(arrangedSubviews: [originTextLabel, originLabel])
-        originStack.spacing = 30
+        addSubview(originTextLabel)
+        originTextLabel.anchor(top: shiptypeTextLabel.bottomAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 16)
         
-        addSubview(unitStack)
-        unitStack.anchor(top: itemInfoTextLabel.bottomAnchor, left: leftAnchor, paddingTop: 16, paddingLeft: 16)
+        addSubview(unitLabel)
+        unitLabel.centerY(inView: unitTextLabel)
+        unitLabel.anchor(left: unitTextLabel.rightAnchor, paddingLeft: 30)
         
-        addSubview(volumeStack)
-        volumeStack.anchor(top: unitStack.bottomAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 16)
+        addSubview(volumeLabel)
+        volumeLabel.centerY(inView: volumeTextLabel)
+        volumeLabel.anchor(left: unitLabel.leftAnchor)
         
-        addSubview(shiptypeStack)
-        shiptypeStack.anchor(top: volumeStack.bottomAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 16)
+        addSubview(shiptypeLabel)
+        shiptypeLabel.centerY(inView: shiptypeTextLabel)
+        shiptypeLabel.anchor(left: unitLabel.leftAnchor)
         
-        addSubview(originStack)
-        originStack.anchor(top: shiptypeStack.bottomAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 16)
-        
+        addSubview(originLabel)
+        originLabel.centerY(inView: originTextLabel)
+        originLabel.anchor(left: unitLabel.leftAnchor)
         
     }
     

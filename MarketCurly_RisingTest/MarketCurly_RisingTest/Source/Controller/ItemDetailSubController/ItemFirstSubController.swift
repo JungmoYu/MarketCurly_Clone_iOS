@@ -72,7 +72,7 @@ class ItemFirstSubController: BaseViewController {
                            paddingLeft: 16, paddingRight: 16)
         
         view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: bottomStack.topAnchor, right: view.rightAnchor)
+        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: bottomStack.topAnchor, right: view.rightAnchor, paddingBottom: 8)
     }
     
     func configureCollectionView() {

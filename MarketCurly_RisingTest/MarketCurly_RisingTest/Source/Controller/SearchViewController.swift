@@ -11,6 +11,7 @@ class SearchViewController: BaseViewController {
     
     // MARK: - Properties
     
+    lazy var isSearching: Bool = false
     
     private let searchBar: UISearchBar = {
         let sb = UISearchBar()
@@ -20,7 +21,7 @@ class SearchViewController: BaseViewController {
     }()
     
     private lazy var collectionView: UICollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         return cv
     }()
     
@@ -69,6 +70,7 @@ class SearchViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ItemInfoCell.self, forCellWithReuseIdentifier: ItemInfoCell.identifier)
+        collectionView.register(collectionViewCellBeforeSearch.self, forCellWithReuseIdentifier: collectionViewCellBeforeSearch.identifier)
         collectionView.register(ItemListHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: ItemListHeader.identifier)
         collectionView.register(ItemCountHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -135,13 +137,16 @@ extension SearchViewController: UICollectionViewDelegate {
 extension SearchViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        50
+        return Constant.RECOMMENDED_ITEM.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier,
-                                                      for: indexPath) as! ItemInfoCell
-        cell.setTitle("상품 이름\(indexPath.item)")
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier,
+//                                                      for: indexPath) as! ItemInfoCell
+//        cell.setTitle("상품 이름\(indexPath.item)")
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellBeforeSearch.identifier,
+                                                    for: indexPath) as! collectionViewCellBeforeSearch
+        cell.configureBtnText(Constant.RECOMMENDED_ITEM[indexPath.item])
         return cell
     }
     
@@ -163,6 +168,21 @@ extension SearchViewController: UICollectionViewDataSource {
         navigationController?.pushViewController(controller, animated: true)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
+    
+}
+
+extension SearchViewController: UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        return 10
+//    }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let len = Constant.RECOMMENDED_ITEM[indexPath.item].count
+//        let width = len * 10
+//        let height = 20
+//        let size = CGSize(width: width, height: height)
+//        return size
+//    }
     
 }
 
@@ -195,5 +215,46 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("검색")
+    }
+}
+
+
+
+// MARK: - collectionViewCellBeforeSearch
+class collectionViewCellBeforeSearch: UICollectionViewCell {
+    
+    // Properties
+    static let identifier: String = String(describing: collectionViewCellBeforeSearch.self)
+    
+    private let cellBtn: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.backgroundColor = .mainPurple.withAlphaComponent(0.3)
+        btn.setTitleColor(.mainPurple, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 10)
+        btn.setHeight(20)
+        btn.layer.cornerRadius = 20 / 2
+        btn.addTarget(self, action: #selector(cellBtnDidTap), for: .touchUpInside)
+        return btn
+    }()
+    
+    // Action
+    @objc func cellBtnDidTap() {
+        print("collectionViewCellBeforeSearch - cellBtnDidTap()")
+    }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .white
+        addSubview(cellBtn)
+        cellBtn.centerX(inView: self)
+        cellBtn.centerY(inView: self)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // Helper
+    func configureBtnText(_ text: String) {
+        cellBtn.setTitle("" + text + "", for: .normal)
     }
 }
