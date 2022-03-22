@@ -11,11 +11,16 @@ class SearchViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private let searchController = UISearchController(searchResultsController: nil)
+    
+    private let searchBar: UISearchBar = {
+        let sb = UISearchBar()
+        sb.placeholder = "검색어를 입력해주세요"
+        sb.setImage(nil, for: .search, state: .normal)
+        return sb
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
-        cv.backgroundColor = .darkGray
         return cv
     }()
     
@@ -43,7 +48,7 @@ class SearchViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .green
+        view.backgroundColor = .white
         configureUI()
     }
     
@@ -51,26 +56,16 @@ class SearchViewController: BaseViewController {
     
     func configureUI(){
         configureNavigationBar()
-        configureSearchController()
+        configureSearchBar()
         configureCollectionView()
         
-        let containerView = UIView()
-        view.addSubview(containerView)
-        containerView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
-        containerView.setHeight(80)
-        containerView.backgroundColor = .red
-        containerView.addSubview(searchController.searchBar)
-        
-//        view.addSubview(searchController.searchBar)
-//        searchController.searchBar.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
-//        searchController.searchBar.setHeight(80)
-        
-        view.addSubview(collectionView)
-        collectionView.anchor(top: searchController.searchBar.bottomAnchor, left: view.leftAnchor,
-                              bottom: view.bottomAnchor, right: view.rightAnchor)
     }
     
     func configureCollectionView() {
+        view.addSubview(collectionView)
+        collectionView.anchor(top: searchBar.bottomAnchor, left: view.leftAnchor,
+                              bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: -5)
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ItemInfoCell.self, forCellWithReuseIdentifier: ItemInfoCell.identifier)
@@ -109,12 +104,16 @@ class SearchViewController: BaseViewController {
         return layout
     }
     
-    func configureSearchController() {
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.sizeToFit()
-        searchController.searchBar.placeholder = "검색어를 입력해주세요"
+    func configureSearchBar() {
+        let containerView = UIView()
+        view.addSubview(containerView)
+        containerView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
+        containerView.setHeight(50)
+        
+        
+        containerView.addSubview(searchBar)
+        searchBar.fillSuperview()
+        searchBar.delegate = self
     }
     
     func configureNavigationBar() {
@@ -126,16 +125,6 @@ class SearchViewController: BaseViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stack)
         
     }
-}
-
-extension SearchViewController: UISearchResultsUpdating {
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text else { return }
-        print(searchText)
-        collectionView.reloadData()
-    }
-
 }
 
 
@@ -175,4 +164,36 @@ extension SearchViewController: UICollectionViewDataSource {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
     
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+//        searchBar.setShowsCancelButton(true, animated: true)  //애니메이션 주면 취소버튼이 파란색으로 변함
+        searchBar.showsCancelButton = true
+        if let cancelBtn = searchBar.value(forKey: "cancelButton") as? UIButton {
+            cancelBtn.setTitleColor(.black, for: .normal)
+            cancelBtn.setTitle("취소 ", for: .normal)
+        }
+    }
+    
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.showsCancelButton = false
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.showsCancelButton = false
+        searchBar.text = nil
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("검색")
+    }
 }
