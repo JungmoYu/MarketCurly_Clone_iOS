@@ -64,3 +64,24 @@
 ### 22'3/23 - 5일차 개발 일지
 1. 회원가입 모두 동의하기 버튼을 통해 모든 버튼 클릭되도록 구현
 2. 아이템 상세뷰 구현 시작
+
+
+### 22'3/24 - 6일차 개발 일지
+1. 아이테 상세 뷰 - 상품설명탭 구현 완료
+2. Search controller 문서 확인하여 클리 시 view가 팽창하는 issue해결 예정(목표)
+
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159532719-f272795c-e3e6-4c2c-af4d-eb6347ceeaa6.png">
+
+
+잔여이슈 정리
+1. 메인화면 - MD의 추천 메뉴를 개발하는데 Tabman라이브러리 활용시 viewcontroller에 viewcontroller를 삽입해야하는 이슈 -> 라이브러리 사용하지 않고 scrollview 구현 예정
+2. 메인화면 - 타이머를 통해 일정 시간마다 광고UI(collectionview-collectionviewCell)를 paging 해주는데, paging시 해당 section으로 view가 무조건 이동하는 issue
+3. 메인화면 - 정확한 자동 paging을 위해 scrollview delegate method를 활용해야 하는데, 현재 프로젝트에서 `scrollViewDidEndDecelerating` 메서드 활용시 에러 발생(접근제한에러)
+5. 검색화면 - SearchController - Searchbar 클리 시 - 뷰가 팽창하는 문제 -> 옵션이 있는지 문서 확인해볼 예정
+6. 회원가입화면 - 버튼 선택시 tintColor를 통해 색을 변경해주는데, addTarget: touchUpInside를 통한 이벤트 메서드에서 isSelected시 배경색이 tintColor로 변경되는 현상 발생
+
+추가개발해야하는 UI 정리
+1. 장바구니 목록 UI생성 -> 구매 flow
+2. 카테고리 - 특정 셀 선택시 나타나는 카테고리뷰
+3. 검색 - SearchController수정완료시 검새 전/후 다른 UI른 UI
+4. 메인화면 - MD의 추천
