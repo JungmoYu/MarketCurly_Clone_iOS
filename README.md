@@ -61,4 +61,6 @@
 <img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/159310983-572f48c0-9851-4262-b4f6-3828893cdbab.png">
 
 
-
+### 22'3/23 - 5일차 개발 일지
+1. 회원가입 모두 동의하기 버튼을 통해 모든 버튼 클릭되도록 구현
+2. 아이템 상세뷰 구현 시작

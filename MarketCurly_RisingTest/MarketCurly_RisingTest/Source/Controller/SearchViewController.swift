@@ -152,7 +152,7 @@ extension SearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier,
                                                       for: indexPath) as! ItemInfoCell
-        cell.backgroundColor = .blue
+        cell.setTitle("상품 이름\(indexPath.item)")
         return cell
     }
     
@@ -161,6 +161,18 @@ extension SearchViewController: UICollectionViewDataSource {
                                                                      withReuseIdentifier: ItemCountHeader.identifier,
                                                                      for: indexPath) as! ItemCountHeader
         return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! ItemInfoCell
+        pushItemDetailViewController(withItemName: cell.getTitle())
+    }
+    
+    func pushItemDetailViewController(withItemName: String) {
+        let controller = ItemDetailViewController()
+        controller.navigationItem.title = withItemName
+        navigationController?.pushViewController(controller, animated: true)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
     
 }

@@ -223,16 +223,16 @@ extension HomeFirstViewController: UICollectionViewDataSource {
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-            cell.backgroundColor = .blue
+            cell.setTitle("상품 이름\(indexPath.item)")
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-            cell.backgroundColor = .blue
+            cell.setTitle("상품 이름\(indexPath.item)")
             cell.configureCell(isDailyPrice: true)
             return cell
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-            cell.backgroundColor = .blue
+            cell.setTitle("상품 이름\(indexPath.item)")
             return cell
         default:
             return UICollectionViewCell()
@@ -282,4 +282,17 @@ extension HomeFirstViewController: UICollectionViewDataSource {
         
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! ItemInfoCell
+        pushItemDetailViewController(withItemName: cell.getTitle())
+    }
+    
+    func pushItemDetailViewController(withItemName: String) {
+        let controller = ItemDetailViewController()
+        controller.navigationItem.title = withItemName // ItemInfo 모델의 title정보로 넘겨야함ㅁ
+        controller.itemInfo = withItemName // ItemInfo넘겨줘야함
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }

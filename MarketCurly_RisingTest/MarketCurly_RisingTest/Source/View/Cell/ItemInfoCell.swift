@@ -22,6 +22,8 @@ class ItemInfoCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
+        label.text = "상품 이름" // 상품이름 데이터 받아와서 처리
+        label.font = .systemFont(ofSize: 12)
         return label
     }()
     
@@ -67,6 +69,9 @@ class ItemInfoCell: UICollectionViewCell {
         cartBtn.setHeightEqualToSuperViewMuliplyBy(0.12)
         cartBtn.setWidthEqualToHeightMuliplyBy(1)
         
+        addSubview(titleLabel)
+        titleLabel.anchor(top: itemImageView.bottomAnchor, left: leftAnchor)
+        
         
     }
     
@@ -88,6 +93,12 @@ class ItemInfoCell: UICollectionViewCell {
         }
     }
     
+    func setTitle(_ text: String) {
+        titleLabel.text = text
+    }
     
+    func getTitle() -> String {
+        return titleLabel.text ?? "이름 없는 상품"
+    }
     
 }

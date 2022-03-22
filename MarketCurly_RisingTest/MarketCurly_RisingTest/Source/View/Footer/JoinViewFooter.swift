@@ -125,8 +125,10 @@ class JoinViewFooter: UICollectionReusableView {
         sender.isSelected = !sender.isSelected
         
         if sender.isSelected {
+            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
             sender.tintColor = .mainPurple
         } else {
+            sender.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
             sender.tintColor = .lightGray.withAlphaComponent(0.5)
         }
         
