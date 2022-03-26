@@ -159,10 +159,6 @@ class ItemInfoCell: UICollectionViewCell {
         
     }
     
-//    func setTitle(_ text: String) {
-//        titleLabel.text = text
-//    }
-    
     func getTitle() -> String {
         return titleLabel.text ?? "이름 없는 상품"
     }

@@ -331,6 +331,7 @@ extension HomeFirstViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 { return }
         let cell = collectionView.cellForItem(at: indexPath) as! ItemInfoCell
         pushItemDetailViewController(withItemName: cell.getTitle())
     }
