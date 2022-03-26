@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LoginViewControllerDelegate: AnyObject {
-    func userLoggedIn()
+    func userLoggedIn(_ with: LoginUserRequest)
 }
 
 class LoginViewController: BaseViewController {
@@ -89,8 +89,14 @@ class LoginViewController: BaseViewController {
     }
     
     @objc func loginButtonDidTap() {
-        loginDelegate?.userLoggedIn()
+        
+        
+        let userRequest = LoginUserRequest(id: idTextField.text ?? "",
+                                           password: passwordTextField.text ?? "")
+        loginDelegate?.userLoggedIn(userRequest)
         self.dismiss(animated: true, completion: nil)
+        
+        
     }
     
     @objc func joinButtonDidTap() {

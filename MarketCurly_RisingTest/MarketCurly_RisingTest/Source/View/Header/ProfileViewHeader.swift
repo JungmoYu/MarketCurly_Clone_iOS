@@ -142,8 +142,12 @@ class ProfileViewHeader: UICollectionReusableView {
         loginOrJoinBtn.isHidden = !bool
     }
     
+    func setUsernameLabel(_ text: String) {
+        userNameLabel.text = text
+    }
     
-    func configureUI(isLoggedIn: Bool) {
+    
+    func configureUI(isLoggedIn: Bool, userName: String) {
         
         // 나중에는 user객체 가져와서 모든 값들 채워넣어주면 된다. 이름, 등급, 적립률, (객체 있으면 login 없으면 logout)
         if isLoggedIn {
@@ -159,7 +163,7 @@ class ProfileViewHeader: UICollectionReusableView {
             addSubview(userNameLabel)
             userNameLabel.centerY(inView: gradeLabel)
             userNameLabel.anchor(left: gradeLabel.rightAnchor, paddingLeft: 16)
-            userNameLabel.text = "유정모님"
+            userNameLabel.text = userName + "님"
             
             addSubview(pointPercentageLabel)
             pointPercentageLabel.anchor(top: gradeLabel.bottomAnchor, left: self.leftAnchor, paddingTop: 28, paddingLeft: 16)

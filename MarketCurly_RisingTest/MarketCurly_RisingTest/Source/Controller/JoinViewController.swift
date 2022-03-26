@@ -12,9 +12,10 @@ class JoinViewController: BaseViewController {
     
     // MARK: - Properties
     
+    var isUpdating: Bool = false
+    
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
-        cv.backgroundColor = .lightGray.withAlphaComponent(0.15)
         return cv
     }()
     
@@ -30,18 +31,14 @@ class JoinViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = false
-        
-//        UINavigationBar.appearance().barTintColor = .white
-//        UINavigationBar.appearance().backgroundColor = .white
-//        UINavigationBar.appearance().tintColor = .black
-//
-//        navigationController?.setNeedsStatusBarAppearanceUpdate()
-//
         navigationController?.navigationBar.tintColor = .white
-//        navigationController?.navigationBar.barTintColor = .white
-//        navigationController?.navigationBar.backgroundColor = .white
         
-        navigationItem.title = "회원가입"
+        if isUpdating {
+            navigationItem.title = "회원정보 수정"
+        } else {
+            navigationItem.title = "회원가입"
+        }
+
         
     }
     
@@ -59,11 +56,12 @@ class JoinViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(JoinViewCell.self, forCellWithReuseIdentifier: JoinViewCell.identifier)
-        collectionView.register(JoinViewFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                                withReuseIdentifier: JoinViewFooter.identifier)
+//        collectionView.register(JoinViewFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+//                                withReuseIdentifier: JoinViewFooter.identifier)
     }
     
     func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
+        
         
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, env) in
             
@@ -71,28 +69,33 @@ class JoinViewController: BaseViewController {
             let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
                                                                 heightDimension: .fractionalHeight(1)))
             
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                             heightDimension:.absolute(750)),
+            let groupUpdating = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                             heightDimension:.absolute(700)),
                                                            subitem: item,
                                                            count: 1)
-    
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets.bottom = 12
-            section.boundarySupplementaryItems = [
-                .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                        heightDimension: .absolute(600)),
-                      elementKind: UICollectionView.elementKindSectionFooter,
-                      alignment: .bottom)
-            ]
+
+            let groupJoin = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                             heightDimension:.absolute(1350)),
+                                                           subitem: item,
+                                                           count: 1)
             
-            return section
+            let sectionUpdating = NSCollectionLayoutSection(group: groupUpdating)
+            sectionUpdating.contentInsets.bottom = 12
+            let sectionJoin = NSCollectionLayoutSection(group: groupJoin)
+            sectionJoin.contentInsets.bottom = 12
+            
+            if self.isUpdating {
+                return sectionUpdating
+            } else {
+                return sectionJoin
+            }
+            
 
         }
         return layout
     }
     
-    
-}
+    }
 
 extension JoinViewController: UICollectionViewDelegate {
     
@@ -106,24 +109,45 @@ extension JoinViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: JoinViewCell.identifier, for: indexPath) as! JoinViewCell
+        cell.configureUI(isUpdating: isUpdating)
+        cell.delegate = self
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: JoinViewFooter.identifier,
-                                                                     for: indexPath) as! JoinViewFooter
-        footer.delegate = self
-        return footer
-    }
-    
+
 }
 
 
-extension JoinViewController: JoinViewFooterDelegate {
-    func requestJoin() {
-        // 여기서 버튼 정보들 가져와야함(뭐를 동의했고 뭐를 동의하지 않았는지?)
-        // 네트워크로 회원가입 요청 구현 예정
-        navigationController?.popViewController(animated: true)
+extension JoinViewController: JoinViewCellDelegate {
+    func requestUpdate(_ userInfo: UpdateUserRequest) {
+        UserManagementManager().updateRequest(userInfo) { result in
+            switch result {
+            case .success(let data):
+                if data.isSuccess {
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    self.presentAlert(title: "정보수정 실패", message: data.message)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func requestJoin(_ userInfo: JoinUserRequest) {
+        
+        UserManagementManager().joinRequest(userInfo) { result in
+            switch result {
+            case .success(let data):
+                if data.isSuccess {
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    self.presentAlert(title: "회원가입 실패", message: data.message)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
     }
     
     

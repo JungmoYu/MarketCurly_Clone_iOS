@@ -12,14 +12,17 @@ struct Constant {
     
     // MARK: - URL
     
-    static var LOGIN_REQUEST_URL = ""
-    
+    static var JWT = ""
+    static var USER_INDEX = -1
+    static var BASE_URL = "https://dev.sosocamp.shop/"
+    static var JOIN_QUERY = "users"
+    static var LOGIN_QUERY = "users/login"
+    static var SEARCH_USERINDEX = "users/"
+    static var DEAL_ITEM_QUERY = "deal-items?createDate="
     
     
     // MARK: - Constant
     
-//    static let JOIN_FORM_DATA_LIST = ["아이디", "비밀번호", "비밀번호 확인", "이름", "이메일", "휴대폰", "주소"]
-//    static let JOIN_FORM_PLACEHOLDER_LIST = ["예: marketKurly12", "비밀번호를 입력해주세요", ""]
     
     static let TOTAL_AGREE_BTN_TAG = 99999
     

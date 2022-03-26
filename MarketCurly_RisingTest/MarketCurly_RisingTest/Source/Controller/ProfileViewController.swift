@@ -12,6 +12,7 @@ class ProfileViewController: BaseViewController {
     // MARK: - Properties
     
     private var isLogin: Bool = false
+    private var user: UserResponseResult?
     
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
@@ -162,7 +163,7 @@ extension ProfileViewController: UICollectionViewDataSource {
         
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ProfileViewCell.identifier, for: indexPath) as! ProfileViewCell
-        
+    
         if isLogin {
             cell.configureMenuLabelText(withText: Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData[indexPath.item])
         } else {
@@ -176,7 +177,7 @@ extension ProfileViewController: UICollectionViewDataSource {
         
         let header = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind, withReuseIdentifier: ProfileViewHeader.identifier, for: indexPath) as! ProfileViewHeader
-        header.configureUI(isLoggedIn: isLogin)
+        header.configureUI(isLoggedIn: isLogin, userName: user?.name ?? "")
         header.delegate = self
         return header
     }
@@ -185,11 +186,20 @@ extension ProfileViewController: UICollectionViewDataSource {
         
         if isLogin {
             if (indexPath.section == Constant.CELL_DATA_LOGGED_IN.count - 1)
-                || (indexPath.item == Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData.count - 1) {
+                && (indexPath.item == Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData.count - 1) {
                 
-                isLogin.toggle()
+                isLogin = false
+                user = nil
+                self.presentAlert(title: "로그아웃 되었습니다.")
                 collectionView.reloadData()
-//                collectionView.collectionViewLayout.invalidateLayout()
+            }
+            
+            if (indexPath.section == Constant.CELL_DATA_LOGGED_IN.count - 4)
+                && (indexPath.item == Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData.count - 2) {
+                let controller = JoinViewController()
+                controller.isUpdating = true
+                navigationController?.pushViewController(controller, animated: true)
+                self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
             }
         }
         
@@ -212,8 +222,41 @@ extension ProfileViewController: ProfileViewHeaderDelegate {
 }
 
 extension ProfileViewController: LoginViewControllerDelegate {
-    func userLoggedIn() {
-        isLogin.toggle()
-        collectionView.reloadData()
+    
+    func userLoggedIn(_ with: LoginUserRequest) {
+        
+        UserManagementManager().loninRequest(with) { result in
+            switch result {
+            case .success(let data):
+                if data.isSuccess {
+                    Constant.USER_INDEX = data.result?.userIdx ?? Int(-1)
+                    Constant.JWT = data.result?.jwt ?? ""
+                    
+                    
+                    UserManagementManager().searchUser(userID: Constant.USER_INDEX, JWT: Constant.JWT) { response in
+                        switch response {
+                        case .success(let data):
+                            if data.isSuccess {
+                                self.user = data.result?[0]
+                            }
+                            self.isLogin = true
+                            self.collectionView.reloadData()
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
+                    
+                    
+                } else {
+                    self.presentAlert(title: "로그인 실패", message: data.message)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            
+            
+        }
+        
     }
+    
 }

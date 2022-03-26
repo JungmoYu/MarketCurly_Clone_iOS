@@ -227,8 +227,22 @@ extension HomeFirstViewController: UICollectionViewDataSource {
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-            cell.setTitle("상품 이름\(indexPath.item)")
-            cell.configureCell(isDailyPrice: true)
+            ItemManagementManager().getDealItem { result in
+                switch result {
+                case .success(let data):
+                    print(data)
+                    cell.configureCell(ItemInfoResult(post_id: data.result?[0].post_id ?? "",
+                                                      image: data.result?[0].image ?? "",
+                                                      vendor: data.result?[0].vendor ?? "",
+                                                      title: data.result?[0].title ?? "",
+                                                      intro: data.result?[0].intro ?? "",
+                                                      off: data.result?[0].off ?? ""),
+                                       isDailyPrice: true)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            cell.configureCell(ItemInfoResult(post_id: "1", image: "", vendor: "gg2", title: "삼품", intro: "크~", off: "20"), isDailyPrice: true)
             return cell
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
