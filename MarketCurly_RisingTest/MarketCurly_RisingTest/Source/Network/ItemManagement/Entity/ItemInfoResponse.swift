@@ -13,10 +13,10 @@ struct ItemInfoResponse: Codable {
 }
 
 struct ItemInfoResult: Codable {
-    var post_id: String
+    var post_id: Int
     var image: String
     var vendor: String
     var title: String
     var intro: String
-    var off: String
+    var off: Int
 }

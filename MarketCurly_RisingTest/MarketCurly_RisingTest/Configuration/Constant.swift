@@ -19,7 +19,8 @@ struct Constant {
     static var LOGIN_QUERY = "users/login"
     static var SEARCH_USERINDEX = "users/"
     static var DEAL_ITEM_QUERY = "deal-items?createDate="
-    
+    static var RANDOM_ITEM_QUERY = "random-items?createDate="
+    static var RECOMMEND_ITEM_QUERY = "recommend-items?createDate="
     
     // MARK: - Constant
     

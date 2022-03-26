@@ -14,6 +14,9 @@ class HomeFirstViewController: BaseViewController {
     private var bannerTimer: Timer?
     private var isBannerTimerRunning: Bool = false
     private var currentPage: Int = 0
+    var randomCell: [ItemInfoResult] = []
+    var dailyCell: [ItemInfoResult] = []
+    var recommendedCell: [ItemInfoResult] = []
 
     private let adImageStringArray = ["광고1", "광고2", "광고3", "광고4", "광고5", "광고6",
                                       "광고7", "광고8", "광고9", "광고10", "광고11", "광고12"]
@@ -38,6 +41,52 @@ class HomeFirstViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        dailyCell = []
+        recommendedCell = []
+        randomCell = []
+        
+        ItemManagementManager().getRandomItem { result in
+            switch result {
+            case .success(let data):
+                data.result?.forEach {
+                    self.randomCell.append($0)
+                }
+                self.collectionView.reloadData()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            IndicatorView.shared.dismiss()
+        }
+        
+        ItemManagementManager().getDealItem { result in
+            switch result {
+            case .success(let data):
+                data.result?.forEach {
+                    self.dailyCell.append($0)
+                }
+                self.collectionView.reloadData()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            IndicatorView.shared.dismiss()
+        }
+        
+        ItemManagementManager().getRecommendedItem { result in
+            switch result {
+            case .success(let data):
+                data.result?.forEach {
+                    self.recommendedCell.append($0)
+                }
+                self.collectionView.reloadData()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            IndicatorView.shared.dismiss()
+        }
+        
+        
+        
         makeAndFireTimer()
     }
     
@@ -203,11 +252,11 @@ extension HomeFirstViewController: UICollectionViewDataSource {
         case 0:
             return adImageStringArray.count
         case 1:
-            return 10
+            return randomCell.count
         case 2:
             return 1
         case 3:
-            return 10
+            return recommendedCell.count
         default:
             return 0
         }
@@ -223,30 +272,15 @@ extension HomeFirstViewController: UICollectionViewDataSource {
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-            cell.setTitle("상품 이름\(indexPath.item)")
+            cell.configureCell(randomCell[indexPath.item], isDailyPrice: false)
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-            ItemManagementManager().getDealItem { result in
-                switch result {
-                case .success(let data):
-                    print(data)
-                    cell.configureCell(ItemInfoResult(post_id: data.result?[0].post_id ?? "",
-                                                      image: data.result?[0].image ?? "",
-                                                      vendor: data.result?[0].vendor ?? "",
-                                                      title: data.result?[0].title ?? "",
-                                                      intro: data.result?[0].intro ?? "",
-                                                      off: data.result?[0].off ?? ""),
-                                       isDailyPrice: true)
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-            cell.configureCell(ItemInfoResult(post_id: "1", image: "", vendor: "gg2", title: "삼품", intro: "크~", off: "20"), isDailyPrice: true)
+            cell.configureCell(dailyCell[0], isDailyPrice: true)
             return cell
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-            cell.setTitle("상품 이름\(indexPath.item)")
+            cell.configureCell(recommendedCell[indexPath.item], isDailyPrice: false)
             return cell
         default:
             return UICollectionViewCell()

@@ -89,7 +89,7 @@ extension HomeThirdSubController: UICollectionViewDataSource {
         
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-        cell.setTitle("상품 이름\(indexPath.item)")
+//        cell.setTitle("상품 이름\(indexPath.item)")
         return cell
     }
     

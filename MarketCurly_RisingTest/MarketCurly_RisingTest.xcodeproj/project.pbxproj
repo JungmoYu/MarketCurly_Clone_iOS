@@ -57,6 +57,7 @@
 		C65E0C7027EE15F5003921B9 /* ItemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65E0C6F27EE15F5003921B9 /* ItemInfo.swift */; };
 		C65E0C7227EE47E5003921B9 /* UpdateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65E0C7127EE47E5003921B9 /* UpdateUserRequest.swift */; };
 		C65E0C7427EE49DE003921B9 /* UpdateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65E0C7327EE49DE003921B9 /* UpdateUserResponse.swift */; };
+		C65E0C7627EF53D7003921B9 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65E0C7527EF53D7003921B9 /* UIImageView.swift */; };
 		C6EA537127E6D13D0033DECA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C6EA537027E6D13D0033DECA /* Lottie */; };
 		C6EA537427E6D1450033DECA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C6EA537327E6D1450033DECA /* Alamofire */; };
 		C6EA537727E6D14F0033DECA /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = C6EA537627E6D14F0033DECA /* Tabman */; };
@@ -139,6 +140,7 @@
 		C65E0C6F27EE15F5003921B9 /* ItemInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemInfo.swift; sourceTree = "<group>"; };
 		C65E0C7127EE47E5003921B9 /* UpdateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserRequest.swift; sourceTree = "<group>"; };
 		C65E0C7327EE49DE003921B9 /* UpdateUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserResponse.swift; sourceTree = "<group>"; };
+		C65E0C7527EF53D7003921B9 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		C6EA537827E6D2BD0033DECA /* HomeViewMDPickCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewMDPickCell.swift; sourceTree = "<group>"; };
 		C6EA537A27E6D2E20033DECA /* HomeViewMDPickFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewMDPickFooter.swift; sourceTree = "<group>"; };
 		C6EA537F27E6D3FD0033DECA /* HomeViewMDPickHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewMDPickHeader.swift; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				C633E5D827E5B9A700B2FFD8 /* UINavigationBar.swift */,
 				C633E5DA27E5B9AE00B2FFD8 /* UIView.swift */,
 				C633E61527E6495F00B2FFD8 /* UICollectionView.swift */,
+				C65E0C7527EF53D7003921B9 /* UIImageView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -599,6 +602,7 @@
 				C633E60927E6083000B2FFD8 /* ItemListFooter.swift in Sources */,
 				C633E5D927E5B9A700B2FFD8 /* UINavigationBar.swift in Sources */,
 				C65E0C5A27EA2D19003921B9 /* ItemDetailViewCell.swift in Sources */,
+				C65E0C7627EF53D7003921B9 /* UIImageView.swift in Sources */,
 				C6EA538627E6D69C0033DECA /* FruitViewController.swift in Sources */,
 				C633E60B27E612AE00B2FFD8 /* ItemListHeader.swift in Sources */,
 				C65E0C7027EE15F5003921B9 /* ItemInfo.swift in Sources */,

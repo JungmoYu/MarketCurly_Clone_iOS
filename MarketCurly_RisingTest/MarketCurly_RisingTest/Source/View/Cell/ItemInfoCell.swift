@@ -15,21 +15,19 @@ class ItemInfoCell: UICollectionViewCell {
     
     private let itemImageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(named: "상품예시")
         iv.contentMode = .scaleToFill
         return iv
     }()
     
     private let vendorLabel: UILabel = {
         let label = UILabel()
-        label.text = "[상품 이름]" // 상품이름 데이터 받아와서 처리
         label.font = .systemFont(ofSize: 12)
+        label.numberOfLines = 2
         return label
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "상품 이름" // 상품이름 데이터 받아와서 처리
         label.numberOfLines = 2
         label.font = .systemFont(ofSize: 12)
         return label
@@ -46,7 +44,6 @@ class ItemInfoCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 12)
         label.textColor = .mainOrange
-        label.text = "20%"
         return label
     }()
     
@@ -100,13 +97,13 @@ class ItemInfoCell: UICollectionViewCell {
         cartBtn.setHeightEqualToSuperViewMuliplyBy(0.12)
         cartBtn.setWidthEqualToHeightMuliplyBy(1)
         
-        let titleStack = UIStackView(arrangedSubviews: [vendorLabel, titleLabel])
+        let titleStack = UIStackView(arrangedSubviews: [vendorLabel])//, titleLabel])
         titleStack.spacing = 3
         
         addSubview(titleStack)
-        titleStack.anchor(top: itemImageView.bottomAnchor, left: leftAnchor, paddingTop: 5)
+        titleStack.anchor(top: itemImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 5)
         
-        let priceStack = UIStackView(arrangedSubviews: [discountRateLabel, memberPriceLabel])
+        let priceStack = UIStackView(arrangedSubviews: [memberPriceLabel, discountRateLabel])
         priceStack.spacing = 3
         
         addSubview(priceStack)
@@ -125,28 +122,46 @@ class ItemInfoCell: UICollectionViewCell {
     // MARK: - Helpers
     
     func configureCell(_ item: ItemInfoResult ,isDailyPrice: Bool) {
+        
+        let url = URL(string: item.image)
+        
+        setLabelText(item)
+        itemImageView.load(url: url!)
+        
         if isDailyPrice {
             self.addSubview(dailyPriceLabel)
             dailyPriceLabel.setWidthEqualToSuperViewMuliplyBy(0.15)
             dailyPriceLabel.setHeightEqualToSuperViewMuliplyBy(0.1)
             dailyPriceLabel.anchor(top: self.topAnchor, left: self.leftAnchor)
-            
+            vendorLabel.font = .systemFont(ofSize: 20)
+            discountRateLabel.font = .boldSystemFont(ofSize: 20)
+            titleLabel.font = .systemFont(ofSize: 20)
         } else {
-            
+            dailyPriceLabel.removeFromSuperview()
+            vendorLabel.font = .systemFont(ofSize: 12)
+            discountRateLabel.font = .boldSystemFont(ofSize: 12)
+            titleLabel.font = .systemFont(ofSize: 12)
         }
         
-        setLabelText(item)
+        
     }
     
     func setLabelText(_ item: ItemInfoResult) {
-        vendorLabel.text = item.vendor
-        titleLabel.text = item.title
-        discountRateLabel.text = item.off + "%"
+        vendorLabel.text = "[" + item.vendor + "] " + item.title
+        titleLabel.text = nil//""//item.title
+        if item.off == 0 {
+            discountRateLabel.text = ""
+            memberPriceLabel.text = originalPriceLabel.text
+            originalPriceLabel.text = ""
+        } else {
+            discountRateLabel.text = String(item.off) + "%"
+        }
+        
     }
     
-    func setTitle(_ text: String) {
-        titleLabel.text = text
-    }
+//    func setTitle(_ text: String) {
+//        titleLabel.text = text
+//    }
     
     func getTitle() -> String {
         return titleLabel.text ?? "이름 없는 상품"
