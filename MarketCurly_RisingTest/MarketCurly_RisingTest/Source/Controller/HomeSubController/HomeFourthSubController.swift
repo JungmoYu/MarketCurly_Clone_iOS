@@ -150,6 +150,7 @@ extension HomeFourthSubController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
             cell.configureCell(cheapItemCell[indexPath.item], isDailyPrice: false)
+            cell.viewController = self
             return cell
         default:
             return UICollectionViewCell()

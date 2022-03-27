@@ -115,6 +115,7 @@ extension HomeThirdSubController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
         cell.configureCell(bestItemCell[indexPath.item], isDailyPrice: false)
+        cell.viewController = self
         return cell
     }
     

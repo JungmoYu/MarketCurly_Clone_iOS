@@ -12,6 +12,8 @@ class ItemInfoCell: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier: String = String(describing: ItemInfoCell.self)
+    var itemInfo: ItemInfoResult?
+    weak var viewController: UIViewController?
     
     private let itemImageView: UIImageView = {
         let iv = UIImageView()
@@ -77,6 +79,13 @@ class ItemInfoCell: UICollectionViewCell {
     
     @objc func cartBtnDidTap() {
         print("ItemCell - cartBtnDidTap() called")
+        let controller = BuyViewController()
+        controller.modalPresentationStyle = .formSheet
+        if let off = itemInfo?.off, let itemID = itemInfo?.post_id {
+            controller.off = off
+            controller.itemID = itemID
+        }
+        viewController?.present(controller, animated: true, completion: nil)
     }
     
     
@@ -120,7 +129,7 @@ class ItemInfoCell: UICollectionViewCell {
     // MARK: - Helpers
     
     func configureCell(_ item: ItemInfoResult ,isDailyPrice: Bool) {
-        
+        itemInfo = item
         let url = URL(string: item.image)
         
         setLabelText(item)
