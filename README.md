@@ -108,3 +108,10 @@ App Transport Security Settings -> 하위 항목 : Allow Arbitrary Loads -> Yes�
 ### 22'3/28 - 10일차 개발 일지
 1. Search부분 UI정상으로 만들기 및 검색기능 구현(예정)
 2. 장바구니 API토의 후 정상동작하게 만들기
+
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/160294793-3b44fb83-bf65-4f06-a815-a3efbcce8878.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/160294799-c5162ce3-bcce-46fe-aeb3-d356489bae97.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/160294810-67aa5128-4dde-4e79-9121-d5c1efa2316f.png">
+
+
+
