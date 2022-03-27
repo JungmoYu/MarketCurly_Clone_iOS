@@ -11,6 +11,8 @@ class SearchViewController: BaseViewController {
     
     // MARK: - Properties
     
+    var filteredCell: [ItemInfoResult] = []
+    
     lazy var isSearching: Bool = false
     
     private let searchBar: UISearchBar = {
@@ -48,7 +50,6 @@ class SearchViewController: BaseViewController {
     
     // MARK: - Action
     @objc func cartBtnDidTap() {
-        print("Nav bar - cartBtnDidTap() called")
         if Constant.USER_INDEX < 0 {
             let controller = LoginViewController()
             controller.loginDelegate = self
@@ -58,7 +59,12 @@ class SearchViewController: BaseViewController {
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true, completion: nil)
         } else {
-            print("Nav bar - cartBtnDidTap() called - 로그인 된 상태")
+            let controller = CartViewController()
+            
+            let nav = UINavigationController(rootViewController: controller)
+            nav.navigationBar.isHidden = true
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
         }
     }
     
@@ -176,8 +182,7 @@ extension SearchViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! ItemInfoCell
-        pushItemDetailViewController(withItemName: cell.getTitle())
+//        pushItemDetailViewController(withItem: filteredCell[indexPath.item]) // 셀 이름 정하고 만들어야함
     }
     
     func pushItemDetailViewController(withItemName: String) {
@@ -279,7 +284,7 @@ class collectionViewCellBeforeSearch: UICollectionViewCell {
 
 
 extension SearchViewController: LoginViewControllerDelegate {
-    func userLoggedIn(_ with: UserResponseResult) {
+    func userLoggedIn() {
         
     }
 }

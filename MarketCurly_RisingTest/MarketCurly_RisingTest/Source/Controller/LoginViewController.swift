@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LoginViewControllerDelegate: AnyObject {
-    func userLoggedIn(_ with: UserResponseResult)
+    func userLoggedIn()
 }
 
 class LoginViewController: BaseViewController {
@@ -17,6 +17,12 @@ class LoginViewController: BaseViewController {
     
     weak var loginDelegate: LoginViewControllerDelegate?
     weak var viewController: UIViewController?
+    
+    private lazy var tableView: UITableView = {
+        let tv = UITableView()
+
+        return tv
+    }()
     
     private let loginLabel: UILabel = {
         let label = UILabel()
@@ -105,18 +111,16 @@ class LoginViewController: BaseViewController {
                     if data.isSuccess {
                         Constant.USER_INDEX = data.result?.userIdx ?? Int(-1)
                         Constant.JWT = data.result?.jwt ?? ""
-                        print(Constant.USER_INDEX)
                         UserManagementManager().searchUser(userID: Constant.USER_INDEX, JWT: Constant.JWT) { response in
                             
                             switch response {
                             case .success(let data):
                                 if data.isSuccess {
                                     Constant.User = data.result?[0]
-                                    self.loginDelegate?.userLoggedIn((data.result?[0])!)
+                                    self.loginDelegate?.userLoggedIn()
                                     self.dismiss(animated: true, completion: nil)
                                 }
                             case .failure(let error):
-                                print("여기..?")
                                 print(error.localizedDescription)
                             }
                         }

@@ -96,3 +96,8 @@
 1. Item관련 API사용 - Daily 상품 가져오기
 2. Item관련 API사용 - 랜덤 추천 상품 가져오기
 3. Item관련 API사용 - MD 추천 상품 가져오기
+
+발생 이슈 : Info.plist에 다음 항목을 추가하지 않으면, http통신 관련 오류가 발생했다.
+App Transport Security Settings -> 하위 항목 : Allow Arbitrary Loads -> Yes로 변경
+
+

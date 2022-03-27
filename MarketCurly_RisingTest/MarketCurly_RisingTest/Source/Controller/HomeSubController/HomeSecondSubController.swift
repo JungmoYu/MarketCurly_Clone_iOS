@@ -11,6 +11,8 @@ class HomeSecondSubController: BaseViewController {
     
     // MARK: - Properties
     
+    private var newItemCell:[ItemInfoResult] = []
+    
     private let adString: String = "컬리의신상"
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
@@ -24,6 +26,12 @@ class HomeSecondSubController: BaseViewController {
         super.viewDidLoad()
         configureCollectionView()
         configureUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        newItemCell = []
+        getNewItem()
     }
     
     // MARK: - Helpers
@@ -89,6 +97,21 @@ class HomeSecondSubController: BaseViewController {
         return layout
     }
     
+    private func getNewItem() {
+        ItemManagementManager().getRandomItem { result in
+            switch result {
+            case .success(let data):
+                data.result?.forEach {
+                    self.newItemCell.append($0)
+                }
+                self.collectionView.reloadData()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            IndicatorView.shared.dismiss()
+        }
+    }
+    
     
 }
 
@@ -107,7 +130,7 @@ extension HomeSecondSubController: UICollectionViewDataSource {
         case 0:
             return 1
         case 1:
-            return 50
+            return newItemCell.count
         default:
             return 0
         }
@@ -124,7 +147,7 @@ extension HomeSecondSubController: UICollectionViewDataSource {
         case 1:
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-//            cell.setTitle("상품 이름\(indexPath.item)")
+            cell.configureCell(newItemCell[indexPath.item], isDailyPrice: false)
             return cell
         default:
             return UICollectionViewCell()
@@ -145,15 +168,16 @@ extension HomeSecondSubController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! ItemInfoCell
-        pushItemDetailViewController(withItemName: cell.getTitle())
+        pushItemDetailViewController(withItem: newItemCell[indexPath.item])
     }
     
-    func pushItemDetailViewController(withItemName: String) {
+    func pushItemDetailViewController(withItem: ItemInfoResult) {
         let controller = ItemDetailViewController()
-        controller.navigationItem.title = withItemName
-        navigationController?.pushViewController(controller, animated: true)
+        controller.navigationItem.title = withItem.title
+        controller.itemInfo = withItem
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     

@@ -11,6 +11,8 @@ class HomeFourthSubController: BaseViewController {
     
     // MARK: - Properties
     
+    private var cheapItemCell: [ItemInfoResult] = []
+    
     private let adString: String = "알뜰쇼핑"
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
@@ -25,6 +27,12 @@ class HomeFourthSubController: BaseViewController {
         super.viewDidLoad()
         configureCollectionView()
         configureUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        cheapItemCell = []
+        getCheapItem()
     }
     
     // MARK: - Helpers
@@ -89,6 +97,22 @@ class HomeFourthSubController: BaseViewController {
         return layout
     }
     
+    private func getCheapItem() {
+        ItemManagementManager().getRandomItem { result in
+            switch result {
+            case .success(let data):
+                data.result?.forEach {
+                    self.cheapItemCell.append($0)
+                }
+                self.collectionView.reloadData()
+            case .failure(let error):
+                print("g2?")
+                print(error.localizedDescription)
+            }
+            IndicatorView.shared.dismiss()
+        }
+    }
+    
 }
 
 
@@ -108,7 +132,7 @@ extension HomeFourthSubController: UICollectionViewDataSource {
         case 0:
             return 1
         case 1:
-            return 50
+            return cheapItemCell.count
         default:
             return 0
         }
@@ -125,7 +149,7 @@ extension HomeFourthSubController: UICollectionViewDataSource {
         case 1:
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-//            cell.setTitle("상품 이름\(indexPath.item)")
+            cell.configureCell(cheapItemCell[indexPath.item], isDailyPrice: false)
             return cell
         default:
             return UICollectionViewCell()
@@ -145,15 +169,16 @@ extension HomeFourthSubController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! ItemInfoCell
-        pushItemDetailViewController(withItemName: cell.getTitle())
+        pushItemDetailViewController(withItem: cheapItemCell[indexPath.item])
     }
     
-    func pushItemDetailViewController(withItemName: String) {
+    func pushItemDetailViewController(withItem: ItemInfoResult) {
         let controller = ItemDetailViewController()
-        controller.navigationItem.title = withItemName
-        navigationController?.pushViewController(controller, animated: true)
+        controller.navigationItem.title = withItem.title
+        controller.itemInfo = withItem
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: true)
     }
     
 }

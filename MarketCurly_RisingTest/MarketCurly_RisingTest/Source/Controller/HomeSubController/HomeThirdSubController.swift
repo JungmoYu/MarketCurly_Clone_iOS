@@ -11,6 +11,8 @@ class HomeThirdSubController: BaseViewController {
     
     // MARK: - Properties
     
+    private var bestItemCell: [ItemInfoResult] = []
+    
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
         cv.backgroundColor = .white
@@ -23,6 +25,12 @@ class HomeThirdSubController: BaseViewController {
         super.viewDidLoad()
         configureCollectionView()
         configureUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        bestItemCell = []
+        getBestItem()
     }
     
     // MARK: - Helpers
@@ -68,6 +76,23 @@ class HomeThirdSubController: BaseViewController {
         }
         return layout
     }
+    
+    private func getBestItem() {
+        ItemManagementManager().getRandomItem { result in
+            switch result {
+            case .success(let data):
+                data.result?.forEach {
+                    self.bestItemCell.append($0)
+                }
+                self.collectionView.reloadData()
+            case .failure(let error):
+                print("g2?")
+                print(error.localizedDescription)
+            }
+            IndicatorView.shared.dismiss()
+        }
+    }
+    
 }
 
 
@@ -82,14 +107,14 @@ extension HomeThirdSubController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 50
+        return bestItemCell.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-//        cell.setTitle("상품 이름\(indexPath.item)")
+        cell.configureCell(bestItemCell[indexPath.item], isDailyPrice: false)
         return cell
     }
     
@@ -103,15 +128,16 @@ extension HomeThirdSubController: UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! ItemInfoCell
-        pushItemDetailViewController(withItemName: cell.getTitle())
+        pushItemDetailViewController(withItem: bestItemCell[indexPath.item])
     }
     
-    func pushItemDetailViewController(withItemName: String) {
+    func pushItemDetailViewController(withItem: ItemInfoResult) {
         let controller = ItemDetailViewController()
-        controller.navigationItem.title = withItemName
-        navigationController?.pushViewController(controller, animated: true)
+        controller.navigationItem.title = withItem.title
+        controller.itemInfo = withItem
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: true)
     }
     
 }

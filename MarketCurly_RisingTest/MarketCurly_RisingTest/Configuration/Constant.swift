@@ -21,6 +21,9 @@ struct Constant {
     static var DEAL_ITEM_QUERY = "deal-items?createDate="
     static var RANDOM_ITEM_QUERY = "random-items?createDate="
     static var RECOMMEND_ITEM_QUERY = "recommend-items?createDate="
+    static var ITEM_DETAIL_QUERY = "items?postId="
+    
+    static var CART = "baskets"
     
     // MARK: - User
     static var User: UserResponseResult?

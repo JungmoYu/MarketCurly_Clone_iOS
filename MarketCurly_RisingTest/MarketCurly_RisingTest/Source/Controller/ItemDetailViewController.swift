@@ -13,6 +13,9 @@ class ItemDetailViewController: BaseViewController {
     
     // MARK: - Properties
     
+    var itemInfo: ItemInfoResult?
+//    private var itemInfoDetail: [ItemInfoDetailResult] = []
+    
     private let firstController = ItemFirstSubController()
     
     private lazy var viewControllers = [self.firstController,
@@ -21,15 +24,35 @@ class ItemDetailViewController: BaseViewController {
                                    ItemFourthSubController()]
     
     
-    var itemInfo: String = "" // 여기 이전 뷰컨트롤러에서 전달받아서 아이템 모델 객체로 만들어야함
-    
     private let titleArray: [String] = ["상품설명", "상세정보", "후기", "문의"]
     
     private lazy var cartBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(UIImage(systemName: "cart"), for: .normal)
+        btn.addTarget(self, action: #selector(cartBtnDidTap), for: .touchUpInside)
         return btn
     }()
+    
+    // MARK: - Action
+    
+    @objc func cartBtnDidTap() {
+        if Constant.USER_INDEX < 0 {
+            let controller = LoginViewController()
+//            controller.loginDelegate = self
+            
+            let nav = UINavigationController(rootViewController: controller)
+            nav.navigationBar.isHidden = true
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
+        } else {
+            let controller = CartViewController()
+            
+            let nav = UINavigationController(rootViewController: controller)
+            nav.navigationBar.isHidden = true
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
+        }
+    }
     
     
     // MARK: - Lifecycle
@@ -43,6 +66,20 @@ class ItemDetailViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+//        itemInfoDetail = []
+//
+//        ItemManagementManager().getItemDetail(itemNum: 1) { result in
+//            switch result {
+//            case .success(let data):
+//                data.result?.forEach {
+//                    self.itemInfoDetail.append($0)
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//            IndicatorView.shared.dismiss()
+//        }
         
     }
     

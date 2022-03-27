@@ -35,7 +35,6 @@ class ItemInfoCell: UICollectionViewCell {
     
     private let memberPriceLabel: UILabel = {
         let label = UILabel()
-        label.text = "3000".insertComma
         label.font = .boldSystemFont(ofSize: 12)
         return label
     }()
@@ -51,7 +50,6 @@ class ItemInfoCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12)
         label.textColor = .lightGray
-        label.attributedText = "4000".strikeThrough()
         return label
     }()
     
@@ -135,20 +133,24 @@ class ItemInfoCell: UICollectionViewCell {
             dailyPriceLabel.anchor(top: self.topAnchor, left: self.leftAnchor)
             vendorLabel.font = .systemFont(ofSize: 20)
             discountRateLabel.font = .boldSystemFont(ofSize: 20)
-            titleLabel.font = .systemFont(ofSize: 20)
+            memberPriceLabel.font = .systemFont(ofSize: 20)
+            originalPriceLabel.font = .systemFont(ofSize: 20)
         } else {
             dailyPriceLabel.removeFromSuperview()
             vendorLabel.font = .systemFont(ofSize: 12)
             discountRateLabel.font = .boldSystemFont(ofSize: 12)
-            titleLabel.font = .systemFont(ofSize: 12)
         }
-        
         
     }
     
+    
     func setLabelText(_ item: ItemInfoResult) {
+        let price = 3000 //바꿔줘야함
+        
         vendorLabel.text = "[" + item.vendor + "] " + item.title
-        titleLabel.text = nil//""//item.title
+        discountRateLabel.text = String(item.off) + "%"
+        memberPriceLabel.text = String(Int(Double(price) * Double(Double(100 - item.off) * 0.01))).insertComma + "원"
+        originalPriceLabel.attributedText = (String(price).insertComma + "원").strikeThrough()
         if item.off == 0 {
             discountRateLabel.text = ""
             memberPriceLabel.text = originalPriceLabel.text
@@ -156,11 +158,6 @@ class ItemInfoCell: UICollectionViewCell {
         } else {
             discountRateLabel.text = String(item.off) + "%"
         }
-        
-    }
-    
-    func getTitle() -> String {
-        return titleLabel.text ?? "이름 없는 상품"
     }
     
 }

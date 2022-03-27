@@ -21,9 +21,10 @@ class UserManagementManager {
                      "phone": user.phone,
                      "address": user.address,
                      "birthday": user.birthday,
-                     "gender": user.gender]
+                     "gender": user.gender
+        ]
         
-        AF.request(Constant.BASE_URL+Constant.SEARCH_USERINDEX+String(Constant.USER_INDEX),
+        AF.request(Constant.BASE_URL+Constant.SEARCH_USERINDEX + String(Constant.USER_INDEX),
                    method: .patch,
                    parameters: param,
                    headers: header)
@@ -31,6 +32,14 @@ class UserManagementManager {
                 
                 switch response.result {
                 case .success(let response):
+                    UserManagementManager().searchUser(userID: Constant.USER_INDEX, JWT: Constant.JWT) { result in
+                        switch result {
+                        case .success(let data):
+                            Constant.User = data.result?[0]
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
                     completion(.success(response))
                 case .failure(let error):
                     completion(.failure(error))
@@ -45,7 +54,7 @@ class UserManagementManager {
             "x-access-token": Constant.JWT
         ]
         
-        AF.request(Constant.BASE_URL+Constant.SEARCH_USERINDEX+String(Constant.USER_INDEX),
+        AF.request(Constant.BASE_URL+Constant.SEARCH_USERINDEX + String(Constant.USER_INDEX),
                    method: .get,
                    headers: header)
             .responseDecodable(of: UserResponse.self) { response in
@@ -63,7 +72,8 @@ class UserManagementManager {
     
     func loninRequest(_ user: LoginUserRequest, completion: @escaping(Result<LoginUserResponse, Error>) -> Void) {
         let param = ["id": user.id,
-                     "password": user.password]
+                     "password": user.password
+        ]
         
         AF.request(Constant.BASE_URL+Constant.LOGIN_QUERY,
                    method: .post,
@@ -88,7 +98,8 @@ class UserManagementManager {
                      "phone": user.phone,
                      "address": user.address,
                      "birthday": user.birthday,
-                     "gender": user.gender]
+                     "gender": user.gender
+        ]
         
         AF.request(Constant.BASE_URL+Constant.JOIN_QUERY,
                    method: .post,

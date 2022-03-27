@@ -44,7 +44,6 @@ class HomeViewController: BaseViewController {
     
     // MARK: - Action
     @objc func cartBtnDidTap() {
-        print("Nav bar - cartBtnDidTap() called")
         if Constant.USER_INDEX < 0 {
             let controller = LoginViewController()
             controller.loginDelegate = self
@@ -54,7 +53,12 @@ class HomeViewController: BaseViewController {
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true, completion: nil)
         } else {
-            print("Nav bar - cartBtnDidTap() called - 로그인 된 상태")
+            let controller = CartViewController()
+            
+            let nav = UINavigationController(rootViewController: controller)
+            nav.navigationBar.isHidden = true
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
         }
     }
     
@@ -120,8 +124,13 @@ extension HomeViewController: PageboyViewControllerDataSource, TMBarDataSource {
 }
 
 extension HomeViewController: LoginViewControllerDelegate {
-    func userLoggedIn(_ with: UserResponseResult) {
+    func userLoggedIn() {
+        let controller = CartViewController()
         
+        let nav = UINavigationController(rootViewController: controller)
+        nav.navigationBar.isHidden = true
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
     }
     
     

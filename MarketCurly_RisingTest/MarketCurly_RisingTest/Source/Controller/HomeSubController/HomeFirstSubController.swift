@@ -346,14 +346,23 @@ extension HomeFirstViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 { return }
-        let cell = collectionView.cellForItem(at: indexPath) as! ItemInfoCell
-        pushItemDetailViewController(withItemName: cell.getTitle())
+        switch indexPath.section {
+        case 1:
+            pushItemDetailViewController(withItem: randomCell[indexPath.item])
+        case 2:
+            pushItemDetailViewController(withItem: dailyCell[indexPath.item])
+        case 3:
+            pushItemDetailViewController(withItem: recommendedCell[indexPath.item])
+        default:
+            return
+        }
+        
     }
     
-    func pushItemDetailViewController(withItemName: String) {
+    func pushItemDetailViewController(withItem: ItemInfoResult) {
         let controller = ItemDetailViewController()
-        controller.navigationItem.title = withItemName // ItemInfo 모델의 title정보로 넘겨야함ㅁ
-        controller.itemInfo = withItemName // ItemInfo넘겨줘야함
+        controller.navigationItem.title = withItem.title
+        controller.itemInfo = withItem
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         controller.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(controller, animated: true)

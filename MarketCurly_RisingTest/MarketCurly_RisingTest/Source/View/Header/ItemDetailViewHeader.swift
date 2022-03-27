@@ -122,35 +122,22 @@ class ItemDetailViewHeader: UICollectionReusableView {
     }
     
     // MARK: - Helpers
-    func configureAdImage(for imgString: String) {
-        productImageView.image = UIImage(named: imgString) //상품예시
-    }
     
-    func configureNameLabel(_ text: String) {
-        nameLabel.text = text
-    }
-    
-    func configureDescriptionLabel(_ text: String) {
-        descriptionLabel.text = text
-    }
-    
-    func configureMemberPriceLabel(_ text: String) {
-        memberPriceLabel.text = text
-    }
-    
-    func configureDiscountRateLabel(_ text: String) {
-        discountRateLabel.text = text
-    }
-    
-    func configureOriginalPriceLabel(_ text: String) {
-        originalPriceLabel.attributedText = text.strikeThrough()
-    }
-    
-    func configurePointLabel(_ text: String, isMember: Bool) {
-        if isMember {
-            pointLabel.text = text
-        } else {
+    func configureUI(_ item: ItemInfoResult?) {
+        guard let item = item else { return }
+        let price = 3000 // 나중에 가격 가져와야함!
+        let url = URL(string: item.image)
+        productImageView.load(url: url!)
+        nameLabel.text = item.title
+        descriptionLabel.text = item.intro
+        memberPriceLabel.text = String(Int(Double(price) * Double(Double(100 - item.off) * 0.01))).insertComma + "원"
+        discountRateLabel.text = String(item.off) + "%"
+        originalPriceLabel.attributedText = (String(price).insertComma + "원").strikeThrough()
+        if Constant.User == nil {
             pointLabel.text = "로그인 후, 회원할인가와 적립혜택이 제공됩니다."
+        } else {
+            pointLabel.text = "0.5%"// Constant.User.mileage + "%"
         }
     }
+
 }

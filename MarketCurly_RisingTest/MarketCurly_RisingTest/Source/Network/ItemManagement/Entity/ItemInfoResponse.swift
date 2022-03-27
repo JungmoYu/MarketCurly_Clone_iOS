@@ -20,3 +20,17 @@ struct ItemInfoResult: Codable {
     var intro: String
     var off: Int
 }
+
+struct ItemInfoDetailResponse: Codable {
+    var isSuccess: Bool
+    var code: Int
+    var message: String
+    var result: [ItemInfoDetailResult]?
+}
+
+struct ItemInfoDetailResult: Codable {
+    var name: String
+    var price: Int
+    var gift_enable: Int
+    var data: String
+}

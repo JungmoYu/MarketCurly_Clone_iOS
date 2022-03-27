@@ -41,7 +41,6 @@ class ProfileViewController: BaseViewController {
     
     // MARK: - Action
     @objc func cartBtnDidTap() {
-        print("Nav bar - cartBtnDidTap() called")
         if Constant.USER_INDEX < 0 {
             let controller = LoginViewController()
             controller.loginDelegate = self
@@ -51,7 +50,12 @@ class ProfileViewController: BaseViewController {
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true, completion: nil)
         } else {
-            print("Nav bar - cartBtnDidTap() called - 로그인 된 상태")
+            let controller = CartViewController()
+            
+            let nav = UINavigationController(rootViewController: controller)
+            nav.navigationBar.isHidden = true
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
         }
     }
     
@@ -239,7 +243,7 @@ extension ProfileViewController: ProfileViewHeaderDelegate {
 
 extension ProfileViewController: LoginViewControllerDelegate {
     
-    func userLoggedIn(_ user: UserResponseResult) {
+    func userLoggedIn() {
         collectionView.reloadData()
     }
 }

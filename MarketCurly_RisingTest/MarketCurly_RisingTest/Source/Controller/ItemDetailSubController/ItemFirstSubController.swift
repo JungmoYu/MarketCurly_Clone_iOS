@@ -16,7 +16,7 @@ class ItemFirstSubController: BaseViewController {
         return cv
     }()
     
-    var itemInfo: String = "" // 나중에 여기 아이템 모델이 와야함(전달하는 뷰컨트롤러에서 넘겨줘야하고)
+    var itemInfo: ItemInfoResult?
     
     private let likeBtn: UIButton = {
         let btn = UIButton(type: .system)
@@ -45,7 +45,13 @@ class ItemFirstSubController: BaseViewController {
     // MARK: - Action
     
     @objc func buyBtnDidTap() {
-        print("ItemFirstSubController - buyBtnDidTap() called")
+        let controller = BuyViewController()
+        controller.modalPresentationStyle = .formSheet
+        if let off = itemInfo?.off, let itemID = itemInfo?.post_id {
+            controller.off = off
+            controller.itemID = itemID
+        }
+        present(controller, animated: true, completion: nil)
     }
     
     @objc func likeBtnDidTap() {
@@ -131,15 +137,7 @@ extension ItemFirstSubController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ItemDetailViewHeader.identifier,
                                                                      for: indexPath) as! ItemDetailViewHeader
-        // 모델로 넘겨줘야함
-        header.configureAdImage(for: "상품예시")
-        header.configureNameLabel(itemInfo)
-        header.configureDescriptionLabel("영원한 동반자 \(itemInfo)")
-        header.configureMemberPriceLabel("2961원")
-        header.configureDiscountRateLabel("10%")
-        header.configureOriginalPriceLabel("3290원")
-        header.configureDiscountRateLabel("10%")
-        header.configurePointLabel("0.5%", isMember: false)
+        header.configureUI(itemInfo)
         return header
     }
 }

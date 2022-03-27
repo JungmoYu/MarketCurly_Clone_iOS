@@ -56,8 +56,6 @@ class JoinViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(JoinViewCell.self, forCellWithReuseIdentifier: JoinViewCell.identifier)
-//        collectionView.register(JoinViewFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-//                                withReuseIdentifier: JoinViewFooter.identifier)
     }
     
     func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
