@@ -103,7 +103,7 @@ class ItemInfoCell: UICollectionViewCell {
         addSubview(titleStack)
         titleStack.anchor(top: itemImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 5)
         
-        let priceStack = UIStackView(arrangedSubviews: [memberPriceLabel, discountRateLabel])
+        let priceStack = UIStackView(arrangedSubviews: [discountRateLabel, memberPriceLabel])
         priceStack.spacing = 3
         
         addSubview(priceStack)

@@ -223,39 +223,41 @@ extension ProfileViewController: ProfileViewHeaderDelegate {
 
 extension ProfileViewController: LoginViewControllerDelegate {
     
-    func userLoggedIn(_ with: LoginUserRequest) {
-        
-        UserManagementManager().loninRequest(with) { result in
-            switch result {
-            case .success(let data):
-                if data.isSuccess {
-                    Constant.USER_INDEX = data.result?.userIdx ?? Int(-1)
-                    Constant.JWT = data.result?.jwt ?? ""
-                    
-                    
-                    UserManagementManager().searchUser(userID: Constant.USER_INDEX, JWT: Constant.JWT) { response in
-                        switch response {
-                        case .success(let data):
-                            if data.isSuccess {
-                                self.user = data.result?[0]
-                            }
-                            self.isLogin = true
-                            self.collectionView.reloadData()
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                        }
-                    }
-                    
-                    
-                } else {
-                    self.presentAlert(title: "로그인 실패", message: data.message)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-            
-            
-        }
+    func userLoggedIn(_ user: UserResponseResult) {
+        self.user = user
+        isLogin = true
+        collectionView.reloadData()
+//        UserManagementManager().loninRequest(with) { result in
+//            switch result {
+//            case .success(let data):
+//                if data.isSuccess {
+//                    Constant.USER_INDEX = data.result?.userIdx ?? Int(-1)
+//                    Constant.JWT = data.result?.jwt ?? ""
+//
+//
+//                    UserManagementManager().searchUser(userID: Constant.USER_INDEX, JWT: Constant.JWT) { response in
+//                        switch response {
+//                        case .success(let data):
+//                            if data.isSuccess {
+//                                self.user = data.result?[0]
+//                            }
+//                            self.isLogin = true
+//                            self.collectionView.reloadData()
+//                        case .failure(let error):
+//                            print(error.localizedDescription)
+//                        }
+//                    }
+//
+//
+//                } else {
+//                    self.presentAlert(title: "로그인 실패", message: data.message)
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//
+//
+//        }
         
     }
     

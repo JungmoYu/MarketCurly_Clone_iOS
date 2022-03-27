@@ -18,6 +18,7 @@ class JoinViewCell: UICollectionViewCell {
     
     static let identifier: String = String(describing: JoinViewCell.self)
     weak var delegate: JoinViewCellDelegate?
+    weak var viewController: UIViewController?
     
     private lazy var IDLabel: UILabel = {
         let label = UILabel()
@@ -263,6 +264,7 @@ class JoinViewCell: UICollectionViewCell {
     }
     
     @objc func joinBtnDidTap() {
+        
         let userInfo = JoinUserRequest(id: IDTextField.text ?? "",
                                        password: passwordTextField.text ?? "",
                                        name: nameTextField.text ?? "",
@@ -271,7 +273,16 @@ class JoinViewCell: UICollectionViewCell {
                                        address: addressTextField.text,
                                        birthday: "1991.11.25",
                                        gender: "Male")
-        delegate?.requestJoin(userInfo)
+        
+        if IDTextField.text == "" {
+            viewController?.presentAlert(title: "아이디를 입력해주세요")
+        }
+        else if passwordTextField.text != confirmPasswordTextField.text {
+            viewController?.presentAlert(title: "비밀번호가 일치하지 않습니다")
+        } else {
+            delegate?.requestJoin(userInfo)
+        }
+        
     }
     
     @objc func updateBtnDidTap() {

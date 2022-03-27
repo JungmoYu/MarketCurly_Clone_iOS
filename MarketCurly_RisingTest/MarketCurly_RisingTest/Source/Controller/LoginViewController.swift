@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LoginViewControllerDelegate: AnyObject {
-    func userLoggedIn(_ with: LoginUserRequest)
+    func userLoggedIn(_ with: UserResponseResult)
 }
 
 class LoginViewController: BaseViewController {
@@ -16,6 +16,7 @@ class LoginViewController: BaseViewController {
     // MARK: - Properties
     
     weak var loginDelegate: LoginViewControllerDelegate?
+    weak var viewController: UIViewController?
     
     private let loginLabel: UILabel = {
         let label = UILabel()
@@ -93,10 +94,38 @@ class LoginViewController: BaseViewController {
         
         let userRequest = LoginUserRequest(id: idTextField.text ?? "",
                                            password: passwordTextField.text ?? "")
-        loginDelegate?.userLoggedIn(userRequest)
-        self.dismiss(animated: true, completion: nil)
-        
-        
+        if userRequest.id == "" {
+            presentAlert(title: "ID를 입력해주세요")
+        } else if userRequest.password == "" {
+            presentAlert(title: "비밀번호를 입력해주세요")
+        } else {
+            UserManagementManager().loninRequest(userRequest) { result in
+                switch result {
+                case .success(let data):
+                    if data.isSuccess {
+                        Constant.USER_INDEX = data.result?.userIdx ?? Int(-1)
+                        Constant.JWT = data.result?.jwt ?? ""
+                        
+                        
+                        UserManagementManager().searchUser(userID: Constant.USER_INDEX, JWT: Constant.JWT) { response in
+                            switch response {
+                            case .success(let data):
+                                if data.isSuccess {
+                                    self.loginDelegate?.userLoggedIn((data.result?[0])!)
+                                    self.dismiss(animated: true, completion: nil)
+                                }
+                            case .failure(let error):
+                                print(error.localizedDescription)
+                            }
+                        }
+                    } else {
+                        self.presentAlert(title: "로그인 실패", message: data.message)
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
     
     @objc func joinButtonDidTap() {

@@ -276,7 +276,7 @@ extension HomeFirstViewController: UICollectionViewDataSource {
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-            cell.configureCell(dailyCell[0], isDailyPrice: true)
+            cell.configureCell(dailyCell[indexPath.item], isDailyPrice: true)
             return cell
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell

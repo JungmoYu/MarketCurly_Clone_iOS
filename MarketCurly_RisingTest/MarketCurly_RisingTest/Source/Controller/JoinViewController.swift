@@ -110,6 +110,7 @@ extension JoinViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: JoinViewCell.identifier, for: indexPath) as! JoinViewCell
         cell.configureUI(isUpdating: isUpdating)
+        cell.viewController = self
         cell.delegate = self
         return cell
     }
@@ -119,6 +120,7 @@ extension JoinViewController: UICollectionViewDataSource {
 
 extension JoinViewController: JoinViewCellDelegate {
     func requestUpdate(_ userInfo: UpdateUserRequest) {
+        
         UserManagementManager().updateRequest(userInfo) { result in
             switch result {
             case .success(let data):
