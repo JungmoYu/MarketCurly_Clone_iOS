@@ -105,16 +105,18 @@ class LoginViewController: BaseViewController {
                     if data.isSuccess {
                         Constant.USER_INDEX = data.result?.userIdx ?? Int(-1)
                         Constant.JWT = data.result?.jwt ?? ""
-                        
-                        
+                        print(Constant.USER_INDEX)
                         UserManagementManager().searchUser(userID: Constant.USER_INDEX, JWT: Constant.JWT) { response in
+                            
                             switch response {
                             case .success(let data):
                                 if data.isSuccess {
+                                    Constant.User = data.result?[0]
                                     self.loginDelegate?.userLoggedIn((data.result?[0])!)
                                     self.dismiss(animated: true, completion: nil)
                                 }
                             case .failure(let error):
+                                print("여기..?")
                                 print(error.localizedDescription)
                             }
                         }
@@ -143,6 +145,11 @@ class LoginViewController: BaseViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        idTextField.text = ""
+        passwordTextField.text = ""
+    }
     // MARK: - Helpers
     
     func configureUI() {

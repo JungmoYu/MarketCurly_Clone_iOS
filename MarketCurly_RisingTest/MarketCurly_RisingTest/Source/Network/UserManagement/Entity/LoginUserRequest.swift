@@ -5,7 +5,7 @@
 //  Created by Jungmo Yu on 2022/03/25.
 //
 
-struct LoginUserRequest {
+struct LoginUserRequest: Codable {
     var id: String
     var password: String
 }

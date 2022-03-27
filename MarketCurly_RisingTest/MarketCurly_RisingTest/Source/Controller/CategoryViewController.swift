@@ -30,6 +30,7 @@ class CategoryViewController: BaseViewController {
     private lazy var cartBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(UIImage(systemName: "cart"), for: .normal)
+        btn.addTarget(self, action: #selector(cartBtnDidTap), for: .touchUpInside)
         return btn
     }()
     
@@ -38,6 +39,23 @@ class CategoryViewController: BaseViewController {
         btn.setImage(UIImage(systemName: "location"), for: .normal)
         return btn
     }()
+    
+    
+    // MARK: - Action
+    @objc func cartBtnDidTap() {
+        print("Nav bar - cartBtnDidTap() called")
+        if Constant.USER_INDEX < 0 {
+            let controller = LoginViewController()
+            controller.loginDelegate = self
+            
+            let nav = UINavigationController(rootViewController: controller)
+            nav.navigationBar.isHidden = true
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
+        } else {
+            print("Nav bar - cartBtnDidTap() called - 로그인 된 상태")
+        }
+    }
     
     
     // MARK: - Lifecycle
@@ -166,3 +184,9 @@ extension CategoryViewController: UITableViewDataSource {
 
 
 
+extension CategoryViewController: LoginViewControllerDelegate {
+    func userLoggedIn(_ with: UserResponseResult) {
+        
+    }
+    
+}

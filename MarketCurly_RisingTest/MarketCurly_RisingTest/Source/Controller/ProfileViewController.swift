@@ -11,9 +11,6 @@ class ProfileViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private var isLogin: Bool = false
-    private var user: UserResponseResult?
-    
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
         cv.backgroundColor = .lightGray.withAlphaComponent(0.15)
@@ -31,6 +28,7 @@ class ProfileViewController: BaseViewController {
     private lazy var cartBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(UIImage(systemName: "cart"), for: .normal)
+        btn.addTarget(self, action: #selector(cartBtnDidTap), for: .touchUpInside)
         return btn
     }()
     
@@ -41,17 +39,32 @@ class ProfileViewController: BaseViewController {
     }()
     
     
+    // MARK: - Action
+    @objc func cartBtnDidTap() {
+        print("Nav bar - cartBtnDidTap() called")
+        if Constant.USER_INDEX < 0 {
+            let controller = LoginViewController()
+            controller.loginDelegate = self
+            
+            let nav = UINavigationController(rootViewController: controller)
+            nav.navigationBar.isHidden = true
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
+        } else {
+            print("Nav bar - cartBtnDidTap() called - 로그인 된 상태")
+        }
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
-    
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        collectionView.collectionViewLayout.invalidateLayout()
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+    }
     
     // MARK: - Helpers
     
@@ -84,8 +97,8 @@ class ProfileViewController: BaseViewController {
     func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         
         var headerHeight: CGFloat = 0
-        
-        if self.isLogin {
+    
+        if Constant.USER_INDEX > 0 {
             headerHeight = CGFloat(Constant.PROFILE_HEADER_LOGGED_IN)
         } else {
             headerHeight = CGFloat(Constant.PROFILE_HEADER_LOGGED_OUT)
@@ -144,7 +157,8 @@ extension ProfileViewController: UICollectionViewDelegate {
 extension ProfileViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if isLogin {
+        
+        if Constant.USER_INDEX > 0 {
             return Constant.CELL_DATA_LOGGED_IN.count
         } else {
             return Constant.CELL_DATA_LOGGED_OUT.count
@@ -152,7 +166,8 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if isLogin {
+
+        if Constant.USER_INDEX > 0 {
             return Constant.CELL_DATA_LOGGED_IN[section].sectionData.count
         } else {
             return Constant.CELL_DATA_LOGGED_OUT[section].sectionData.count
@@ -164,7 +179,7 @@ extension ProfileViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ProfileViewCell.identifier, for: indexPath) as! ProfileViewCell
     
-        if isLogin {
+        if Constant.USER_INDEX > 0 {
             cell.configureMenuLabelText(withText: Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData[indexPath.item])
         } else {
             cell.configureMenuLabelText(withText: Constant.CELL_DATA_LOGGED_OUT[indexPath.section].sectionData[indexPath.item])
@@ -177,19 +192,21 @@ extension ProfileViewController: UICollectionViewDataSource {
         
         let header = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind, withReuseIdentifier: ProfileViewHeader.identifier, for: indexPath) as! ProfileViewHeader
-        header.configureUI(isLoggedIn: isLogin, userName: user?.name ?? "")
+        header.configureUI(isLoggedIn: Constant.USER_INDEX < 0 ? false : true, userName: Constant.User?.name ?? "")
         header.delegate = self
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if isLogin {
+        if Constant.USER_INDEX > 0 {
             if (indexPath.section == Constant.CELL_DATA_LOGGED_IN.count - 1)
                 && (indexPath.item == Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData.count - 1) {
                 
-                isLogin = false
-                user = nil
+//                user = nil
+                Constant.User = nil
+                Constant.USER_INDEX = -1
+                Constant.JWT = ""
                 self.presentAlert(title: "로그아웃 되었습니다.")
                 collectionView.reloadData()
             }
@@ -211,7 +228,6 @@ extension ProfileViewController: UICollectionViewDataSource {
 extension ProfileViewController: ProfileViewHeaderDelegate {
     func popupLoginViewController() {
         let controller = LoginViewController()
-//        controller.modalPresentationStyle = .fullScreen
         controller.loginDelegate = self
         
         let nav = UINavigationController(rootViewController: controller)
@@ -224,41 +240,7 @@ extension ProfileViewController: ProfileViewHeaderDelegate {
 extension ProfileViewController: LoginViewControllerDelegate {
     
     func userLoggedIn(_ user: UserResponseResult) {
-        self.user = user
-        isLogin = true
         collectionView.reloadData()
-//        UserManagementManager().loninRequest(with) { result in
-//            switch result {
-//            case .success(let data):
-//                if data.isSuccess {
-//                    Constant.USER_INDEX = data.result?.userIdx ?? Int(-1)
-//                    Constant.JWT = data.result?.jwt ?? ""
-//
-//
-//                    UserManagementManager().searchUser(userID: Constant.USER_INDEX, JWT: Constant.JWT) { response in
-//                        switch response {
-//                        case .success(let data):
-//                            if data.isSuccess {
-//                                self.user = data.result?[0]
-//                            }
-//                            self.isLogin = true
-//                            self.collectionView.reloadData()
-//                        case .failure(let error):
-//                            print(error.localizedDescription)
-//                        }
-//                    }
-//
-//
-//                } else {
-//                    self.presentAlert(title: "로그인 실패", message: data.message)
-//                }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//
-//
-//        }
-        
     }
-    
 }
+

@@ -22,6 +22,10 @@ struct Constant {
     static var RANDOM_ITEM_QUERY = "random-items?createDate="
     static var RECOMMEND_ITEM_QUERY = "recommend-items?createDate="
     
+    // MARK: - User
+    static var User: UserResponseResult?
+
+    
     // MARK: - Constant
     
     
