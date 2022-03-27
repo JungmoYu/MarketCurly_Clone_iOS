@@ -23,7 +23,7 @@ class SearchViewController: BaseViewController {
     }()
     
     private lazy var collectionView: UICollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
         return cv
     }()
     
@@ -108,11 +108,11 @@ class SearchViewController: BaseViewController {
                                                                 heightDimension: .fractionalHeight(1)))
             
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                             heightDimension:.absolute(330)),
+                                                                             heightDimension:.absolute(40)),
                                                            subitem: item,
-                                                           count: 2)
-            group.contentInsets.bottom = 12
-            group.interItemSpacing = .fixed(8)
+                                                           count: 5)
+            group.contentInsets.bottom = 5
+            group.interItemSpacing = .fixed(5)
             
             let section = NSCollectionLayoutSection(group: group)
             section.contentInsets.leading = 16
@@ -120,7 +120,7 @@ class SearchViewController: BaseViewController {
             
             section.boundarySupplementaryItems = [
                 .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                        heightDimension: .absolute(30)),
+                                        heightDimension: .absolute(50)),
                       elementKind: UICollectionView.elementKindSectionHeader,
                       alignment: .top)
             ]
@@ -140,6 +140,7 @@ class SearchViewController: BaseViewController {
         containerView.addSubview(searchBar)
         searchBar.fillSuperview()
         searchBar.delegate = self
+        searchBar.searchTextField.autocapitalizationType = .none
     }
     
     func configureNavigationBar() {
@@ -171,6 +172,7 @@ extension SearchViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellBeforeSearch.identifier,
                                                     for: indexPath) as! collectionViewCellBeforeSearch
         cell.configureBtnText(Constant.RECOMMENDED_ITEM[indexPath.item])
+        cell.delegate = self
         return cell
     }
     
@@ -178,6 +180,7 @@ extension SearchViewController: UICollectionViewDataSource {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                      withReuseIdentifier: ItemCountHeader.identifier,
                                                                      for: indexPath) as! ItemCountHeader
+        header.configureUIForSearchController()
         return header
     }
     
@@ -191,21 +194,6 @@ extension SearchViewController: UICollectionViewDataSource {
         navigationController?.pushViewController(controller, animated: true)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
-    
-}
-
-extension SearchViewController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 10
-//    }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let len = Constant.RECOMMENDED_ITEM[indexPath.item].count
-//        let width = len * 10
-//        let height = 20
-//        let size = CGSize(width: width, height: height)
-//        return size
-//    }
     
 }
 
@@ -241,29 +229,45 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
+extension SearchViewController: collectionViewCellBeforeSearchDelegate {
+
+    func btnDidTapWithText(text: String) {
+        print(text)
+    }
+    
+}
+
 
 
 // MARK: - collectionViewCellBeforeSearch
+
+protocol collectionViewCellBeforeSearchDelegate: AnyObject {
+    func btnDidTapWithText(text: String)
+}
+
 class collectionViewCellBeforeSearch: UICollectionViewCell {
     
     // Properties
     static let identifier: String = String(describing: collectionViewCellBeforeSearch.self)
+    weak var delegate: collectionViewCellBeforeSearchDelegate?
     
     private let cellBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.backgroundColor = .mainPurple.withAlphaComponent(0.3)
         btn.setTitleColor(.mainPurple, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 10)
-        btn.setHeight(20)
-        btn.layer.cornerRadius = 20 / 2
+        btn.setHeight(25)
+        btn.layer.cornerRadius = 25 / 2
         btn.addTarget(self, action: #selector(cellBtnDidTap), for: .touchUpInside)
         return btn
     }()
     
     // Action
     @objc func cellBtnDidTap() {
-        print("collectionViewCellBeforeSearch - cellBtnDidTap()")
+        delegate?.btnDidTapWithText(text: (cellBtn.titleLabel?.text ?? "").trimmingCharacters(in: .whitespaces))
     }
+    
+    // Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
@@ -278,7 +282,7 @@ class collectionViewCellBeforeSearch: UICollectionViewCell {
     
     // Helper
     func configureBtnText(_ text: String) {
-        cellBtn.setTitle("" + text + "", for: .normal)
+        cellBtn.setTitle("   " + text + "   ", for: .normal)
     }
 }
 

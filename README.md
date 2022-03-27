@@ -100,4 +100,11 @@
 발생 이슈 : Info.plist에 다음 항목을 추가하지 않으면, http통신 관련 오류가 발생했다.
 App Transport Security Settings -> 하위 항목 : Allow Arbitrary Loads -> Yes로 변경
 
+### 22'3/27 - 9일차 개발 일지
+1. Item관련 API사용 - 장바구니 조회하기
+2. Item관련 API사용 - 장바구니에 넣기
+3. Item겉보기 셀에서 장바구니에 넣기 버튼 구현
 
+### 22'3/28 - 10일차 개발 일지
+1. Search부분 UI정상으로 만들기 및 검색기능 구현(예정)
+2. 장바구니 API토의 후 정상동작하게 만들기

@@ -59,7 +59,10 @@ class ItemCountHeader: UICollectionReusableView {
     
     // MARK: - Helpers
     
-    func configureUI() {
-        
+    func configureUIForSearchController() {
+        numOfItemLabel.text = "추천검색어"
+        numOfItemLabel.font = .boldSystemFont(ofSize: 20)
+        numOfItemLabel.centerY(inView: self)
+        sortBtn.removeFromSuperview()
     }
 }

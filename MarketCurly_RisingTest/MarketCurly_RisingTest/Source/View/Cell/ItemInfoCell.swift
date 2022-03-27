@@ -78,7 +78,6 @@ class ItemInfoCell: UICollectionViewCell {
     // MARK: - Actions
     
     @objc func cartBtnDidTap() {
-        print("ItemCell - cartBtnDidTap() called")
         let controller = BuyViewController()
         controller.modalPresentationStyle = .formSheet
         if let off = itemInfo?.off, let itemID = itemInfo?.post_id {
