@@ -39,54 +39,13 @@ class HomeFirstViewController: BaseViewController {
         configureUI()
     }
     
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        dailyCell = []
-        recommendedCell = []
-        randomCell = []
-        
-        ItemManagementManager().getRandomItem { result in
-            switch result {
-            case .success(let data):
-                data.result?.forEach {
-                    self.randomCell.append($0)
-                }
-                self.collectionView.reloadData()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-            IndicatorView.shared.dismiss()
-        }
-        
-        ItemManagementManager().getDealItem { result in
-            switch result {
-            case .success(let data):
-                data.result?.forEach {
-                    self.dailyCell.append($0)
-                }
-                self.collectionView.reloadData()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-            IndicatorView.shared.dismiss()
-        }
-        
-        ItemManagementManager().getRecommendedItem { result in
-            switch result {
-            case .success(let data):
-                data.result?.forEach {
-                    self.recommendedCell.append($0)
-                }
-                self.collectionView.reloadData()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-            IndicatorView.shared.dismiss()
-        }
-        
-        
-        
+        clearItems()
+        getItemsFromAPI()
         makeAndFireTimer()
     }
     
@@ -202,6 +161,61 @@ class HomeFirstViewController: BaseViewController {
         return section
     }
     
+    private func clearItems() {
+        dailyCell = []
+        recommendedCell = []
+        randomCell = []
+    }
+    
+    private func getItemsFromAPI() {
+        getRandomItem()
+    }
+    
+    private func getRandomItem() {
+        ItemManagementManager().getRandomItem { result in
+            switch result {
+            case .success(let data):
+                data.result?.forEach {
+                    self.randomCell.append($0)
+                }
+                self.getDealItem()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            IndicatorView.shared.dismiss()
+        }
+    }
+    
+    private func getDealItem() {
+        ItemManagementManager().getDealItem { result in
+            switch result {
+            case .success(let data):
+                data.result?.forEach {
+                    self.dailyCell.append($0)
+                }
+                self.getRecommendedItem()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            IndicatorView.shared.dismiss()
+        }
+    }
+    
+    private func getRecommendedItem() {
+        ItemManagementManager().getRecommendedItem { result in
+            switch result {
+            case .success(let data):
+                data.result?.forEach {
+                    self.recommendedCell.append($0)
+                }
+                self.collectionView.reloadData()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            IndicatorView.shared.dismiss()
+        }
+    }
+    
     func makeAndFireTimer() {
         isBannerTimerRunning = true
         DispatchQueue.global().async {
@@ -276,6 +290,7 @@ extension HomeFirstViewController: UICollectionViewDataSource {
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
+            cell.configureCell(dailyCell[0], isDailyPrice: true)
             return cell
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
