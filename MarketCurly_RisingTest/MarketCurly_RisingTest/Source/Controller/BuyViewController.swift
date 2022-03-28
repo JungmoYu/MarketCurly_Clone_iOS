@@ -66,7 +66,7 @@ class BuyViewController: BaseViewController {
         if Constant.User == nil {
             self.presentAlert(title: "장바구니 기능은 로그인시에 가능합니다.")
         } else {
-            ItemManagementManager().addToCart(id: String(itemID), quantity: String(3)) { result in //String(itemID)
+            ItemManagementManager().addToCart(id: String(itemID), quantity: String(3)) { result in
                 switch result {
                 case .success(let data):
                     print(data)

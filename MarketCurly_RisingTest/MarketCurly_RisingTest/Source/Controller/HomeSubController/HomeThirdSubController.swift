@@ -123,7 +123,7 @@ extension HomeThirdSubController: UICollectionViewDataSource {
         
         let header = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind, withReuseIdentifier: ItemCountHeader.identifier, for: indexPath) as! ItemCountHeader
-        
+        header.configureNumOfItemLabel(String(bestItemCell.count))
         return header
     }
     

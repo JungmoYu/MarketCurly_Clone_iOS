@@ -162,7 +162,7 @@ extension HomeFourthSubController: UICollectionViewDataSource {
         if indexPath.section == 1 {
             let header = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind, withReuseIdentifier: ItemCountHeader.identifier, for: indexPath) as! ItemCountHeader
-            
+            header.configureNumOfItemLabel(String(cheapItemCell.count))
             return header
         } else {
             return UICollectionReusableView()

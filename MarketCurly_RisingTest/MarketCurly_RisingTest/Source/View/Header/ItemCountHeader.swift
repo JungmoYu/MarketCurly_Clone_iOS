@@ -65,4 +65,8 @@ class ItemCountHeader: UICollectionReusableView {
         numOfItemLabel.centerY(inView: self)
         sortBtn.removeFromSuperview()
     }
+    
+    func configureNumOfItemLabel(_ withString: String) {
+        numOfItemLabel.text = "총 " + withString + "개"
+    }
 }
