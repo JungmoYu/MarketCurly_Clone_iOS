@@ -108,3 +108,8 @@ App Transport Security Settings -> 하위 항목 : Allow Arbitrary Loads -> Yes�
 ### 22'3/28 - 10일차 개발 일지
 1. Search부분 UI정상으로 만들기 및 검색기능 구현(예정)
 2. 장바구니 API토의 후 정상동작하게 만들기
+
+### 22'3/29 - 11일차 개발 일지
+1. 회월탈퇴 기능을 목차에 삽입
+2. 장바구니 조회 및 추가 API 사용
+3. 리뷰 작성, 조회 UI구현 및 API 사용
