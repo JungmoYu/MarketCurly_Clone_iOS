@@ -13,10 +13,13 @@ class BuyViewController: BaseViewController {
     
     private var itemInfoDetail: [ItemInfoDetailResult] = []
     private var numOfItem: [Int] = []
-    var itemID: Int = 1
+    private var listToCart: [AddToCartItem] = []
+    var itemList: [ItemList] = []
+    var postID: Int = 1
     var off: Int = 0
     var totalNumOfItem: Int = 0
     var totalPrice = 0
+
     
     private lazy var tableView: UITableView = {
         let tv = UITableView()
@@ -58,7 +61,8 @@ class BuyViewController: BaseViewController {
     // MARK: - Action
     
     @objc func insertItemsToCartBtnDidTap() {
-
+        listToCart = []
+        
         if totalNumOfItem == 0 {
             self.presentAlert(title: "수량은 반드시 1이상이어야 합니다.")
             return
@@ -66,7 +70,15 @@ class BuyViewController: BaseViewController {
         if Constant.User == nil {
             self.presentAlert(title: "장바구니 기능은 로그인시에 가능합니다.")
         } else {
-            ItemManagementManager().addToCart(id: String(itemID), quantity: String(3)) { result in
+            
+            for (index, _) in numOfItem.enumerated() {
+                
+                listToCart.append(AddToCartItem(id: itemList[index].item_id,
+                                                quantity: numOfItem[index]))
+                print(index)
+            }
+            print(listToCart)
+            ItemManagementManager().addToCart(itemList: listToCart) { result in
                 switch result {
                 case .success(let data):
                     print(data)
@@ -95,7 +107,7 @@ class BuyViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         itemInfoDetail = []
-        ItemManagementManager().getItemDetail(itemNum: itemID) { result in
+        ItemManagementManager().getItemDetail(itemNum: postID) { result in
             
             switch result {
             case .success(let data):

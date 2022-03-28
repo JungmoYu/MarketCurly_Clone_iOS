@@ -89,6 +89,8 @@
 		C6FD25CC27F06BD70053D9FC /* CartListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FD25CB27F06BD70053D9FC /* CartListResponse.swift */; };
 		C6FD25CE27F095210053D9FC /* BuyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FD25CD27F095210053D9FC /* BuyViewController.swift */; };
 		C6FD25D027F09D8C0053D9FC /* BuyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FD25CF27F09D8C0053D9FC /* BuyTableViewCell.swift */; };
+		C6FD25D227F20FA70053D9FC /* ReviewResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FD25D127F20FA60053D9FC /* ReviewResponse.swift */; };
+		C6FD25D427F20FB00053D9FC /* ReviewRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FD25D327F20FB00053D9FC /* ReviewRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -173,6 +175,8 @@
 		C6FD25CB27F06BD70053D9FC /* CartListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartListResponse.swift; sourceTree = "<group>"; };
 		C6FD25CD27F095210053D9FC /* BuyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyViewController.swift; sourceTree = "<group>"; };
 		C6FD25CF27F09D8C0053D9FC /* BuyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyTableViewCell.swift; sourceTree = "<group>"; };
+		C6FD25D127F20FA60053D9FC /* ReviewResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewResponse.swift; sourceTree = "<group>"; };
+		C6FD25D327F20FB00053D9FC /* ReviewRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -413,6 +417,8 @@
 				C65E0C6D27EE133D003921B9 /* ItemInfoResponse.swift */,
 				C65E0C6F27EE15F5003921B9 /* ItemInfo.swift */,
 				C6FD25CB27F06BD70053D9FC /* CartListResponse.swift */,
+				C6FD25D327F20FB00053D9FC /* ReviewRequest.swift */,
+				C6FD25D127F20FA60053D9FC /* ReviewResponse.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -610,6 +616,7 @@
 				C633E5EC27E5BC5F00B2FFD8 /* SearchViewController.swift in Sources */,
 				C6EA538227E6D61B0033DECA /* VegetableViewController.swift in Sources */,
 				C6EA53A527E8EB2F0033DECA /* ItemDetailViewController.swift in Sources */,
+				C6FD25D427F20FB00053D9FC /* ReviewRequest.swift in Sources */,
 				C633E5C827E5B96400B2FFD8 /* IndicatorView.swift in Sources */,
 				C633E5AA27E5B79C00B2FFD8 /* SceneDelegate.swift in Sources */,
 				C633E5FB27E5C8EF00B2FFD8 /* HomeFifthSubController.swift in Sources */,
@@ -622,6 +629,7 @@
 				C633E60B27E612AE00B2FFD8 /* ItemListHeader.swift in Sources */,
 				C65E0C7027EE15F5003921B9 /* ItemInfo.swift in Sources */,
 				C6EA538C27E6D6CA0033DECA /* SoupViewController.swift in Sources */,
+				C6FD25D227F20FA70053D9FC /* ReviewResponse.swift in Sources */,
 				C6EA539727E718C30033DECA /* ProfileViewCell.swift in Sources */,
 				C633E5F927E5C8E800B2FFD8 /* HomeFourthSubController.swift in Sources */,
 				C6EA539027E6E3F60033DECA /* CategoryTableViewCell.swift in Sources */,

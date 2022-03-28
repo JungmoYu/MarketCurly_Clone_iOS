@@ -135,7 +135,6 @@ class LoginViewController: BaseViewController {
     }
     
     @objc func joinButtonDidTap() {
-        print("LoginViewController - joinButtonDidTap() called")
         let controller = JoinViewController()
         navigationController?.pushViewController(controller, animated: true)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)

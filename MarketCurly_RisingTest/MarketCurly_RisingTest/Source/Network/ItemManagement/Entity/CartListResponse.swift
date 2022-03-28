@@ -23,6 +23,15 @@ struct CartListResult: Codable {
     var quantity: Int
 }
 
+struct AddToCartRequest: Codable {
+    var item_list: [AddToCartItem]
+}
+
+struct AddToCartItem: Codable {
+    var id: Int
+    var quantity: Int
+}
+
 struct AddToCartResponse: Codable {
     var isSuccess: Bool
     var code: Int

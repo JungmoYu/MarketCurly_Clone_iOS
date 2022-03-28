@@ -80,9 +80,12 @@ class ItemInfoCell: UICollectionViewCell {
     @objc func cartBtnDidTap() {
         let controller = BuyViewController()
         controller.modalPresentationStyle = .formSheet
-        if let off = itemInfo?.off, let itemID = itemInfo?.post_id {
+        if let off = itemInfo?.off,
+            let itemID = itemInfo?.post_id,
+            let itemList = itemInfo?.item_list {
             controller.off = off
-            controller.itemID = itemID
+            controller.postID = itemID
+            controller.itemList = itemList
         }
         viewController?.present(controller, animated: true, completion: nil)
     }

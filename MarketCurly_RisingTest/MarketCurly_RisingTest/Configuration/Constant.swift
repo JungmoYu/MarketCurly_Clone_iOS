@@ -24,6 +24,8 @@ struct Constant {
     static var ITEM_DETAIL_QUERY = "items?postId="
     
     static var CART = "baskets"
+    static var REVIEW = "reviews"
+    static var GETREVIEWS = "?postId="
     
     // MARK: - User
     static var User: UserResponseResult?
@@ -60,7 +62,7 @@ struct Constant {
                                                                                          "자주하는 질문",
                                                                                          "고객센터",
                                                                                          "이용안내"]),
-                                     CellData(opend: false, title: "6", sectionData: ["로그아웃"])]
+                                     CellData(opend: false, title: "6", sectionData: ["로그아웃", "회원탈퇴"])]
     
     static let CELL_DATA_LOGGED_OUT = [CellData(opend: false, title: "1", sectionData: ["비회원 주문 조회",
                                                                                         "알림 설정"]),

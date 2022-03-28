@@ -11,6 +11,34 @@ import Alamofire
 class UserManagementManager {
     
     
+    func deleteReauest(completion: @escaping( Result<UpdateUserResponse, Error> ) -> Void ) {
+        
+        let header : HTTPHeaders = [
+            "x-access-token": Constant.JWT
+        ]
+        
+        AF.request(Constant.BASE_URL+Constant.SEARCH_USERINDEX + String(Constant.USER_INDEX),
+                   method: .put,
+                   headers: header)
+            .responseDecodable(of: UpdateUserResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    UserManagementManager().searchUser(userID: Constant.USER_INDEX, JWT: Constant.JWT) { result in
+                        switch result {
+                        case .success(let data):
+                            Constant.User = data.result?[0]
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
+                    completion(.success(response))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
     func updateRequest(_ user: UpdateUserRequest, completion: @escaping( Result<UpdateUserResponse, Error> ) -> Void )  {
         let header : HTTPHeaders = [
             "x-access-token": Constant.JWT

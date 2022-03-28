@@ -205,14 +205,32 @@ extension ProfileViewController: UICollectionViewDataSource {
         
         if Constant.USER_INDEX > 0 {
             if (indexPath.section == Constant.CELL_DATA_LOGGED_IN.count - 1)
-                && (indexPath.item == Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData.count - 1) {
+                && (indexPath.item == Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData.count - 2) {
                 
-//                user = nil
                 Constant.User = nil
                 Constant.USER_INDEX = -1
                 Constant.JWT = ""
                 self.presentAlert(title: "로그아웃 되었습니다.")
                 collectionView.reloadData()
+            } else if (indexPath.section == Constant.CELL_DATA_LOGGED_IN.count - 1)
+                        && (indexPath.item == Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData.count - 1) {
+                self.presentAlert(title: "회원탈퇴", message: "정말로 탈퇴하시겠습니까?") {
+                    print("탈퇴 눌림")
+                    print($0)
+                    Constant.User = nil
+                    Constant.USER_INDEX = -1
+                    Constant.JWT = ""
+                    UserManagementManager().deleteReauest { result in
+                        switch result {
+                        case .success(let data):
+                            debugPrint(data)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                        self.presentAlert(title: "회원탈퇴로 로그아웃 되었습니다.")
+                    }
+                    
+                }
             }
             
             if (indexPath.section == Constant.CELL_DATA_LOGGED_IN.count - 4)
