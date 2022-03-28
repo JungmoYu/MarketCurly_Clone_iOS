@@ -125,7 +125,7 @@ class ItemDetailViewHeader: UICollectionReusableView {
     
     func configureUI(_ item: ItemInfoResult?) {
         guard let item = item else { return }
-        let price = 3000 // 나중에 가격 가져와야함!
+        let price = item.title_price // 나중에 가격 가져와야함!
         let url = URL(string: item.image)
         productImageView.load(url: url!)
         nameLabel.text = item.title
@@ -136,7 +136,7 @@ class ItemDetailViewHeader: UICollectionReusableView {
         if Constant.User == nil {
             pointLabel.text = "로그인 후, 회원할인가와 적립혜택이 제공됩니다."
         } else {
-            pointLabel.text = "0.5%"// Constant.User.mileage + "%"
+            pointLabel.text = (Constant.User?.mileage ?? "0.5") + "% 적립"
         }
     }
 

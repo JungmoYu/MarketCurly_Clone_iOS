@@ -17,11 +17,14 @@ class ItemDetailViewController: BaseViewController {
 //    private var itemInfoDetail: [ItemInfoDetailResult] = []
     
     private let firstController = ItemFirstSubController()
+    private let secondController = ItemSecondSubController()
+    private let thirdController = ItemThirdSubController()
+    private let fourthController = ItemFourthSubController()
     
     private lazy var viewControllers = [self.firstController,
-                                   ItemSecondSubController(),
-                                   ItemThirdSubController(),
-                                   ItemFourthSubController()]
+                                        self.secondController,
+                                        self.thirdController,
+                                        self.fourthController]
     
     
     private let titleArray: [String] = ["상품설명", "상세정보", "후기", "문의"]
@@ -62,6 +65,10 @@ class ItemDetailViewController: BaseViewController {
         configureNavigationBar()
         configureCustomTab()
         firstController.itemInfo = itemInfo
+        secondController.itemInfo = itemInfo
+        thirdController.itemInfo = itemInfo
+        fourthController.itemInfo = itemInfo
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

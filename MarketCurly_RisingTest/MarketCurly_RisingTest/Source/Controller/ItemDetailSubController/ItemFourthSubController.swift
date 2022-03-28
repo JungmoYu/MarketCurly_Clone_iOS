@@ -11,6 +11,8 @@ class ItemFourthSubController: BaseViewController {
     
     // MARK: - Properties
     
+    var itemInfo: ItemInfoResult?
+    
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
         return cv
@@ -43,11 +45,17 @@ class ItemFourthSubController: BaseViewController {
     // MARK: - Action
     
     @objc func buyBtnDidTap() {
-        print("ItemFirstSubController - buyBtnDidTap() called")
+        let controller = BuyViewController()
+        controller.modalPresentationStyle = .formSheet
+        if let off = itemInfo?.off, let itemID = itemInfo?.post_id {
+            controller.off = off
+            controller.itemID = itemID
+        }
+        present(controller, animated: true, completion: nil)
     }
     
     @objc func likeBtnDidTap() {
-        print("ItemFirstSubController - likeBtnDidTap() called")
+        print("ItemFourthSubController - likeBtnDidTap() called")
     }
     
     // MARK: - Lifecycle
@@ -57,6 +65,12 @@ class ItemFourthSubController: BaseViewController {
         configureUI()
         configureCollectionView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+    }
+    
     
     // MARK: - Helpers
     

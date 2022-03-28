@@ -279,11 +279,14 @@ class JoinViewCell: UICollectionViewCell {
         }
         else if passwordTextField.text != confirmPasswordTextField.text {
             viewController?.presentAlert(title: "비밀번호가 일치하지 않습니다")
+        } else if !checkBtnChecked() {
+            viewController?.presentAlert(title: "필수 항목을 체크해 주세요!")
         } else {
             delegate?.requestJoin(userInfo)
         }
         
     }
+    
     
     @objc func updateBtnDidTap() {
         let userInfo = UpdateUserRequest(password: passwordTextField.text ?? "",
@@ -309,7 +312,7 @@ class JoinViewCell: UICollectionViewCell {
         
         if sender.tag == Constant.TOTAL_AGREE_BTN_TAG {
             btnArray.forEach {
-                $0.isSelected = !$0.isSelected
+                $0.isSelected = sender.isSelected
                 if $0.isSelected {
                     $0.tintColor = .mainPurple
                 } else {
@@ -332,6 +335,15 @@ class JoinViewCell: UICollectionViewCell {
     }
     
     // MARK: - Helpers
+    
+    func checkBtnChecked() -> Bool {
+        if agreeCheckBtn.isSelected && personalOptionalInfoCheckBtn.isSelected
+            && freeshipCheckBtn.isSelected && overFourteenCheckBtn.isSelected {
+            return true
+        } else {
+            return false
+        }
+    }
     
     func attributedText(text: String) -> NSAttributedString {
         let attributedText = NSMutableAttributedString(string: text, attributes: [.font: UIFont.systemFont(ofSize: 14)])

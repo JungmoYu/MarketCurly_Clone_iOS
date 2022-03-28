@@ -11,6 +11,9 @@ class ItemSecondSubController: BaseViewController {
     
     // MARK: - Properties
     
+    var itemInfo: ItemInfoResult?
+    private let imageArr = ["상세정보_정보", "상세정보_행복센터", "상세정보_문의"]
+    
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
         return cv
@@ -43,11 +46,17 @@ class ItemSecondSubController: BaseViewController {
     // MARK: - Action
     
     @objc func buyBtnDidTap() {
-        print("ItemFirstSubController - buyBtnDidTap() called")
+        let controller = BuyViewController()
+        controller.modalPresentationStyle = .formSheet
+        if let off = itemInfo?.off, let itemID = itemInfo?.post_id {
+            controller.off = off
+            controller.itemID = itemID
+        }
+        present(controller, animated: true, completion: nil)
     }
     
     @objc func likeBtnDidTap() {
-        print("ItemFirstSubController - likeBtnDidTap() called")
+        print("ItemSecondSubController - likeBtnDidTap() called")
     }
     
     // MARK: - Lifecycle
@@ -57,6 +66,12 @@ class ItemSecondSubController: BaseViewController {
         configureUI()
         configureCollectionView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+    }
+    
     
     // MARK: - Helpers
     
@@ -76,33 +91,63 @@ class ItemSecondSubController: BaseViewController {
     func configureCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(ItemInfoCell.self, forCellWithReuseIdentifier: ItemInfoCell.identifier)
-        collectionView.register(ItemDetailViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: ItemDetailViewHeader.identifier)
+        collectionView.register(SecondSubControllerCell.self, forCellWithReuseIdentifier: SecondSubControllerCell.identifier)
     }
     
     func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, env) in
             
-            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                heightDimension: .fractionalHeight(1)))
+            if sectionIndex == 0 {
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                    heightDimension: .fractionalHeight(1)))
+                
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                                 heightDimension: .absolute(350)),
+                                                               subitem: item,
+                                                               count: 1)
             
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                             heightDimension: .fractionalWidth(0.9)),
-                                                           subitem: item,
-                                                           count: 1)
-        
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets.bottom = 8
-            section.orthogonalScrollingBehavior = .groupPaging
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets.bottom = 10
+                return section
+            } else if sectionIndex == 1 {
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                    heightDimension: .fractionalHeight(1)))
+                
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                                 heightDimension: .absolute(750)),
+                                                               subitem: item,
+                                                               count: 1)
             
-            let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                                    heightDimension: .absolute(250)),
-                                                                     elementKind: UICollectionView.elementKindSectionHeader,
-                                                                     alignment: .top)
-            section.boundarySupplementaryItems.append(header)
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets.bottom = 10
+                return section
+                
+            } else if sectionIndex == 2 {
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                    heightDimension: .fractionalHeight(1)))
+                
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                                 heightDimension: .absolute(500)),
+                                                               subitem: item,
+                                                               count: 1)
             
-            return section
+                let section = NSCollectionLayoutSection(group: group)
+                return section
+                
+            } else {
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                    heightDimension: .fractionalHeight(1)))
+                
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                                 heightDimension: .absolute(300)),
+                                                               subitem: item,
+                                                               count: 1)
+            
+                let section = NSCollectionLayoutSection(group: group)
+                return section
+                
+            }
+            
         }
         return layout
     }
@@ -116,19 +161,63 @@ extension ItemSecondSubController: UICollectionViewDelegate {
 
 extension ItemSecondSubController: UICollectionViewDataSource {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 4
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-        cell.viewController = self
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SecondSubControllerCell.identifier,
+                                                      for: indexPath) as! SecondSubControllerCell
+        if indexPath.section == 0 {
+            guard let imgStr = itemInfo?.image else { return UICollectionViewCell()}
+            print(imgStr)
+            cell.configureImgeWithString(imgStr, isURL: true)
+        } else {
+            cell.configureImgeWithString(imageArr[indexPath.section - 1], isURL: false)
+        }
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ItemDetailViewHeader.identifier,
-                                                                     for: indexPath) as! ItemDetailViewHeader
-        return header
+}
+
+class SecondSubControllerCell: UICollectionViewCell {
+    
+    static let identifier: String = String(describing: SecondSubControllerCell.self)
+    
+    // Properties
+    let imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = . scaleToFill
+        return iv
+    }()
+    
+    // Lifecycle
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // Helpers
+    func configureUI() {
+        addSubview(imageView)
+        imageView.fillSuperview()
+    }
+    
+    func configureImgeWithString(_ imgStr: String, isURL: Bool) {
+        
+        if isURL {
+            let url = URL(string: imgStr)
+            imageView.load(url: url!)
+        } else {
+            imageView.image = UIImage(named: imgStr)
+        }
+        configureUI()
     }
 }

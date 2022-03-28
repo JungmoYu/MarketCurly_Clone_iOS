@@ -103,7 +103,6 @@ class BuyViewController: BaseViewController {
                 data.result?.forEach {
                     self.itemInfoDetail.append($0)
                     self.numOfItem.append(0)
-                    print($0.name)
                 }
                 
             case .failure(let error):
