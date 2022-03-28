@@ -14,5 +14,7 @@ struct LoginUserResponse: Codable {
 
 struct LoginResultCode: Codable {
     var userIdx: Int
+    var mileage: String
+    var status: String
     var jwt: String
 }

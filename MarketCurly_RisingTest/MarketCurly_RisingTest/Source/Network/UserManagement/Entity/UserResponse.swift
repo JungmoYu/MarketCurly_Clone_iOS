@@ -20,5 +20,6 @@ struct UserResponseResult: Codable {
     var address: String
     var birthday: String
     var gender: String
+    var mileage: String
     var status: String
 }

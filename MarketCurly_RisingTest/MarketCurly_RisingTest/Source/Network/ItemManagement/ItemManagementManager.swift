@@ -72,7 +72,7 @@ class ItemManagementManager {
         IndicatorView.shared.show()
         IndicatorView.shared.showIndicator()
         
-        let url = Constant.BASE_URL + Constant.ITEM_DETAIL_QUERY + "1" //itemNum
+        let url = Constant.BASE_URL + Constant.ITEM_DETAIL_QUERY + String(itemNum) //"1" //
         AF.request(url, method: .get)
             .responseDecodable(of: ItemInfoDetailResponse.self) { response in
                 
@@ -87,7 +87,7 @@ class ItemManagementManager {
     }
     
     func getRecommendedItem(completion: @escaping (Result<ItemInfoResponse, Error>) -> Void) {
-        
+    
         IndicatorView.shared.show()
         IndicatorView.shared.showIndicator()
         
@@ -95,7 +95,7 @@ class ItemManagementManager {
         let today = Date()
         
         formatter.dateFormat = "YYYY-MM-dd"
-        let url = Constant.BASE_URL+Constant.RECOMMEND_ITEM_QUERY + "2022-03-27"//formatter.string(from: today)
+        let url = Constant.BASE_URL+Constant.RECOMMEND_ITEM_QUERY + "2022-03-28"//formatter.string(from: today)
         
         AF.request(url, method: .get)
             .responseDecodable(of: ItemInfoResponse.self) { response in
@@ -120,7 +120,7 @@ class ItemManagementManager {
         let today = Date()
         
         formatter.dateFormat = "YYYY-MM-dd"
-        let url = Constant.BASE_URL+Constant.DEAL_ITEM_QUERY + "2022-03-27"//formatter.string(from: today)
+        let url = Constant.BASE_URL+Constant.DEAL_ITEM_QUERY + "2022-03-28"//formatter.string(from: today)
         
         AF.request(url, method: .get)
             .responseDecodable(of: ItemInfoResponse.self) { response in
@@ -139,13 +139,13 @@ class ItemManagementManager {
         
         IndicatorView.shared.show()
         IndicatorView.shared.showIndicator()
-        
+
         let formatter = DateFormatter()
         let today = Date()
         
         formatter.dateFormat = "YYYY-MM-dd"
         
-        let url = Constant.BASE_URL+Constant.RANDOM_ITEM_QUERY + "2022-03-27"//formatter.string(from: today)
+        let url = Constant.BASE_URL+Constant.RANDOM_ITEM_QUERY + "2022-03-28"//formatter.string(from: today)
         AF.request(url, method: .get)
             .responseDecodable(of: ItemInfoResponse.self) { response in
                 

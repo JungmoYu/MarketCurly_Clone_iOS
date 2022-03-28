@@ -153,10 +153,11 @@ class ItemInfoCell: UICollectionViewCell {
     
     
     func setLabelText(_ item: ItemInfoResult) {
-        let price = 3000 //바꿔줘야함
         
+        let price = item.title_price
         vendorLabel.text = "[" + item.vendor + "] " + item.title
         discountRateLabel.text = String(item.off) + "%"
+        
         memberPriceLabel.text = String(Int(Double(price) * Double(Double(100 - item.off) * 0.01))).insertComma + "원"
         originalPriceLabel.attributedText = (String(price).insertComma + "원").strikeThrough()
         if item.off == 0 {

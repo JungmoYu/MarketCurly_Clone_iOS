@@ -13,5 +13,5 @@ struct UpdateUserResponse: Codable {
 }
 
 struct UpdateResultCode: Codable {
-    var userIdx: String
+    var userIdx: Int
 }

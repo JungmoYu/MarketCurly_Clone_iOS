@@ -94,17 +94,18 @@ class BuyViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        super.viewWillAppear(animated)
-        
         itemInfoDetail = []
-        
         ItemManagementManager().getItemDetail(itemNum: itemID) { result in
+            
             switch result {
             case .success(let data):
+                
                 data.result?.forEach {
                     self.itemInfoDetail.append($0)
                     self.numOfItem.append(0)
+                    print($0.name)
                 }
+                
             case .failure(let error):
                 print(error.localizedDescription)
             }
