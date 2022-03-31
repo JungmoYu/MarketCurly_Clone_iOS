@@ -219,24 +219,38 @@ class CartViewController: BaseViewController {
         collectionView.dataSource = self
         collectionView.register(cartViewNoItemCell.self, forCellWithReuseIdentifier: cartViewNoItemCell.identifier)
         collectionView.register(cartViewCollectionViewCell.self, forCellWithReuseIdentifier: cartViewCollectionViewCell.identifier)
+        collectionView.register(CartViewFooterCell.self, forCellWithReuseIdentifier: CartViewFooterCell.identifier)
     }
     
     func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, env) in
             
+            if sectionIndex == 0 {
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                    heightDimension: .fractionalHeight(1)))
+                
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                                 heightDimension: .absolute(150)),
+                                                               subitem: item,
+                                                               count: 1)
             
-            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                heightDimension: .fractionalHeight(1)))
+                let section = NSCollectionLayoutSection(group: group)
+                
+                return section
+            } else {
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                    heightDimension: .fractionalHeight(1)))
+                
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                                 heightDimension: .absolute(200)),
+                                                               subitem: item,
+                                                               count: 1)
             
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                             heightDimension: .absolute(150)),
-                                                           subitem: item,
-                                                           count: 1)
-        
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets.bottom = 8
+                let section = NSCollectionLayoutSection(group: group)
+                
+                return section
+            }
             
-            return section
 
         }
         return layout
@@ -251,32 +265,51 @@ extension CartViewController: UICollectionViewDelegate {
 }
 
 extension CartViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if cartList.count == 0 {
-            return 1
+        if section == 0 {
+            if cartList.count == 0 {
+                return 1
+            } else {
+                return cartList.count
+            }
         } else {
-            return cartList.count
+            return 1
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if cartList.count != 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cartViewCollectionViewCell.identifier,
-                                                          for: indexPath) as! cartViewCollectionViewCell
-            cell.delegate = self
-            cell.viewController = self
-            cell.numOfItem = numOfItem[indexPath.item]
-            cell.configureBtnState(isChecked[indexPath.item])
-            cell.configureUI(cartList[indexPath.item])
-            cell.numOfItemAt = indexPath.item
-            return cell
+        if indexPath.section == 0 {
+            if cartList.count != 0 {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cartViewCollectionViewCell.identifier,
+                                                              for: indexPath) as! cartViewCollectionViewCell
+                cell.delegate = self
+                cell.viewController = self
+                cell.numOfItem = numOfItem[indexPath.item]
+                cell.configureBtnState(isChecked[indexPath.item])
+                cell.configureUI(cartList[indexPath.item])
+                cell.numOfItemAt = indexPath.item
+                return cell
+            } else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cartViewNoItemCell.identifier,
+                                                              for: indexPath) as! cartViewNoItemCell
+                cell.configureUI()
+                return cell
+            }
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cartViewNoItemCell.identifier,
-                                                          for: indexPath) as! cartViewNoItemCell
-            cell.configureUI()
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CartViewFooterCell.identifier,
+                                                          for: indexPath) as! CartViewFooterCell
+            cell.configureUI(price: totalPrice,
+                             deliveryCost: totalPrice > 30000 ? 0 : 3000,
+                             needCost: totalPrice > 30000 ? 0 : 30000 - totalPrice,
+                             isFreeShip: totalPrice > 30000 ? true : false)
             return cell
         }
+        
+        
     }
     
     func pushItemDetailViewController(withItem: ItemInfoResult) {
@@ -299,7 +332,7 @@ extension CartViewController: cartViewCollectionViewCellDelegate {
     func checkBtnDidTap(isChecked: Bool, itemAt: Int) {
         self.isChecked[itemAt] = isChecked
         buyBtn.setTitle(changeBtnTitle(), for: .normal)
-        collectionView.reloadItems(at: [IndexPath(item: itemAt, section: 0)])
+        collectionView.reloadData()
     }
     
     func minusBtnDidTap(itemAt: Int) {
@@ -316,7 +349,7 @@ extension CartViewController: cartViewCollectionViewCellDelegate {
             buyBtn.isEnabled = false
         }
         buyBtn.setTitle(changeBtnTitle(), for: .normal)
-        collectionView.reloadItems(at: [IndexPath(item: itemAt, section: 0)])
+        collectionView.reloadData()
     }
     
     func plusBtnDidTap(itemAt: Int) {
@@ -327,7 +360,7 @@ extension CartViewController: cartViewCollectionViewCellDelegate {
         
         updateRequest(itemID: itemID, numOfItemToUpdate: numOfItemToUpdate)
         buyBtn.setTitle(changeBtnTitle(), for: .normal)
-        collectionView.reloadItems(at: [IndexPath(item: itemAt, section: 0)])
+        collectionView.reloadData()
     }
     
     func updateRequest(itemID: String, numOfItemToUpdate: String) {
@@ -556,6 +589,12 @@ class cartViewCollectionViewCell: UICollectionViewCell {
         addSubview(numOfItemStack)
         numOfItemStack.anchor(left: priceLabel.leftAnchor, bottom: imageView.bottomAnchor)
         
+        let divider = UIView()
+        divider.backgroundColor = .lightGray.withAlphaComponent(0.15)
+        divider.setHeight(0.5)
+        
+        addSubview(divider)
+        divider.anchor(left: imageView.leftAnchor, bottom: bottomAnchor, right: rightAnchor)
         
     }
     
@@ -571,5 +610,147 @@ class cartViewCollectionViewCell: UICollectionViewCell {
             btn.tag = Constant.TOTAL_AGREE_BTN_TAG
         }
         return btn
+    }
+}
+
+
+class CartViewFooterCell: UICollectionViewCell {
+
+    // Properties
+    
+    static let identifier: String = String(describing: CartViewFooterCell.self)
+    
+    private let productPriceLabel: UILabel = {
+        let label = UILabel()
+        label.text = "상품금액"
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let productPriceLabelText: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let deliveryCostLabel: UILabel = {
+        let label = UILabel()
+        label.text = "배송비"
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let deliveryCostLabelText: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12)
+        label.textColor = .mainPurple
+        return label
+    }()
+    
+    private let totalCostLabel: UILabel = {
+        let label = UILabel()
+        label.text = "결제예정금액"
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let totalCostLabelText: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 16)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let pointLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12)
+        label.textColor = .gray
+        return label
+    }()
+    
+    private let couponLabel: UILabel = {
+        let label = UILabel()
+        label.text = "쿠폰/적립금은 주문서에서 사용 가능합니다"
+        label.font = .systemFont(ofSize: 12)
+        label.textColor = .gray
+        return label
+    }()
+    
+    // Lifecycle
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // Helpers
+    
+    func configureUI(price: Int, deliveryCost: Int, needCost: Int, isFreeShip: Bool) {
+        
+        let divider = UIView()
+        divider.backgroundColor = .lightGray.withAlphaComponent(0.15)
+        divider.setHeight(10)
+        
+        addSubview(divider)
+        divider.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor)
+        
+        addSubview(productPriceLabel)
+        productPriceLabel.anchor(top: divider.bottomAnchor, left: leftAnchor, paddingTop: 16, paddingLeft: 16)
+        addSubview(productPriceLabelText)
+        productPriceLabelText.text = String(price).insertComma + "원"
+        productPriceLabelText.anchor(top: divider.bottomAnchor, right: rightAnchor, paddingTop: 16, paddingRight: 16)
+        
+        addSubview(deliveryCostLabel)
+        deliveryCostLabel.anchor(top: productPriceLabel.bottomAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 16)
+        addSubview(deliveryCostLabelText)
+        deliveryCostLabelText.text = "+" + String(deliveryCost).insertComma + "원"
+        deliveryCostLabelText.anchor(top: productPriceLabel.bottomAnchor, right: rightAnchor, paddingTop: 10, paddingRight: 16)
+        
+        addSubview(descriptionLabel)
+        if !isFreeShip {
+            descriptionLabel.text = String(needCost).insertComma + "원 추가주문 시, 무료배송"
+        } else {
+            descriptionLabel.text = "무료배송"
+        }
+        descriptionLabel.anchor(top: deliveryCostLabelText.bottomAnchor, right: rightAnchor, paddingTop: 10, paddingRight: 16)
+        
+        let smallDivider = UIView()
+        smallDivider.backgroundColor = .lightGray.withAlphaComponent(0.15)
+        smallDivider.setHeight(0.5)
+        addSubview(smallDivider)
+        smallDivider.anchor(top: descriptionLabel.bottomAnchor, left: leftAnchor, right: rightAnchor,
+                            paddingTop: 10, paddingLeft: 16, paddingRight: 16)
+        
+        addSubview(totalCostLabel)
+        totalCostLabel.anchor(top: smallDivider.bottomAnchor, left: leftAnchor,
+                              paddingTop: 10, paddingLeft: 16)
+        
+        addSubview(totalCostLabelText)
+        if isFreeShip {
+            totalCostLabelText.text = String(price).insertComma + "원"
+        } else {
+            totalCostLabelText.text = String(price + 3000).insertComma + "원"
+        }
+        totalCostLabelText.anchor(top: smallDivider.bottomAnchor, right: rightAnchor, paddingTop: 10, paddingRight: 16)
+        
+        addSubview(pointLabel)
+        pointLabel.text = "구매 시 " + String(Int(Double(price) * 0.005)).insertComma + "원 적립"
+        pointLabel.anchor(top: totalCostLabel.bottomAnchor, right: rightAnchor, paddingTop: 10, paddingRight: 16)
+        
+        addSubview(couponLabel)
+        couponLabel.anchor(top: pointLabel.bottomAnchor, right: rightAnchor, paddingTop: 10, paddingRight: 16)
     }
 }
