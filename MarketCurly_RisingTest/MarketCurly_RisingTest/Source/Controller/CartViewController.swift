@@ -98,18 +98,12 @@ class CartViewController: BaseViewController {
     // MARK: - Action
     
     @objc func buyBtnDidTap() {
-        
+        print("CartViewController - buyBtnDidTap() called")
     }
     
     @objc func cancelBtnDidTap() {
         self.dismiss(animated: true, completion: nil)
     }
-    
-    @objc func checkBtnDidTap(_ sender: UIButton) {
-        
-    }
-    
-
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -121,6 +115,12 @@ class CartViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        reloadViews()
+    }
+    
+    // MARK: - Helpers
+    
+    func reloadViews() {
         cartList = []
         numOfItem = []
         ItemManagementManager().getCartList() { result in
@@ -142,8 +142,6 @@ class CartViewController: BaseViewController {
             IndicatorView.shared.dismiss()
         }
     }
-    
-    // MARK: - Helpers
  
 
     func configureUI() {
@@ -276,6 +274,7 @@ extension CartViewController: UICollectionViewDataSource {
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cartViewNoItemCell.identifier,
                                                           for: indexPath) as! cartViewNoItemCell
+            cell.configureUI()
             return cell
         }
     }
@@ -292,6 +291,11 @@ extension CartViewController: UICollectionViewDataSource {
 }
 
 extension CartViewController: cartViewCollectionViewCellDelegate {
+    func deleteBtnDidTap(itemAt: Int) {
+        let itemID = String(cartList[itemAt].item_id)
+        deleteRequest(itemID: itemID)
+    }
+    
     func checkBtnDidTap(isChecked: Bool, itemAt: Int) {
         self.isChecked[itemAt] = isChecked
         buyBtn.setTitle(changeBtnTitle(), for: .normal)
@@ -338,6 +342,20 @@ extension CartViewController: cartViewCollectionViewCellDelegate {
             IndicatorView.shared.dismiss()
         }
     }
+    
+    func deleteRequest(itemID: String) {
+        ItemManagementManager().deleteItemFromCart(itemID: itemID) { result in
+            switch result{
+            case .success(let data):
+                if data.isSuccess {
+                }
+                self.reloadViews()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            IndicatorView.shared.dismiss()
+        }
+    }
 }
 
 
@@ -351,9 +369,10 @@ class cartViewNoItemCell: UICollectionViewCell {
     
     private let noItemLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
+        label.font = .systemFont(ofSize: 20)
         label.text = "장바구니에 담긴 상품이 없습니다"
         label.textColor = .lightGray
+        label.textAlignment = .center
         return label
     }()
     
@@ -380,6 +399,7 @@ protocol cartViewCollectionViewCellDelegate: AnyObject {
     func minusBtnDidTap(itemAt: Int)
     func plusBtnDidTap(itemAt: Int)
     func checkBtnDidTap(isChecked: Bool, itemAt: Int)
+    func deleteBtnDidTap(itemAt: Int)
 }
 
 class cartViewCollectionViewCell: UICollectionViewCell {
@@ -468,8 +488,7 @@ class cartViewCollectionViewCell: UICollectionViewCell {
     
     @objc func cancelBtnDidTap() {
         viewController?.presentAlert(title: "상품 삭제", message: "삭제하시겠습니까?", isCancelActionIncluded: true) { isYes in
-//            self.delegate?.requestDeleteReview(reviewID: self.reviewID)
-            print("상품 삭제 API")
+            self.delegate?.deleteBtnDidTap(itemAt: self.numOfItemAt)
         }
     }
     

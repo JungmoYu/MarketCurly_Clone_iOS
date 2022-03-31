@@ -116,6 +116,33 @@ class ItemManagementManager {
             }
     }
     
+    func deleteItemFromCart(itemID: String, completion: @escaping (Result<UpdateCartResponse, Error>) -> Void ) {
+        
+        let url = Constant.BASE_URL + Constant.CART + "/" + itemID
+        let header : HTTPHeaders = [
+            "x-access-token": Constant.JWT
+        ]
+        
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
+        
+        AF.request(url,
+                   method: .delete,
+                   headers: header
+                   )
+            .responseDecodable(of: UpdateCartResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    completion(.success(response))
+                case .failure(let error):
+                    completion(.failure(error))
+                    print(error.localizedDescription)
+                }
+            }
+    }
+    
+    
     func updateCart(itemID: String, numOfItemToUpdate: String, completion: @escaping (Result<UpdateCartResponse, Error>) -> Void ) {
         
         let url = Constant.BASE_URL + Constant.CART + "/" + itemID

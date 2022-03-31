@@ -37,7 +37,7 @@ struct AddToCartResponse: Codable {
     var isSuccess: Bool
     var code: Int
     var message: String
-    var result: BasketID
+//    var result: BasketID
 }
 
 struct BasketID: Codable {
