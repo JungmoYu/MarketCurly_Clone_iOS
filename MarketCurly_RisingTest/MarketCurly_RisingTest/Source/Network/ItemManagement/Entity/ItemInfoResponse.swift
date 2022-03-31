@@ -39,8 +39,9 @@ struct ItemInfoDetailResponse: Codable {
 }
 
 struct ItemInfoDetailResult: Codable {
-    var name: String
-    var price: Int
+    var item_id: Int
+    var item_name: String
+    var item_image: String
+    var item_price: Int
     var gift_enable: Int
-    var data: String
 }

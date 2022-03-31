@@ -16,7 +16,7 @@ struct ReviewResponse: Codable {
 }
 
 struct ReviewResponseResult: Codable {
-    var reviewId: Int
+    var review_id: Int
     var title: String
     var name: String
     var content: String

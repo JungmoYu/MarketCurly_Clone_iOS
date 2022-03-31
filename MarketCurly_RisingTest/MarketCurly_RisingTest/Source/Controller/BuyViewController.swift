@@ -72,16 +72,20 @@ class BuyViewController: BaseViewController {
         } else {
             
             for (index, _) in numOfItem.enumerated() {
-                
                 listToCart.append(AddToCartItem(id: itemList[index].item_id,
                                                 quantity: numOfItem[index]))
-                print(index)
+                
+                
             }
-            print(listToCart)
+
             ItemManagementManager().addToCart(itemList: listToCart) { result in
                 switch result {
                 case .success(let data):
-                    print(data)
+                    if data.code == 3161 {
+                        self.presentAlert(title: data.message + "\n수량 변경을 원하시면 장바구니에서 변경해주세요")
+                    } else if data.code == 1000 {
+                        self.dismiss(animated: true, completion: nil)
+                    }
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
@@ -171,7 +175,7 @@ class BuyViewController: BaseViewController {
             str = "장바구니담기"
         } else {
             for (index, _) in numOfItem.enumerated() {
-                totalPrice += numOfItem[index] * Int(Double(itemInfoDetail[index].price) * Double(Double(100 - off ) * 0.01))
+                totalPrice += numOfItem[index] * Int(Double(itemInfoDetail[index].item_price) * Double(Double(100 - off ) * 0.01))
             }
             str = String(totalPrice).insertComma + "원 장바구니 담기"
         }
@@ -197,8 +201,8 @@ extension BuyViewController: UITableViewDataSource {
         cell.delegate = self
         cell.numOfRow = indexPath.row
         cell.numOfItem = numOfItem[indexPath.row]
-        cell.configureUI(title: itemInfoDetail[indexPath.row].name,
-                         originalPrice: itemInfoDetail[indexPath.row].price,
+        cell.configureUI(title: itemInfoDetail[indexPath.row].item_name,
+                         originalPrice: itemInfoDetail[indexPath.row].item_price,
                          off: off)
         return cell
     }

@@ -41,3 +41,43 @@ extension UIButton {
 }
 
 
+class CustomCheckButton: UIButton {
+    
+    enum ButtonState {
+        case normal
+        case isSelected
+    }
+    
+    private var disabledBackgroundColor: UIColor?
+    private var defaultBackgroundColor: UIColor? {
+        didSet {
+            backgroundColor = defaultBackgroundColor
+        }
+    }
+    
+    
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                if let color = disabledBackgroundColor {
+                    self.backgroundColor = color
+                }
+            }
+            else {
+                if let color = defaultBackgroundColor {
+                    self.backgroundColor = color
+                }
+            }
+        }
+    }
+    
+    // 5. our custom functions to set color for different state
+    func setBackgroundColor(_ color: UIColor?, for state: ButtonState) {
+        switch state {
+        case .isSelected:
+            disabledBackgroundColor = color
+        case .normal:
+            defaultBackgroundColor = color
+        }
+    }
+}

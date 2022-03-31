@@ -169,6 +169,7 @@ extension HomeSecondSubController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 { return }
         pushItemDetailViewController(withItem: newItemCell[indexPath.item])
     }
     

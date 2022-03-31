@@ -300,26 +300,27 @@ class JoinViewCell: UICollectionViewCell {
     
     @objc func checkBtnDidTap(_ sender: UIButton) {
         
-        sender.isSelected = !sender.isSelected
+//        sender.isSelected = !sender.isSelected
+        sender.isSelected.toggle()
         
         if sender.isSelected {
-            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
-            sender.tintColor = .mainPurple
+            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+            sender.backgroundColor = .clear
         } else {
             sender.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
-            sender.tintColor = .lightGray.withAlphaComponent(0.5)
+            sender.backgroundColor = .clear
         }
         
         if sender.tag == Constant.TOTAL_AGREE_BTN_TAG {
             btnArray.forEach {
                 $0.isSelected = sender.isSelected
                 if $0.isSelected {
-                    $0.tintColor = .mainPurple
                 } else {
-                    $0.tintColor = .lightGray.withAlphaComponent(0.5)
                 }
             }
         }
+        
+
             
     }
     
@@ -357,6 +358,19 @@ class JoinViewCell: UICollectionViewCell {
         attributedText.append(NSAttributedString(string: " (\(subText))", attributes: [.font: UIFont.systemFont(ofSize: 16),
                                                                                .foregroundColor: UIColor.lightGray.withAlphaComponent(0.8)]))
         return attributedText
+    }
+    
+    func createCheckBtn1(isTotalAgree: Bool) -> CustomCheckButton {
+        let btn = CustomCheckButton(type: .system)
+        btn.setDimensions(height: 30, width: 30)
+        btn.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
+        btn.tintColor = .lightGray.withAlphaComponent(0.5)
+        btn.addTarget(self, action: #selector(checkBtnDidTap(_:)), for: .touchUpInside)
+        btn.isSelected = false
+        if isTotalAgree {
+            btn.tag = Constant.TOTAL_AGREE_BTN_TAG
+        }
+        return btn
     }
     
     func createCheckBtn(isTotalAgree: Bool) -> RoundButton {

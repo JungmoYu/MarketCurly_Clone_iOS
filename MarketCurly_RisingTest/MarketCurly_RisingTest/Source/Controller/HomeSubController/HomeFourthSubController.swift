@@ -106,7 +106,6 @@ class HomeFourthSubController: BaseViewController {
                 }
                 self.collectionView.reloadData()
             case .failure(let error):
-                print("g2?")
                 print(error.localizedDescription)
             }
             IndicatorView.shared.dismiss()
@@ -170,6 +169,7 @@ extension HomeFourthSubController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 { return }
         pushItemDetailViewController(withItem: cheapItemCell[indexPath.item])
     }
     

@@ -59,7 +59,14 @@ class ItemThirdSubController: BaseViewController {
     // MARK: - Action
     
     @objc func createReviewBtnDidTap() {
-        print("ItemThirdSubController - createReviewBtnDidTap() called")
+        if Constant.User == nil {
+            self.presentAlert(title: "로그인 후 이용할 수 있습니다")
+        }
+        let controller = CreateReviewViewController()
+        guard let post = itemInfo else { return }
+        controller.post = post
+        navigationController?.pushViewController(controller, animated: true)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
     
     @objc func buyBtnDidTap() {
@@ -89,16 +96,17 @@ class ItemThirdSubController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        reviews = []
+
         guard let postID = itemInfo?.post_id else { return }
         ItemManagementManager().getReviews(postID: String(postID)) { result in
-            
             switch result {
             case .success(let data):
-                debugPrint(data)
                 data.result?.forEach {
                     self.reviews.append($0)
                 }
-                self.collectionView.reloadData()
+                self.collectionView.reloadSections(IndexSet(integer: 1))
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -159,7 +167,7 @@ class ItemThirdSubController: BaseViewController {
                                                                     heightDimension: .fractionalHeight(1)))
                 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                                 heightDimension: .absolute(100)),
+                                                                                 heightDimension: .absolute(80)),
                                                                subitem: item,
                                                                count: 1)
             
@@ -180,6 +188,10 @@ extension ItemThirdSubController: UICollectionViewDelegate {
 }
 
 extension ItemThirdSubController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
@@ -213,13 +225,31 @@ extension ItemThirdSubController: UICollectionViewDataSource {
             }
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section != 0 {
+            if Constant.User == nil {
+                self.presentAlert(title: "리뷰 수정은 로그인 후 이용할 수 있습니다")
+            }
+            let controller = CreateReviewViewController()
+            guard let post = itemInfo else { return }
+            controller.reviewID = String(reviews[indexPath.item].review_id)
+            controller.post = post
+            controller.isUpdating = true
+            navigationController?.pushViewController(controller, animated: true)
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        }
+    }
 }
+
+
 
 class ReviewCell: UICollectionViewCell {
     
     // Properties
     
     static let identifier: String = String(describing: ReviewCell.self)
+    var reviewID: String = ""
     
     private let notificationImageView: UIImageView = {
         let iv = UIImageView()
@@ -250,21 +280,21 @@ class ReviewCell: UICollectionViewCell {
         label.font = .boldSystemFont(ofSize: 10)
         label.setHeight(15)
         label.layer.cornerRadius = 15 / 2
-        label.layer.borderColor = UIColor.mainPurple.withAlphaComponent(0.3).cgColor
+        label.layer.borderColor = UIColor.mainPurple.cgColor
         label.layer.borderWidth = 0.5
         return label
     }()
     
     private let userNameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .lightGray.withAlphaComponent(0.3)
+        label.textColor = .lightGray
         label.font = .systemFont(ofSize: 12)
         return label
     }()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .lightGray.withAlphaComponent(0.3)
+        label.textColor = .lightGray
         label.font = .systemFont(ofSize: 12)
         return label
     }()
@@ -281,7 +311,10 @@ class ReviewCell: UICollectionViewCell {
     
     // Helpers
     func configureUIForReviewCell(_ review: ReviewResponseResult?) {
+        
         guard let review = review else { return }
+        
+        reviewID = String(review.review_id)
         
         addSubview(titleLabel)
         titleLabel.text = review.title
@@ -291,9 +324,13 @@ class ReviewCell: UICollectionViewCell {
         photoImageView.centerY(inView: titleLabel)
         photoImageView.anchor(right: rightAnchor, paddingRight: 16)
         
+        addSubview(levelLabel)
+        levelLabel.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 16)
+        
         addSubview(userNameLabel)
         userNameLabel.text = review.name
-        userNameLabel.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 16)
+        userNameLabel.centerY(inView: levelLabel)
+        userNameLabel.anchor(left: levelLabel.rightAnchor, paddingLeft: 10)
         
         let verticalDivider = UIView()
         verticalDivider.backgroundColor = .lightGray.withAlphaComponent(0.15)
@@ -305,7 +342,7 @@ class ReviewCell: UICollectionViewCell {
         
         addSubview(dateLabel)
         dateLabel.text = review.createDate
-        dateLabel.centerY(inView: titleLabel)
+        dateLabel.centerY(inView: userNameLabel)
         dateLabel.anchor(left: verticalDivider.rightAnchor, paddingLeft: 10)
         
         let horizontalDivider = UIView()
@@ -320,6 +357,7 @@ class ReviewCell: UICollectionViewCell {
     func configureUIForNotification() {
         configureImage()
         addSubview(notificationImageView)
+        notificationImageView.fillSuperview()
     }
     func configureImage() {
         notificationImageView.image = UIImage(named: "리뷰_공지")
@@ -338,8 +376,9 @@ class NoReviewCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "작성된 후기가 없습니다"
-        label.font = .boldSystemFont(ofSize: 16)
-        label.textColor = .lightGray.withAlphaComponent(0.5)
+        label.textAlignment = .center
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .lightGray
         return label
     }()
     

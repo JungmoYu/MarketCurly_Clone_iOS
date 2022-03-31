@@ -39,6 +39,7 @@ class HomeViewController: BaseViewController {
     private lazy var locationBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(UIImage(systemName: "location"), for: .normal)
+        btn.addTarget(self, action: #selector(locationBtnDidTap), for: .touchUpInside)
         return btn
     }()
     
@@ -60,6 +61,10 @@ class HomeViewController: BaseViewController {
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true, completion: nil)
         }
+    }
+    
+    @objc func locationBtnDidTap() {
+        self.presentAlert(title: "사용자 정보에서 배송지를 변경해주세요")
     }
     
     // MARK: - Lifecycle

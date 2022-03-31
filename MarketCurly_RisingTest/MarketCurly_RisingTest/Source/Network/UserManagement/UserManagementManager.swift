@@ -55,6 +55,7 @@ class UserManagementManager {
         AF.request(Constant.BASE_URL+Constant.SEARCH_USERINDEX + String(Constant.USER_INDEX),
                    method: .patch,
                    parameters: param,
+                   encoder: JSONParameterEncoder.default,
                    headers: header)
             .responseDecodable(of: UpdateUserResponse.self) { response in
                 
@@ -105,7 +106,9 @@ class UserManagementManager {
         
         AF.request(Constant.BASE_URL+Constant.LOGIN_QUERY,
                    method: .post,
-                   parameters: param)
+                   parameters: param,
+                   encoder: JSONParameterEncoder.default
+                   )
             .responseDecodable(of: LoginUserResponse.self) { response in
                 switch response.result {
                 case .success(let response):
@@ -131,7 +134,9 @@ class UserManagementManager {
         
         AF.request(Constant.BASE_URL+Constant.JOIN_QUERY,
                    method: .post,
-                   parameters: param)
+                   parameters: param,
+                   encoder: JSONParameterEncoder.default
+                   )
             .responseDecodable(of: JoinUserResponse.self) { response in
                 
                 switch response.result {

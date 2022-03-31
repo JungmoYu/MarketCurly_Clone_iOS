@@ -86,7 +86,6 @@ class HomeThirdSubController: BaseViewController {
                 }
                 self.collectionView.reloadData()
             case .failure(let error):
-                print("g2?")
                 print(error.localizedDescription)
             }
             IndicatorView.shared.dismiss()

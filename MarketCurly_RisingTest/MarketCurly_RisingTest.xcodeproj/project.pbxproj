@@ -85,6 +85,7 @@
 		C6EA53AA27E8EBEF0033DECA /* ItemSecondSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EA53A927E8EBEF0033DECA /* ItemSecondSubController.swift */; };
 		C6EA53AC27E8EBF80033DECA /* ItemThirdSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EA53AB27E8EBF80033DECA /* ItemThirdSubController.swift */; };
 		C6EA53AE27E8EC000033DECA /* ItemFourthSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EA53AD27E8EC000033DECA /* ItemFourthSubController.swift */; };
+		C6F2F56C27F46FCC00790167 /* CreateReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2F56B27F46FCC00790167 /* CreateReviewViewController.swift */; };
 		C6FD25CA27F04D330053D9FC /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FD25C927F04D330053D9FC /* CartViewController.swift */; };
 		C6FD25CC27F06BD70053D9FC /* CartListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FD25CB27F06BD70053D9FC /* CartListResponse.swift */; };
 		C6FD25CE27F095210053D9FC /* BuyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FD25CD27F095210053D9FC /* BuyViewController.swift */; };
@@ -171,6 +172,7 @@
 		C6EA53A927E8EBEF0033DECA /* ItemSecondSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSecondSubController.swift; sourceTree = "<group>"; };
 		C6EA53AB27E8EBF80033DECA /* ItemThirdSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemThirdSubController.swift; sourceTree = "<group>"; };
 		C6EA53AD27E8EC000033DECA /* ItemFourthSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFourthSubController.swift; sourceTree = "<group>"; };
+		C6F2F56B27F46FCC00790167 /* CreateReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReviewViewController.swift; sourceTree = "<group>"; };
 		C6FD25C927F04D330053D9FC /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		C6FD25CB27F06BD70053D9FC /* CartListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartListResponse.swift; sourceTree = "<group>"; };
 		C6FD25CD27F095210053D9FC /* BuyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyViewController.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 		C633E5DC27E5B9F900B2FFD8 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C6F2F56B27F46FCC00790167 /* CreateReviewViewController.swift */,
 				C6FD25C927F04D330053D9FC /* CartViewController.swift */,
 				C6FD25CD27F095210053D9FC /* BuyViewController.swift */,
 				C6EA539827E71C540033DECA /* LoginViewController.swift */,
@@ -606,6 +609,7 @@
 				C633E5C427E5B90F00B2FFD8 /* Key.swift in Sources */,
 				C633E60127E5CCA700B2FFD8 /* HomeViewAdCell.swift in Sources */,
 				C6FD25CC27F06BD70053D9FC /* CartListResponse.swift in Sources */,
+				C6F2F56C27F46FCC00790167 /* CreateReviewViewController.swift in Sources */,
 				C633E5F227E5C83500B2FFD8 /* HomeFirstSubController.swift in Sources */,
 				C633E5CF27E5B99000B2FFD8 /* String.swift in Sources */,
 				C633E60327E5DB0000B2FFD8 /* ItemInfoCell.swift in Sources */,

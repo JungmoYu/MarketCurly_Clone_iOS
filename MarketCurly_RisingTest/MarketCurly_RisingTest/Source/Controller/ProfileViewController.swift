@@ -35,6 +35,7 @@ class ProfileViewController: BaseViewController {
     private lazy var locationBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(UIImage(systemName: "location"), for: .normal)
+        btn.addTarget(self, action: #selector(locationBtnDidTap), for: .touchUpInside)
         return btn
     }()
     
@@ -57,6 +58,10 @@ class ProfileViewController: BaseViewController {
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true, completion: nil)
         }
+    }
+    
+    @objc func locationBtnDidTap() {
+        self.presentAlert(title: "사용자 정보에서 배송지를 변경해주세요")
     }
     
     // MARK: - Lifecycle
@@ -207,23 +212,31 @@ extension ProfileViewController: UICollectionViewDataSource {
             if (indexPath.section == Constant.CELL_DATA_LOGGED_IN.count - 1)
                 && (indexPath.item == Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData.count - 2) {
                 
-                Constant.User = nil
-                Constant.USER_INDEX = -1
-                Constant.JWT = ""
-                self.presentAlert(title: "로그아웃 되었습니다.")
-                collectionView.reloadData()
-            } else if (indexPath.section == Constant.CELL_DATA_LOGGED_IN.count - 1)
-                        && (indexPath.item == Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData.count - 1) {
-                self.presentAlert(title: "회원탈퇴", message: "정말로 탈퇴하시겠습니까?") {
-                    print("탈퇴 눌림")
-                    print($0)
+                self.presentAlert(title: "로그아웃", message: "로그아웃 하시겠습니까?", isCancelActionIncluded: true) { ifYes in
                     Constant.User = nil
                     Constant.USER_INDEX = -1
                     Constant.JWT = ""
+                    collectionView.reloadData()
+                    self.presentAlert(title: "로그아웃 되었습니다.")
+                }
+                
+                collectionView.reloadData()
+            } else if (indexPath.section == Constant.CELL_DATA_LOGGED_IN.count - 1)
+                        && (indexPath.item == Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData.count - 1) {
+                self.presentAlert(title: "회원탈퇴", message: "정말로 탈퇴하시겠습니까?", isCancelActionIncluded: true) { ifYes in
+                    
                     UserManagementManager().deleteReauest { result in
                         switch result {
                         case .success(let data):
-                            debugPrint(data)
+                            if data.code == 3031 || data.code == 3032 {
+                                self.presentAlert(title: data.message)
+                            } else {
+                                Constant.User = nil
+                                Constant.USER_INDEX = -1
+                                Constant.JWT = ""
+                            }
+                            
+                            self.collectionView.reloadData()
                         case .failure(let error):
                             print(error.localizedDescription)
                         }

@@ -13,13 +13,14 @@ struct CartListResponse: Codable {
 }
 
 struct CartListResult: Codable {
-    var basketId: Int
+    var basket_id: Int
+    var image: String
     var vendor: String
-    var itemName: String
     var title: String
-    var data: String
-    var price: Int
     var off: Int
+    var item_id: Int
+    var item_name: String
+    var item_price: Int
     var quantity: Int
 }
 
@@ -36,9 +37,9 @@ struct AddToCartResponse: Codable {
     var isSuccess: Bool
     var code: Int
     var message: String
-    var result: [BasketID]?
+//    var result: BasketID
 }
 
 struct BasketID: Codable {
-    var basketID: Int
+    var basket_id: [Int]
 }

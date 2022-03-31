@@ -10,12 +10,66 @@ import Foundation
 
 class ItemManagementManager {
     
+    func deleteReview(reviewID: String, completion: @escaping (Result<ReviewRequestResponse, Error>) -> Void ) {
+        let url = Constant.BASE_URL + Constant.REVIEW + "/" + reviewID
+        
+        let header : HTTPHeaders = [
+            "x-access-token": Constant.JWT
+        ]
+        
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
+        
+        AF.request(url,
+                   method: .put,
+                   headers: header)
+            .responseDecodable(of: ReviewRequestResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    completion(.success(response))
+                case .failure(let error):
+                    completion(.failure(error))
+                    print(error.localizedDescription)
+                }
+            }
+    }
+    
+    func updateReview(reviewID: String, review: ReviewRequest, completion: @escaping (Result<ReviewRequestResponse, Error>) -> Void ) {
+        let url = Constant.BASE_URL + Constant.REVIEW + "/" + reviewID
+        
+        let header : HTTPHeaders = [
+            "x-access-token": Constant.JWT
+        ]
+        
+        let param = ["title": review.title,
+                     "content": review.content
+        ]
+        
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
+        
+        AF.request(url,
+                   method: .patch,
+                   parameters: param,
+                   headers: header)
+            .responseDecodable(of: ReviewRequestResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    completion(.success(response))
+                case .failure(let error):
+                    completion(.failure(error))
+                    print(error.localizedDescription)
+                }
+            }
+    }
     
     func getReviews(postID: String, completion: @escaping (Result<ReviewResponse, Error>) -> Void ) {
         let url = Constant.BASE_URL + Constant.REVIEW + Constant.GETREVIEWS + postID
         
-//        IndicatorView.shared.show()
-//        IndicatorView.shared.showIndicator()
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
         
         AF.request(url, method: .get)
             .responseDecodable(of: ReviewResponse.self) { response in
@@ -30,7 +84,7 @@ class ItemManagementManager {
             }
     }
     
-    func createReview(review: ReviewRequest ,completion: @escaping (Result<ReviewRequestResult, Error>) -> Void ) {
+    func createReview(review: ReviewRequest ,completion: @escaping (Result<ReviewRequestResponse, Error>) -> Void ) {
         
         let url = Constant.BASE_URL + Constant.REVIEW
         
@@ -41,16 +95,16 @@ class ItemManagementManager {
         let param = ["item_id": review.item_id,
                      "title": review.title,
                      "content": review.content
-        ]
+        ] as [String : Any]
         
-//        IndicatorView.shared.show()
-//        IndicatorView.shared.showIndicator()
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
         
         AF.request(url,
                    method: .post,
                    parameters: param,
                    headers: header)
-            .responseDecodable(of: ReviewRequestResult.self) { response in
+            .responseDecodable(of: ReviewRequestResponse.self) { response in
                 
                 switch response.result {
                 case .success(let response):
@@ -63,22 +117,23 @@ class ItemManagementManager {
     }
     
     func addToCart(itemList: [AddToCartItem], completion: @escaping (Result<AddToCartResponse, Error>) -> Void ) {
-        
         let url = Constant.BASE_URL + Constant.CART
         
         let header : HTTPHeaders = [
             "x-access-token": Constant.JWT
         ]
         
-        let param = ["item_list": itemList]
+        let param = ["item_list": itemList] as [String: [AddToCartItem]]
         
-//        IndicatorView.shared.show()
-//        IndicatorView.shared.showIndicator()
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
         
         AF.request(url,
                    method: .post,
                    parameters: param,
-                   headers: header)
+                   encoder: JSONParameterEncoder.default,
+                   headers: header
+                   )
             .responseDecodable(of: AddToCartResponse.self) { response in
                 
                 switch response.result {
@@ -100,8 +155,8 @@ class ItemManagementManager {
             "x-access-token": Constant.JWT
         ]
         
-//        IndicatorView.shared.show()
-//        IndicatorView.shared.showIndicator()
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
         
         AF.request(url,
                    method: .get,
@@ -119,10 +174,11 @@ class ItemManagementManager {
     }
     
     func getItemDetail(itemNum: Int, completion: @escaping (Result<ItemInfoDetailResponse, Error>) -> Void) {
-//        IndicatorView.shared.show()
-//        IndicatorView.shared.showIndicator()
         
-        let url = Constant.BASE_URL + Constant.ITEM_DETAIL_QUERY + String(itemNum) //"1" //
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
+        
+        let url = Constant.BASE_URL + Constant.ITEM_DETAIL_QUERY + String(itemNum)
         AF.request(url, method: .get)
             .responseDecodable(of: ItemInfoDetailResponse.self) { response in
                 
@@ -138,8 +194,8 @@ class ItemManagementManager {
     
     func getRecommendedItem(completion: @escaping (Result<ItemInfoResponse, Error>) -> Void) {
     
-//        IndicatorView.shared.show()
-//        IndicatorView.shared.showIndicator()
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
         
         let formatter = DateFormatter()
         let today = Date()
@@ -163,8 +219,8 @@ class ItemManagementManager {
     
     func getDealItem(completion: @escaping (Result<ItemInfoResponse, Error>) -> Void) {
         
-//        IndicatorView.shared.show()
-//        IndicatorView.shared.showIndicator()
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
         
         let formatter = DateFormatter()
         let today = Date()
@@ -187,8 +243,8 @@ class ItemManagementManager {
     
     func getRandomItem(completion: @escaping (Result<ItemInfoResponse, Error>) -> Void) {
         
-//        IndicatorView.shared.show()
-//        IndicatorView.shared.showIndicator()
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
 
         let formatter = DateFormatter()
         let today = Date()

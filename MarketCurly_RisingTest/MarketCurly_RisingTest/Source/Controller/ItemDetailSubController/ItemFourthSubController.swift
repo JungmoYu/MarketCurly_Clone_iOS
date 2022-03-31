@@ -13,9 +13,24 @@ class ItemFourthSubController: BaseViewController {
     
     var itemInfo: ItemInfoResult?
     
-    private lazy var collectionView: UICollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
-        return cv
+    private let imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.image = UIImage(named: "리뷰예시")
+        iv.contentMode = .scaleToFill
+        return iv
+    }()
+    
+    private lazy var createReviewBtn: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.backgroundColor = .white
+        btn.setTitle("상품 문의하기", for: .normal)
+        btn.setTitleColor(.mainPurple, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 18)
+        btn.layer.borderColor = UIColor.mainPurple.cgColor
+        btn.layer.borderWidth = 1
+        btn.layer.cornerRadius = 3
+        btn.addTarget(self, action: #selector(createReviewBtnDidTap), for: .touchUpInside)
+        return btn
     }()
     
     private let likeBtn: UIButton = {
@@ -44,17 +59,17 @@ class ItemFourthSubController: BaseViewController {
     
     // MARK: - Action
     
-    @objc func buyBtnDidTap() {
-        let controller = BuyViewController()
-        controller.modalPresentationStyle = .formSheet
-        if let off = itemInfo?.off,
-            let itemID = itemInfo?.post_id,
-            let itemList = itemInfo?.item_list {
-            controller.off = off
-            controller.postID = itemID
-            controller.itemList = itemList
+    @objc func createReviewBtnDidTap() {
+        if Constant.User == nil {
+            self.presentAlert(title: "로그인 후 이용할 수 있습니다")
         }
-        present(controller, animated: true, completion: nil)
+        else {
+            self.presentAlert(title: "해당 기능은 구현되지 않았습니다")
+        }
+    }
+    
+    @objc func buyBtnDidTap() {
+        self.presentAlert(title: "문의탭이 아닌 다른 탭에서 구매해주세요")
     }
     
     @objc func likeBtnDidTap() {
@@ -66,18 +81,21 @@ class ItemFourthSubController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureCollectionView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        collectionView.reloadData()
     }
     
     
     // MARK: - Helpers
     
     func configureUI() {
+        view.addSubview(createReviewBtn)
+        createReviewBtn.setHeight(50)
+        createReviewBtn.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor,
+                               paddingTop: 66, paddingLeft: 16, paddingRight: 16)
+        
         let bottomStack = UIStackView(arrangedSubviews: [likeBtn, buyBtn])
         bottomStack.spacing = 10
         bottomStack.distribution = .fill
@@ -86,66 +104,11 @@ class ItemFourthSubController: BaseViewController {
         bottomStack.anchor(left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor,
                            paddingLeft: 16, paddingRight: 16)
         
-        view.addSubview(collectionView)
-        collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: bottomStack.topAnchor, right: view.rightAnchor)
+        view.addSubview(imageView)
+        imageView.anchor(top: createReviewBtn.bottomAnchor, left: view.leftAnchor,
+                              bottom: bottomStack.topAnchor, right: view.rightAnchor, paddingTop: 16)
     }
     
-    func configureCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(ItemInfoCell.self, forCellWithReuseIdentifier: ItemInfoCell.identifier)
-        collectionView.register(ItemDetailViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: ItemDetailViewHeader.identifier)
-    }
-    
-    func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, env) in
-            
-            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                heightDimension: .fractionalHeight(1)))
-            
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                             heightDimension: .fractionalWidth(0.9)),
-                                                           subitem: item,
-                                                           count: 1)
-        
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets.bottom = 8
-            section.orthogonalScrollingBehavior = .groupPaging
-            
-            let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                                    heightDimension: .absolute(250)),
-                                                                     elementKind: UICollectionView.elementKindSectionHeader,
-                                                                     alignment: .top)
-            section.boundarySupplementaryItems.append(header)
-            
-            return section
-        }
-        return layout
-    }
     
 }
 
-
-extension ItemFourthSubController: UICollectionViewDelegate {
-    
-}
-
-extension ItemFourthSubController: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemInfoCell.identifier, for: indexPath) as! ItemInfoCell
-        cell.viewController = self
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ItemDetailViewHeader.identifier,
-                                                                     for: indexPath) as! ItemDetailViewHeader
-        return header
-    }
-}

@@ -177,7 +177,6 @@ extension ItemSecondSubController: UICollectionViewDataSource {
                                                       for: indexPath) as! SecondSubControllerCell
         if indexPath.section == 0 {
             guard let imgStr = itemInfo?.image else { return UICollectionViewCell()}
-            print(imgStr)
             cell.configureImgeWithString(imgStr, isURL: true)
         } else {
             cell.configureImgeWithString(imageArr[indexPath.section - 1], isURL: false)

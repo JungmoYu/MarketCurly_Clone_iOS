@@ -6,7 +6,7 @@
 //
 
 struct ReviewRequest {
-    var item_id: String
+    var item_id: Int
     var title: String
     var content: String
 }
@@ -19,5 +19,5 @@ struct ReviewRequestResponse: Codable {
 }
 
 struct ReviewRequestResult: Codable {
-    var reviewId: Int
+    var review_id: Int
 }
