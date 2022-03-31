@@ -116,6 +116,36 @@ class ItemManagementManager {
             }
     }
     
+    func updateCart(itemID: String, numOfItemToUpdate: String, completion: @escaping (Result<UpdateCartResponse, Error>) -> Void ) {
+        
+        let url = Constant.BASE_URL + Constant.CART + "/" + itemID
+        let header : HTTPHeaders = [
+            "x-access-token": Constant.JWT
+        ]
+        
+        let param = ["quantity": numOfItemToUpdate]
+        
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
+        
+        AF.request(url,
+                   method: .patch,
+                   parameters: param,
+                   encoder: JSONParameterEncoder.default,
+                   headers: header
+                   )
+            .responseDecodable(of: UpdateCartResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    completion(.success(response))
+                case .failure(let error):
+                    completion(.failure(error))
+                    print(error.localizedDescription)
+                }
+            }
+    }
+    
     func addToCart(itemList: [AddToCartItem], completion: @escaping (Result<AddToCartResponse, Error>) -> Void ) {
         let url = Constant.BASE_URL + Constant.CART
         
@@ -144,7 +174,6 @@ class ItemManagementManager {
                     print(error.localizedDescription)
                 }
             }
-        
     }
     
     func getCartList(completion: @escaping (Result<CartListResponse, Error>) -> Void ) {

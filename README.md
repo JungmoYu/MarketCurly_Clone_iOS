@@ -118,3 +118,17 @@ App Transport Security Settings -> 하위 항목 : Allow Arbitrary Loads -> Yes�
 <img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/160294799-c5162ce3-bcce-46fe-aeb3-d356489bae97.png">
 <img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/160294810-67aa5128-4dde-4e79-9121-d5c1efa2316f.png">
 
+### 22'3/30 - 12일차 개발 일지
+1. 장바구니 뷰 구현 - 컬렉션뷰 이용하여 cartlist.count == 0일 때와 0개 이상일 때 구분
+2. 리뷰 관련 뷰 구현 - 조회, 수정, 추가 API 동작 검증
+
+### 22'3/31 - 13일차 개발 일지
+1. 잔존 장바구니 API사용 - 항목 수정, 삭제
+2. 주문목록 생성 뷰 구현
+
+### 22'4/1 - 14일차 개발 일지
+1. 주문목록 API사용 - 조회
+2. 주문목록 API사용 - 수정
+3. 주문목록 API사용 - 생성
+4. 프로젝트 다듬기 및 개발 완료(테스트 완료)
+

@@ -37,9 +37,21 @@ struct AddToCartResponse: Codable {
     var isSuccess: Bool
     var code: Int
     var message: String
-//    var result: BasketID
+    var result: BasketID
 }
 
 struct BasketID: Codable {
     var basket_id: [Int]
+}
+
+struct UpdateCartResponse: Codable {
+    var isSuccess: Bool
+    var code: Int
+    var message: String
+//    var result: UpdateCartResult
+}
+
+struct UpdateCartResult: Codable {
+    var basket_id: Int
+    var item_id: Int
 }

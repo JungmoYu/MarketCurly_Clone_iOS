@@ -11,7 +11,6 @@ class CartViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private var isInItem: Bool = false
     private var cartList: [CartListResult] = []
     private var numOfItem: [Int] = []
     private var isChecked: [Bool] = []
@@ -303,6 +302,11 @@ extension CartViewController: cartViewCollectionViewCellDelegate {
         if numOfItem[itemAt] > 1 {
             buyBtn.isEnabled = true
             numOfItem[itemAt] -= 1
+            
+            let itemID = String(cartList[itemAt].item_id)
+            let numOfItemToUpdate = String(numOfItem[itemAt])
+            
+            updateRequest(itemID: itemID, numOfItemToUpdate: numOfItemToUpdate)
         } else {
             self.presentAlert(title: "상품은 최소 1개 이상이어야 합니다")
             buyBtn.isEnabled = false
@@ -313,8 +317,26 @@ extension CartViewController: cartViewCollectionViewCellDelegate {
     
     func plusBtnDidTap(itemAt: Int) {
         numOfItem[itemAt] += 1
+        
+        let itemID = String(cartList[itemAt].item_id)
+        let numOfItemToUpdate = String(numOfItem[itemAt])
+        
+        updateRequest(itemID: itemID, numOfItemToUpdate: numOfItemToUpdate)
         buyBtn.setTitle(changeBtnTitle(), for: .normal)
         collectionView.reloadItems(at: [IndexPath(item: itemAt, section: 0)])
+    }
+    
+    func updateRequest(itemID: String, numOfItemToUpdate: String) {
+        ItemManagementManager().updateCart(itemID: itemID, numOfItemToUpdate: numOfItemToUpdate) { result in
+            switch result{
+            case .success(let data):
+                if data.isSuccess {
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            IndicatorView.shared.dismiss()
+        }
     }
 }
 
