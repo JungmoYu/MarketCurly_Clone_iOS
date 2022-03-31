@@ -14,6 +14,8 @@ class CartViewController: BaseViewController {
     private var isInItem: Bool = false
     private var cartList: [CartListResult] = []
     private var numOfItem: [Int] = []
+    private var isChecked: [Bool] = []
+    
     var totalPrice: Int = 0
     var totalNumOfItem: Int = 0
     
@@ -129,9 +131,11 @@ class CartViewController: BaseViewController {
                     result.enumerated().forEach {
                         self.numOfItem.append($1.quantity)
                         self.cartList.append($1)
+                        self.isChecked.append(true)
                     }
                 }
                 self.configureUI()
+                self.buyBtn.setTitle(self.changeBtnTitle(), for: .normal)
                 self.collectionView.reloadData()
             case .failure(let error):
                 print(error.localizedDescription)
@@ -175,16 +179,7 @@ class CartViewController: BaseViewController {
         
         view.addSubview(divider)
         divider.anchor(top: shipLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10)
-        
-        if totalPrice == 0 {
-            buyBtn.setTitle("상품을 선택해주세요", for: .normal)
-            buyBtn.backgroundColor = .lightGray.withAlphaComponent(0.5)
-            buyBtn.isEnabled = false
-        } else {
-            buyBtn.setTitle(String(totalPrice).insertComma + "원 주문하기", for: .normal)
-            buyBtn.backgroundColor = .mainPurple
-            buyBtn.isEnabled = true
-        }
+
         view.addSubview(buyBtn)
         buyBtn.anchor(left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor,
                       paddingLeft: 16, paddingRight: 16)
@@ -199,12 +194,24 @@ class CartViewController: BaseViewController {
         totalPrice = 0
         totalNumOfItem = numOfItem.reduce(0) { $0 + $1 }
         if totalNumOfItem == 0 {
-            str = "장바구니담기"
+            str = "상품을 선택해주세요"
+            buyBtn.isEnabled = false
+            buyBtn.backgroundColor = .lightGray.withAlphaComponent(0.5)
         } else {
             for (index, _) in numOfItem.enumerated() {
-                totalPrice += numOfItem[index] * Int(Double(self.cartList[index].item_price))
+                if isChecked[index] {
+                    totalPrice += numOfItem[index] * Int(Double(self.cartList[index].item_price))
+                }
+                str = String(totalPrice).insertComma + "원 주문하기"
+                buyBtn.backgroundColor = .mainPurple
+                buyBtn.isEnabled = true
             }
-            str = String(totalPrice).insertComma + "원 장바구니 담기"
+            if totalPrice == 0 {
+                str = "상품을 선택해주세요"
+                buyBtn.isEnabled = false
+                buyBtn.backgroundColor = .lightGray.withAlphaComponent(0.5)
+            }
+            
         }
         return str
 
@@ -261,9 +268,11 @@ extension CartViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cartViewCollectionViewCell.identifier,
                                                           for: indexPath) as! cartViewCollectionViewCell
             cell.delegate = self
+            cell.viewController = self
             cell.numOfItem = numOfItem[indexPath.item]
+            cell.configureBtnState(isChecked[indexPath.item])
             cell.configureUI(cartList[indexPath.item])
-            
+            cell.numOfItemAt = indexPath.item
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cartViewNoItemCell.identifier,
@@ -284,9 +293,19 @@ extension CartViewController: UICollectionViewDataSource {
 }
 
 extension CartViewController: cartViewCollectionViewCellDelegate {
+    func checkBtnDidTap(isChecked: Bool, itemAt: Int) {
+        self.isChecked[itemAt] = isChecked
+        buyBtn.setTitle(changeBtnTitle(), for: .normal)
+        collectionView.reloadItems(at: [IndexPath(item: itemAt, section: 0)])
+    }
+    
     func minusBtnDidTap(itemAt: Int) {
-        if numOfItem[itemAt] > 0 {
+        if numOfItem[itemAt] > 1 {
+            buyBtn.isEnabled = true
             numOfItem[itemAt] -= 1
+        } else {
+            self.presentAlert(title: "상품은 최소 1개 이상이어야 합니다")
+            buyBtn.isEnabled = false
         }
         buyBtn.setTitle(changeBtnTitle(), for: .normal)
         collectionView.reloadItems(at: [IndexPath(item: itemAt, section: 0)])
@@ -338,6 +357,7 @@ class cartViewNoItemCell: UICollectionViewCell {
 protocol cartViewCollectionViewCellDelegate: AnyObject {
     func minusBtnDidTap(itemAt: Int)
     func plusBtnDidTap(itemAt: Int)
+    func checkBtnDidTap(isChecked: Bool, itemAt: Int)
 }
 
 class cartViewCollectionViewCell: UICollectionViewCell {
@@ -346,6 +366,8 @@ class cartViewCollectionViewCell: UICollectionViewCell {
     
     static let identifier: String = String(describing: cartViewCollectionViewCell.self)
     var numOfItem: Int = 0
+    var numOfItemAt: Int = 0
+    var viewController: UIViewController?
     weak var delegate: cartViewCollectionViewCellDelegate?
     
     private lazy var checkBtn = createCheckBtn(isTotalAgree: false)
@@ -419,18 +441,22 @@ class cartViewCollectionViewCell: UICollectionViewCell {
     // Action
     @objc func checkBtnDidTap(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
+        delegate?.checkBtnDidTap(isChecked: sender.isSelected, itemAt: numOfItemAt)
     }
     
     @objc func cancelBtnDidTap() {
-        print("cartViewCollectionViewCell - cancelBtnDidTap() called")
+        viewController?.presentAlert(title: "상품 삭제", message: "삭제하시겠습니까?", isCancelActionIncluded: true) { isYes in
+//            self.delegate?.requestDeleteReview(reviewID: self.reviewID)
+            print("상품 삭제 API")
+        }
     }
     
     @objc func minusBtnDidTap() {
-        delegate?.minusBtnDidTap(itemAt: numOfItem)
+        delegate?.minusBtnDidTap(itemAt: numOfItemAt)
     }
     
     @objc func plusBtnDidTap() {
-        delegate?.plusBtnDidTap(itemAt: numOfItem)
+        delegate?.plusBtnDidTap(itemAt: numOfItemAt)
     }
     
     // Lifecycle
@@ -444,8 +470,12 @@ class cartViewCollectionViewCell: UICollectionViewCell {
     }
     
     // Helpers
+    func configureBtnState(_ isChecked: Bool) {
+        checkBtn.isSelected = isChecked
+    }
     
     func configureUI(_ cartItem: CartListResult) {
+    
         addSubview(checkBtn)
         checkBtn.anchor(top: topAnchor, left: leftAnchor, paddingTop: 16, paddingLeft: 16)
         
