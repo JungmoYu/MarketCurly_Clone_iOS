@@ -291,7 +291,7 @@ class JoinViewCell: UICollectionViewCell {
     @objc func updateBtnDidTap() {
         let userInfo = UpdateUserRequest(password: passwordTextField.text ?? "",
                                          email: emailTextField.text ?? "",
-                                         phone: mobilePhoneLabel.text ?? "",
+                                         phone: mobilePhoneTextField.text ?? "",
                                          address: addressTextField.text ?? "",
                                          birthday: "1991.11.25",
                                          gender: "M")

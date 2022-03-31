@@ -98,7 +98,7 @@ class CartViewController: BaseViewController {
     // MARK: - Action
     
     @objc func buyBtnDidTap() {
-        print("CartViewController - buyBtnDidTap() called")
+        pushItemDetailViewController(withItem: cartList)
     }
     
     @objc func cancelBtnDidTap() {
@@ -145,7 +145,6 @@ class CartViewController: BaseViewController {
  
 
     func configureUI() {
-        view.backgroundColor = .white
         view.addSubview(cancelBtn)
         cancelBtn.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingLeft: 16)
         
@@ -312,12 +311,10 @@ extension CartViewController: UICollectionViewDataSource {
         
     }
     
-    func pushItemDetailViewController(withItem: ItemInfoResult) {
-        let controller = ItemDetailViewController()
-        controller.navigationItem.title = withItem.title
-        controller.itemInfo = withItem
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        controller.hidesBottomBarWhenPushed = true
+    func pushItemDetailViewController(withItem: [CartListResult]) {
+        let controller = OrderViewController()
+        controller.cartList = cartList
+        controller.totalPrice = totalPrice
         navigationController?.pushViewController(controller, animated: true)
     }
     

@@ -10,6 +10,61 @@ import Foundation
 
 class ItemManagementManager {
     
+    func getOrderList(completion: @escaping (Result<OrderListResponse, Error>) -> Void ) {
+        let url = Constant.BASE_URL + Constant.ORDER_LIST
+        
+        let header : HTTPHeaders = [
+            "x-access-token": Constant.JWT
+        ]
+        
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
+        
+        AF.request(url,
+                   method: .get,
+                   headers: header)
+            .responseDecodable(of: OrderListResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    completion(.success(response))
+                case .failure(let error):
+                    completion(.failure(error))
+                    print(error.localizedDescription)
+                }
+            }
+    }
+    
+    func makeOrder(order: OrderRequest, completion: @escaping (Result<OrderResponse, Error>) -> Void ) {
+        let url = Constant.BASE_URL + Constant.ORDER_LIST
+        
+        let header : HTTPHeaders = [
+            "x-access-token": Constant.JWT
+        ]
+        
+        let param = ["orderList": order.orderList,
+                     "pay": order.pay] as [String: Any]
+        print(Constant.JWT)
+        IndicatorView.shared.show()
+        IndicatorView.shared.showIndicator()
+        
+        AF.request(url,
+                   method: .post,
+                   parameters: param,
+//                   encoder: JSONParameterEncoder.default,
+                   headers: header)
+            .responseDecodable(of: OrderResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    completion(.success(response))
+                case .failure(let error):
+                    completion(.failure(error))
+                    print(error.localizedDescription)
+                }
+            }
+    }
+    
     func deleteReview(reviewID: String, completion: @escaping (Result<ReviewRequestResponse, Error>) -> Void ) {
         let url = Constant.BASE_URL + Constant.REVIEW + "/" + reviewID
         
@@ -52,6 +107,7 @@ class ItemManagementManager {
         AF.request(url,
                    method: .patch,
                    parameters: param,
+                   encoder: JSONParameterEncoder.default,
                    headers: header)
             .responseDecodable(of: ReviewRequestResponse.self) { response in
                 

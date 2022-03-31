@@ -86,6 +86,9 @@
 		C6EA53AC27E8EBF80033DECA /* ItemThirdSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EA53AB27E8EBF80033DECA /* ItemThirdSubController.swift */; };
 		C6EA53AE27E8EC000033DECA /* ItemFourthSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EA53AD27E8EC000033DECA /* ItemFourthSubController.swift */; };
 		C6F2F56C27F46FCC00790167 /* CreateReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2F56B27F46FCC00790167 /* CreateReviewViewController.swift */; };
+		C6F2F57027F5F12C00790167 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2F56F27F5F12C00790167 /* OrderViewController.swift */; };
+		C6F2F57227F6219F00790167 /* OrderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2F57127F6219F00790167 /* OrderResponse.swift */; };
+		C6F2F57427F62B5000790167 /* OrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2F57327F62B5000790167 /* OrderListViewController.swift */; };
 		C6FD25CA27F04D330053D9FC /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FD25C927F04D330053D9FC /* CartViewController.swift */; };
 		C6FD25CC27F06BD70053D9FC /* CartListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FD25CB27F06BD70053D9FC /* CartListResponse.swift */; };
 		C6FD25CE27F095210053D9FC /* BuyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FD25CD27F095210053D9FC /* BuyViewController.swift */; };
@@ -173,6 +176,9 @@
 		C6EA53AB27E8EBF80033DECA /* ItemThirdSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemThirdSubController.swift; sourceTree = "<group>"; };
 		C6EA53AD27E8EC000033DECA /* ItemFourthSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFourthSubController.swift; sourceTree = "<group>"; };
 		C6F2F56B27F46FCC00790167 /* CreateReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReviewViewController.swift; sourceTree = "<group>"; };
+		C6F2F56F27F5F12C00790167 /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
+		C6F2F57127F6219F00790167 /* OrderResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderResponse.swift; sourceTree = "<group>"; };
+		C6F2F57327F62B5000790167 /* OrderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListViewController.swift; sourceTree = "<group>"; };
 		C6FD25C927F04D330053D9FC /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		C6FD25CB27F06BD70053D9FC /* CartListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartListResponse.swift; sourceTree = "<group>"; };
 		C6FD25CD27F095210053D9FC /* BuyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyViewController.swift; sourceTree = "<group>"; };
@@ -298,8 +304,10 @@
 		C633E5DC27E5B9F900B2FFD8 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C6F2F56B27F46FCC00790167 /* CreateReviewViewController.swift */,
+				C6F2F56F27F5F12C00790167 /* OrderViewController.swift */,
+				C6F2F57327F62B5000790167 /* OrderListViewController.swift */,
 				C6FD25C927F04D330053D9FC /* CartViewController.swift */,
+				C6F2F56B27F46FCC00790167 /* CreateReviewViewController.swift */,
 				C6FD25CD27F095210053D9FC /* BuyViewController.swift */,
 				C6EA539827E71C540033DECA /* LoginViewController.swift */,
 				C6EA539C27E77BEE0033DECA /* JoinViewController.swift */,
@@ -422,6 +430,7 @@
 				C6FD25CB27F06BD70053D9FC /* CartListResponse.swift */,
 				C6FD25D327F20FB00053D9FC /* ReviewRequest.swift */,
 				C6FD25D127F20FA60053D9FC /* ReviewResponse.swift */,
+				C6F2F57127F6219F00790167 /* OrderResponse.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -584,7 +593,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C633E5DB27E5B9AE00B2FFD8 /* UIView.swift in Sources */,
+				C6F2F57427F62B5000790167 /* OrderListViewController.swift in Sources */,
 				C6FD25D027F09D8C0053D9FC /* BuyTableViewCell.swift in Sources */,
+				C6F2F57227F6219F00790167 /* OrderResponse.swift in Sources */,
 				C633E5D727E5B9A200B2FFD8 /* UIViewController.swift in Sources */,
 				C6EA53AA27E8EBEF0033DECA /* ItemSecondSubController.swift in Sources */,
 				C6EA53A327E8D3BE0033DECA /* DoNotServiceViewController.swift in Sources */,
@@ -601,6 +612,7 @@
 				C6EA538827E6D6AC0033DECA /* SeaFoodViewController.swift in Sources */,
 				C633E61627E6495F00B2FFD8 /* UICollectionView.swift in Sources */,
 				C633E5E627E5BC4C00B2FFD8 /* MainTabController.swift in Sources */,
+				C6F2F57027F5F12C00790167 /* OrderViewController.swift in Sources */,
 				C6EA537B27E6D2E20033DECA /* HomeViewMDPickFooter.swift in Sources */,
 				C633E5E827E5BC5100B2FFD8 /* HomeViewController.swift in Sources */,
 				C6FD25CE27F095210053D9FC /* BuyViewController.swift in Sources */,
