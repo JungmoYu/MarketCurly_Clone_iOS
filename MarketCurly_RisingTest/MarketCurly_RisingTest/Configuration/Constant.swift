@@ -14,7 +14,7 @@ struct Constant {
     
     static var JWT = ""
     static var USER_INDEX = -1
-    static var BASE_URL = "https://prod.sosocamp.shop/"
+    static var BASE_URL = "https://dev.sosocamp.shop/"
     static var JOIN_QUERY = "users"
     static var LOGIN_QUERY = "users/login"
     static var SEARCH_USERINDEX = "users/"
@@ -27,7 +27,7 @@ struct Constant {
     static var REVIEW = "reviews"
     static var GETREVIEWS = "?postId="
     
-    static var ORDER_LIST = "order-list"
+    static var ORDER_LIST = "order-lists"
     
     // MARK: - User
     static var User: UserResponseResult?

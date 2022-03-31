@@ -6,7 +6,7 @@
 //
 
 struct OrderRequest: Codable {
-    var orderList: [Order]
+    var orderList: [Int]
     var pay: String
 }
 

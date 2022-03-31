@@ -12,7 +12,8 @@ class OrderViewController: BaseViewController {
     // MARK: - Properties
     
     var cartList: [CartListResult] = []
-    var orderList: [Order] = []
+//    var orderList: [Order] = []
+    var orderList: [Int] = []
     var totalPrice: Int = 0
     
     private lazy var collectionView: UICollectionView = {
@@ -222,7 +223,8 @@ extension OrderViewController: OrderViewControllerInfoCellDelegate {
     func buyBtnDidTap(with payment: String) {
         orderList = []
         for (index, _) in cartList.enumerated() {
-            orderList.append(Order(basket_id: cartList[index].basket_id))
+//            orderList.append(Order(basket_id: cartList[index].basket_id))
+            orderList.append(cartList[index].basket_id)
         }
         let order = OrderRequest(orderList: orderList, pay: payment)
         
@@ -492,7 +494,7 @@ class OrderViewControllerInfoCell: UICollectionViewCell {
     
     private lazy var easyPayBtn: UIButton = {
         let btn = UIButton(type: .system)
-        btn.setTitle("간편결제", for: .normal)
+        btn.setTitle("체크카드", for: .normal)
         btn.setHeight(50)
         btn.setTitleColor(.black, for: .normal)
         btn.tag = 3
@@ -596,10 +598,10 @@ class OrderViewControllerInfoCell: UICollectionViewCell {
         sender.isSelected = true
         
         switch sender.tag {
-        case 1: paymant = "카카오페이"
-        case 2: paymant = "신용카드"
-        case 3: paymant = "간편결제"
-        case 4: paymant = "휴대폰 결제"
+        case 1: paymant = "KAKAOPAY"
+        case 2: paymant = "CREDITCARD"
+        case 3: paymant = "DEBITCARD"
+        case 4: paymant = "PHONE"
         default: return
         }
         

@@ -209,6 +209,16 @@ extension ProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if Constant.USER_INDEX > 0 {
+            
+            if (indexPath.section == Constant.CELL_DATA_LOGGED_IN.count - 5) && (indexPath.item == 0) {
+                let controller = OrderListViewController()
+//                controller.cartList = cartList
+//                controller.totalPrice = totalPrice
+                controller.navigationItem.title = "주문내역"
+                navigationController?.pushViewController(controller, animated: true)
+                self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+            }
+            
             if (indexPath.section == Constant.CELL_DATA_LOGGED_IN.count - 1)
                 && (indexPath.item == Constant.CELL_DATA_LOGGED_IN[indexPath.section].sectionData.count - 2) {
                 

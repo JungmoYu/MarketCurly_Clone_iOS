@@ -406,6 +406,15 @@ class cartViewNoItemCell: UICollectionViewCell {
         return label
     }()
     
+    private let noOrderLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20)
+        label.text = "주문 목록이 없습니다"
+        label.textColor = .lightGray
+        label.textAlignment = .center
+        return label
+    }()
+    
     
     // Lifecycle
     
@@ -420,6 +429,11 @@ class cartViewNoItemCell: UICollectionViewCell {
     // Helpers
     func configureUI() {
         addSubview(noItemLabel)
+        noItemLabel.fillSuperview()
+    }
+    
+    func configureUIForNoOrder() {
+        addSubview(noOrderLabel)
         noItemLabel.fillSuperview()
     }
 }
@@ -503,9 +517,7 @@ class cartViewCollectionViewCell: UICollectionViewCell {
     
     private let numOfItemLabel: UILabel = {
         let label = UILabel()
-        label.setDimensions(height: 20, width: 20)
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 14)
+        label.font = .boldSystemFont(ofSize: 14)
         label.textColor = .black
         return label
     }()
@@ -544,6 +556,37 @@ class cartViewCollectionViewCell: UICollectionViewCell {
     func configureBtnState(_ isChecked: Bool) {
         checkBtn.isSelected = isChecked
     }
+    
+    func configureUI(order: OrderListResult) {
+        addSubview(titleNameLabel)
+        titleNameLabel.text = "[" + order.vendor + "]" + order.title
+        titleNameLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 16)
+        
+        addSubview(itemNameLabel)
+        itemNameLabel.text = "[" + order.vendor + "]" + order.item_name
+        itemNameLabel.anchor(top: titleNameLabel.bottomAnchor, left: titleNameLabel.leftAnchor, paddingTop: 5)
+        
+        addSubview(imageView)
+        let url = URL(string: order.image)
+        imageView.load(url: url!)
+        imageView.anchor(top: itemNameLabel.bottomAnchor, left: itemNameLabel.leftAnchor, paddingTop: 12)
+        
+        addSubview(priceLabel)
+        priceLabel.text = String(order.item_price).insertComma + "원"
+        priceLabel.anchor(top: imageView.topAnchor, left: imageView.rightAnchor, paddingLeft: 16)
+        
+        addSubview(numOfItemLabel)
+        numOfItemLabel.text = "구매 수단 : " + order.pay
+        numOfItemLabel.anchor(top: priceLabel.bottomAnchor, left: imageView.rightAnchor, paddingTop: 10, paddingLeft: 16)
+        
+        let divider = UIView()
+        divider.backgroundColor = .lightGray.withAlphaComponent(0.5)
+        divider.setHeight(0.5)
+        
+        addSubview(divider)
+        divider.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
+    }
+    
     
     func configureUI(_ cartItem: CartListResult) {
     

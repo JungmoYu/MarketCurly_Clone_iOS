@@ -44,7 +44,7 @@ class ItemManagementManager {
         
         let param = ["orderList": order.orderList,
                      "pay": order.pay] as [String: Any]
-        print(Constant.JWT)
+
         IndicatorView.shared.show()
         IndicatorView.shared.showIndicator()
         
