@@ -103,8 +103,6 @@ extension UIButton {
     func setSelectedBtn(_ isSelected: Bool) {
         if isSelected {
             tintColor = .mainPurple
-        } else {
-            tintColor = .lightGray.withAlphaComponent(0.5)
         }
     }
     

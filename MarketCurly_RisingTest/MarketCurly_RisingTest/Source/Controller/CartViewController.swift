@@ -12,7 +12,6 @@ class CartViewController: BaseViewController {
     // MARK: - Properties
     
     private var cartList: [CartListResult] = []
-    private var orderList: [CartListResult] = []
     private var numOfItem: [Int] = []
     private var isChecked: [Bool] = []
     
@@ -314,12 +313,7 @@ extension CartViewController: UICollectionViewDataSource {
     
     func pushItemDetailViewController(withItem: [CartListResult]) {
         let controller = OrderViewController()
-        cartList.enumerated().forEach {
-            if self.isChecked[$0] == true {
-                self.orderList.append($1)
-            }
-        }
-        controller.cartList = orderList
+        controller.cartList = cartList
         controller.totalPrice = totalPrice
         navigationController?.pushViewController(controller, animated: true)
     }
@@ -530,7 +524,8 @@ class cartViewCollectionViewCell: UICollectionViewCell {
     
     // Action
     @objc func checkBtnDidTap(_ sender: UIButton) {
-        sender.setSelectedBtn(!sender.isSelectedBtn())
+//        sender.isSelected = !sender.isSelected
+        sender.changeColor()
         delegate?.checkBtnDidTap(isChecked: sender.isSelectedBtn(), itemAt: numOfItemAt)
     }
     
@@ -560,6 +555,8 @@ class cartViewCollectionViewCell: UICollectionViewCell {
     
     // Helpers
     func configureBtnState(_ isChecked: Bool) {
+//        checkBtn.isSelected = isChecked
+//        
         checkBtn.setSelectedBtn(isChecked)
         
     }
