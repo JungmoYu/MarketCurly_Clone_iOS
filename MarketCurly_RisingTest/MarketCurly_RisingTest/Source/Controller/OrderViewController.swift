@@ -594,8 +594,10 @@ class OrderViewControllerInfoCell: UICollectionViewCell {
         
         btnArray.forEach {
             $0.isSelected = false
+            $0.changeBackgroundColor($0.isSelected)
         }
         sender.isSelected = true
+        sender.changeBackgroundColor(sender.isSelected)
         
         switch sender.tag {
         case 1: paymant = "KAKAOPAY"
@@ -670,7 +672,6 @@ class OrderViewControllerInfoCell: UICollectionViewCell {
         paymentLabel.anchor(top: divider.bottomAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 16)
         
         addSubview(kakaoBtn)
-        kakaoBtn.isSelected = true
         kakaoBtn.anchor(top: paymentLabel.bottomAnchor, left: leftAnchor, right: rightAnchor,
                         paddingTop: 16, paddingLeft: 16, paddingRight: 16)
         

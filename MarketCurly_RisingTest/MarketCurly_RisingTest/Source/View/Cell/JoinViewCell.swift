@@ -281,6 +281,9 @@ class JoinViewCell: UICollectionViewCell {
             viewController?.presentAlert(title: "비밀번호가 일치하지 않습니다")
         } else if !checkBtnChecked() {
             viewController?.presentAlert(title: "필수 항목을 체크해 주세요!")
+            btnArray.forEach {
+                print($0.isSelectedBtn())
+            }
         } else {
             delegate?.requestJoin(userInfo)
         }
@@ -300,27 +303,12 @@ class JoinViewCell: UICollectionViewCell {
     
     @objc func checkBtnDidTap(_ sender: UIButton) {
         
-//        sender.isSelected = !sender.isSelected
-        sender.isSelected.toggle()
-        
-        if sender.isSelected {
-            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
-            sender.backgroundColor = .clear
-        } else {
-            sender.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
-            sender.backgroundColor = .clear
-        }
-        
+        sender.changeColor()
         if sender.tag == Constant.TOTAL_AGREE_BTN_TAG {
             btnArray.forEach {
-                $0.isSelected = sender.isSelected
-                if $0.isSelected {
-                } else {
-                }
+                $0.tintColor = sender.tintColor
             }
         }
-        
-
             
     }
     
@@ -338,8 +326,8 @@ class JoinViewCell: UICollectionViewCell {
     // MARK: - Helpers
     
     func checkBtnChecked() -> Bool {
-        if agreeCheckBtn.isSelected && personalOptionalInfoCheckBtn.isSelected
-            && freeshipCheckBtn.isSelected && overFourteenCheckBtn.isSelected {
+        if agreeCheckBtn.isSelectedBtn() && personalEssensialInfoCheckBtn.isSelectedBtn()
+            && overFourteenCheckBtn.isSelectedBtn() { //&& freeshipCheckBtn.isSelectedBtn()
             return true
         } else {
             return false

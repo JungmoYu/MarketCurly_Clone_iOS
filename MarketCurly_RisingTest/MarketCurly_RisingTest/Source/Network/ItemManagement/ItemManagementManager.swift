@@ -313,7 +313,7 @@ class ItemManagementManager {
         let today = Date()
         
         formatter.dateFormat = "YYYY-MM-dd"
-        let url = Constant.BASE_URL+Constant.RECOMMEND_ITEM_QUERY + formatter.string(from: today)
+        let url = Constant.BASE_URL+Constant.RECOMMEND_ITEM_QUERY + "2022-04-01" //formatter.string(from: today)
         
         AF.request(url, method: .get)
             .responseDecodable(of: ItemInfoResponse.self) { response in
@@ -338,7 +338,7 @@ class ItemManagementManager {
         let today = Date()
         
         formatter.dateFormat = "YYYY-MM-dd"
-        let url = Constant.BASE_URL+Constant.DEAL_ITEM_QUERY + formatter.string(from: today)
+        let url = Constant.BASE_URL+Constant.DEAL_ITEM_QUERY + "2022-04-01" //formatter.string(from: today)
         
         AF.request(url, method: .get)
             .responseDecodable(of: ItemInfoResponse.self) { response in
@@ -363,7 +363,7 @@ class ItemManagementManager {
         
         formatter.dateFormat = "YYYY-MM-dd"
         
-        let url = Constant.BASE_URL+Constant.RANDOM_ITEM_QUERY + formatter.string(from: today)
+        let url = Constant.BASE_URL+Constant.RANDOM_ITEM_QUERY + "2022-04-01"//formatter.string(from: today)
         AF.request(url, method: .get)
             .responseDecodable(of: ItemInfoResponse.self) { response in
                 

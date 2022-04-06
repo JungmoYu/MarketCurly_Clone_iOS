@@ -81,3 +81,48 @@ class CustomCheckButton: UIButton {
         }
     }
 }
+
+
+extension UIButton {
+    func changeColor() {
+        if tintColor == .mainPurple {
+            tintColor = .lightGray.withAlphaComponent(0.5)
+        } else {
+            tintColor = .mainPurple
+        }
+    }
+    
+    func isSelectedBtn() -> Bool {
+        if tintColor == .mainPurple {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func setSelectedBtn(_ isSelected: Bool) {
+        if isSelected {
+            tintColor = .mainPurple
+        }
+    }
+    
+    func changeBackgroundColor(_ isSelected: Bool) {
+        switch tag {
+        case 1:
+            if isSelected {
+                backgroundColor = .systemYellow
+            } else {
+                backgroundColor = .clear
+            }
+        default:
+            if isSelected {
+                backgroundColor = .mainPurple
+                setTitleColor(.white, for: .normal)
+            } else {
+                backgroundColor = .clear
+                setTitleColor(.black, for: .normal)
+            }
+        }
+        
+    }
+}

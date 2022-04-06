@@ -524,8 +524,9 @@ class cartViewCollectionViewCell: UICollectionViewCell {
     
     // Action
     @objc func checkBtnDidTap(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        delegate?.checkBtnDidTap(isChecked: sender.isSelected, itemAt: numOfItemAt)
+//        sender.isSelected = !sender.isSelected
+        sender.changeColor()
+        delegate?.checkBtnDidTap(isChecked: sender.isSelectedBtn(), itemAt: numOfItemAt)
     }
     
     @objc func cancelBtnDidTap() {
@@ -554,7 +555,10 @@ class cartViewCollectionViewCell: UICollectionViewCell {
     
     // Helpers
     func configureBtnState(_ isChecked: Bool) {
-        checkBtn.isSelected = isChecked
+//        checkBtn.isSelected = isChecked
+//        
+        checkBtn.setSelectedBtn(isChecked)
+        
     }
     
     func configureUI(order: OrderListResult) {
