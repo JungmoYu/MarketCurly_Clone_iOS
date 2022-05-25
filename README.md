@@ -131,3 +131,16 @@ App Transport Security Settings -> 하위 항목 : Allow Arbitrary Loads -> Yes�
 2. 주문목록 API사용 - 생성
 3. 프로젝트 다듬기 및 개발 완료(테스트 완료)
 
+### UI 최종수정
+1. 회원가입 / 장바구니 버튼 배경색 변경
+2. 결제수단 버튼 배경색 변경
+아래 사진 참고
+
+
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/161973148-8cd4500b-7f5f-4f2f-88da-41fbeccdc665.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/161973200-8b4dc0a1-9779-441d-b3ea-51d74fe7a33f.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/161973243-204b1ea2-68a2-4b5e-83aa-aa8f07d0c0f3.png">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/86354361/161973271-6e508d6e-3494-4dd0-8727-3d630f525610.png">
+
+
+
